@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Dryad
+        run: |
+          curl -L https://github.com/somesocks/dryad/releases/download/release-0.26.2/dryad-0.26.2-install.sh | sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Show Dryad version
+        run: dryad version
+
+      - name: Build
+        run: dryad run build --scope=dev
+
+      - name: Test
+        run: dryad run test --scope=dev
