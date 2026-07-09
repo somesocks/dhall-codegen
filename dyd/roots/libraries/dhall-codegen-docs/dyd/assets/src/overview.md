@@ -5,25 +5,26 @@
 `dhall-codegen` is a pure Dhall library that can be used to define a schema and generate equivalent definitions in multiple programming languages. The goal of this library is to make it easier to create consistent data models or API contracts across different languages and different systems.
 
 For example, a schema:
-
 ```dhall
 {{#include examples/person/schema.dhall}}
 ```
 
-And generated definitions in Typescript, Python (3.8 compatible), Go, and JSON Schema:
-
+The generated definition in Typescript:
 ```ts
 {{#include examples/person/typescript.ts}}
 ```
 
+In Python (3.8 compatible):
 ```python
 {{#include examples/person/python.py}}
 ```
 
+In Go:
 ```go
 {{#include examples/person/go.go}}
 ```
 
+And in JSON Schema:
 ```json
 {{#include examples/person/json-schema.json}}
 ```
