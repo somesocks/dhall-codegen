@@ -25,12 +25,14 @@ _set_globals () {
     DEST_TRAITS=$DEST_PACKAGE/dyd/traits
 
     OUTPUT=$(cat "$SRC_PACKAGE/dyd/traits/output")
+    VERSION=$(cat "$SRC_PACKAGE/dyd/traits/version")
 }
 
 _prepare_dest () {
     mkdir -p "$DEST_ASSETS" "$DEST_COMMANDS" "$DEST_DEPENDENCIES" "$DEST_TRAITS"
     printf '%s' dhall-codegen > "$DEST_TRAITS/name"
     printf '%s' "$OUTPUT" > "$DEST_TRAITS/output"
+    printf '%s' "$VERSION" > "$DEST_TRAITS/version"
 }
 
 _build_package_output () {
@@ -75,10 +77,26 @@ EOF
     chmod +x "$DEST_MAIN"
 }
 
+_build_archive_output () {
+    ARCHIVE_DIR=dhall-codegen-$VERSION
+    ARCHIVE_NAME=$ARCHIVE_DIR.tar.gz
+    STAGING_DIR=$DEST_PACKAGE/archive-staging
+
+    mkdir -p "$STAGING_DIR/$ARCHIVE_DIR"
+    cp -r "$SRC_ASSETS/src/." "$STAGING_DIR/$ARCHIVE_DIR"
+    chmod -R +w "$STAGING_DIR"
+
+    cd "$STAGING_DIR" && tar -czf "$DEST_ASSETS/$ARCHIVE_NAME" "$ARCHIVE_DIR"
+    rm -rf "$STAGING_DIR"
+
+    printf '%s' "$ARCHIVE_NAME" > "$DEST_TRAITS/archive-name"
+}
+
 _build_package () {
     _prepare_dest
 
     case "$OUTPUT" in
+        archive) _build_archive_output ;;
         package) _build_package_output ;;
         tests) _build_tests_output ;;
         *)

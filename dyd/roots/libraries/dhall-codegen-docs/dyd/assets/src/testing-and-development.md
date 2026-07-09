@@ -28,9 +28,10 @@ dryad scope use dev
 
 Then you have access to the following scoped commands:
 
-- `dryad run build` builds the library package and test variants, docs, and local docs server tool.
+- `dryad run build` builds the library package, test, and archive variants, docs, and local docs server tool.
 - `dryad run test` builds the development scope and runs test sprouts.
 - `dryad run open-docs` serves the generated docs site with Caddy.
+- `dryad run publish-release-tag` creates and pushes the `release-<version>` git tag.
 
 Build the project roots used during development:
 
@@ -38,7 +39,7 @@ Build the project roots used during development:
 dryad run build
 ```
 
-This builds the `dhall-codegen` library package and test variants, the docs site, and the local Caddy tool used to serve the docs.
+This builds the `dhall-codegen` library package, test, and archive variants, the docs site, and the local Caddy tool used to serve the docs.
 
 To build only the library root:
 
@@ -46,10 +47,25 @@ To build only the library root:
 dryad root build dyd/roots/libraries/dhall-codegen --scope=none
 ```
 
-The library root has two output variants:
+The library root has three output variants:
 
 - `output=package` bundles the reusable Dhall source package.
 - `output=tests` bundles the source package plus test fixtures and exposes a runnable test command.
+- `output=archive` bundles the reusable Dhall source package as `dhall-codegen-<version>.tar.gz`.
+
+To build only the release archive:
+
+```bash
+dryad root build dyd/roots/libraries/dhall-codegen --scope=none --variant=output=archive
+```
+
+To publish the release tag for the current version trait:
+
+```bash
+dryad run publish-release-tag
+```
+
+This requires a clean worktree, creates an annotated `release-<version>` tag, and pushes it to `origin`.
 
 ## Development Commands
 

@@ -1,0 +1,41 @@
+#!/bin/sh
+set -eu
+
+garden=${DYD_GARDEN:-$(git rev-parse --show-toplevel)}
+version_file=$garden/dyd/roots/libraries/dhall-codegen/dyd/traits/version
+remote=${1:-origin}
+
+if [ ! -f "$version_file" ]; then
+    echo "missing version trait: $version_file" >&2
+    exit 1
+fi
+
+version=$(tr -d '\n' < "$version_file")
+
+if [ -z "$version" ]; then
+    echo "empty dhall-codegen version trait" >&2
+    exit 1
+fi
+
+tag=release-$version
+
+if [ -n "$(git -C "$garden" status --porcelain --untracked-files=normal)" ]; then
+    echo "refusing to tag a dirty worktree" >&2
+    git -C "$garden" status --short >&2
+    exit 1
+fi
+
+if git -C "$garden" rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+    echo "local tag already exists: $tag" >&2
+    exit 1
+fi
+
+if git -C "$garden" ls-remote --exit-code --tags "$remote" "refs/tags/$tag" >/dev/null 2>&1; then
+    echo "remote tag already exists on $remote: $tag" >&2
+    exit 1
+fi
+
+git -C "$garden" tag -a "$tag" -m "Release $version"
+git -C "$garden" push "$remote" "$tag"
+
+echo "published $tag to $remote"
