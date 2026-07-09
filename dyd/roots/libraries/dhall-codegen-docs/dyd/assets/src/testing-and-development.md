@@ -28,7 +28,8 @@ dryad scope use dev
 
 Then you have access to the following scoped commands:
 
-- `dryad run build` builds the library, docs, and local docs server tool.
+- `dryad run build` builds the library package and test variants, docs, and local docs server tool.
+- `dryad run test` builds the development scope and runs test sprouts.
 - `dryad run open-docs` serves the generated docs site with Caddy.
 
 Build the project roots used during development:
@@ -37,13 +38,18 @@ Build the project roots used during development:
 dryad run build
 ```
 
-This builds the `dhall-codegen` library, the docs site, and the local Caddy tool used to serve the docs.
+This builds the `dhall-codegen` library package and test variants, the docs site, and the local Caddy tool used to serve the docs.
 
 To build only the library root:
 
 ```bash
 dryad root build dyd/roots/libraries/dhall-codegen --scope=none
 ```
+
+The library root has two output variants:
+
+- `output=package` bundles the reusable Dhall source package.
+- `output=tests` bundles the source package plus test fixtures and exposes a runnable test command.
 
 ## Development Commands
 
@@ -54,33 +60,45 @@ Dryad builds run in isolated, disposable build environments. That isolation is u
 Most package-level commands should be run through `dryad root develop start`:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen --on-exit=discard -- <command>
+dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=discard -- <command>
 ```
+
+The `~output=package` selector keeps development commands tied to the package variant now that the root also has a runnable `output=tests` variant.
 
 Use `--on-exit=save` for commands that intentionally modify files, such as formatting or regenerating golden outputs.
 
 Format source files under `dyd/assets/src/`:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen --on-exit=save -- z-format-src
+dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-format-src
 ```
 
 Format test files under `dyd/assets/tests/`:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen --on-exit=save -- z-format-tests
+dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-format-tests
 ```
 
-Run the test suite:
+Run the full scoped test command:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen --on-exit=discard -- z-run-tests
+dryad run test
 ```
+
+This builds the development scope, then runs every sprout matching `output=tests`.
+
+Run the test suite inside a development environment:
+
+```bash
+dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=discard -- z-run-tests
+```
+
+Prefer `dryad run test` for the full sprout-based check that builds and runs the `output=tests` variant.
 
 Regenerate checked-in golden outputs:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen --on-exit=save -- z-update-tests
+dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-update-tests
 ```
 
 ## Testing

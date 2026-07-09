@@ -42,7 +42,7 @@ _set_tests () {
         time dhall --explain --file "$f" >/dev/null
         echo "done"
         echo ""
-    done < <(find . -type f -name 'check.dhall' -print0 | sort -z)
+    done < <(find . -type f -name 'check*.dhall' -print0 | sort -z)
 
 }
 

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+dryad roots build --scope=dev --log-level="$DYD_LOG_LEVEL"
+
+dryad sprouts run \
+    --scope=dev \
+    --include=~output=tests \
+    --variant=output=tests \
+    --join-stdout \
+    --join-stderr \
+    --log-level="$DYD_LOG_LEVEL"

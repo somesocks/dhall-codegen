@@ -19,23 +19,73 @@ _set_globals () {
 
     DEST_PACKAGE=$DYD_BUILD
     DEST_ASSETS=$DEST_PACKAGE/dyd/assets
-    DEST_MAIN=$DEST_PACKAGE/dyd/commands/dyd-stem-run
+    DEST_COMMANDS=$DEST_PACKAGE/dyd/commands
+    DEST_DEPENDENCIES=$DEST_PACKAGE/dyd/dependencies
+    DEST_MAIN=$DEST_COMMANDS/dyd-stem-run
     DEST_TRAITS=$DEST_PACKAGE/dyd/traits
 
-    PLATFORM="$DYD_OS-$DYD_ARCH"
+    OUTPUT=$(cat "$SRC_PACKAGE/dyd/traits/output")
 }
 
-_build_package () {
+_prepare_dest () {
+    mkdir -p "$DEST_ASSETS" "$DEST_COMMANDS" "$DEST_DEPENDENCIES" "$DEST_TRAITS"
+    printf '%s' dhall-codegen > "$DEST_TRAITS/name"
+    printf '%s' "$OUTPUT" > "$DEST_TRAITS/output"
+}
+
+_build_package_output () {
 
     # copy source assets to dest
-    cp -r $SRC_ASSETS/src/. $DEST_ASSETS
-    chmod -R +w $DEST_ASSETS/
+    cp -r "$SRC_ASSETS/src/." "$DEST_ASSETS"
+    chmod -R +w "$DEST_ASSETS/"
 
     # run dhall format on source code
     # run dhall formatting on all source files to check
     # for assertion errors
-    cd $DEST_ASSETS && dhall format $(find ./ -type f -name '*.dhall')
+    cd "$DEST_ASSETS" && dhall format $(find ./ -type f -name '*.dhall')
 
+}
+
+_build_tests_output () {
+    cp -r "$SRC_ASSETS/src" "$DEST_ASSETS/src"
+    cp -r "$SRC_ASSETS/tests" "$DEST_ASSETS/tests"
+    ln -s "$SRC_PACKAGE/dyd/dependencies/dhall" "$DEST_DEPENDENCIES/dhall"
+    chmod -R +w "$DEST_ASSETS/"
+
+    cd "$DEST_ASSETS" && dhall format $(find ./src -type f -name '*.dhall')
+
+    cat > "$DEST_MAIN" <<'EOF'
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+    debug|trace) set -x ;;
+    *) ;;
+esac
+
+cd "$DYD_STEM/dyd/assets"
+
+while IFS= read -r -d '' f; do
+    echo "checking $f"
+    time dhall --explain --file "$f" >/dev/null
+    echo "done"
+    echo ""
+done < <(find ./tests -type f -name 'check*.dhall' -print0 | sort -z)
+EOF
+    chmod +x "$DEST_MAIN"
+}
+
+_build_package () {
+    _prepare_dest
+
+    case "$OUTPUT" in
+        package) _build_package_output ;;
+        tests) _build_tests_output ;;
+        *)
+            echo "unsupported dhall-codegen output variant: $OUTPUT" >&2
+            exit 1
+            ;;
+    esac
 }
 
 _set_logging
