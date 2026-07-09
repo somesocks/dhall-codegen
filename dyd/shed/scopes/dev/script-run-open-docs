@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+url=http://localhost:9999
+site_root="$DYD_GARDEN/dyd/sprouts/libraries/dhall-codegen-docs/dyd/dependencies/stem/dyd/assets"
+
+dryad run build --scope=dev --log-level="$DYD_LOG_LEVEL"
+
+if command -v -- open >/dev/null 2>&1; then
+    open "$url"
+elif command -v -- xdg-open >/dev/null 2>&1; then
+    xdg-open "$url"
+else
+    echo "no browser opener found; serving $url"
+fi
+
+dryad sprout run "$DYD_GARDEN/dyd/sprouts/tools/caddy" \
+    --scope=none \
+    --variant=arch=host+os=host+version=2.10.2 \
+    -- file-server \
+    --root "$site_root" \
+    --listen :9999

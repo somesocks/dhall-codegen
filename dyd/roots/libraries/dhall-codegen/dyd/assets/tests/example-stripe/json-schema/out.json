@@ -1,0 +1,284 @@
+
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://example.com/schemas/your-file.json",
+	"$defs": {
+		"StripeAddress":
+			{
+				"type" : "object",
+				"properties" : {
+					"city" : 
+						{
+							"type": "string"
+						},
+					"country" : 
+						{
+							"type": "string"
+						},
+					"line1" : 
+						{
+							"type": "string"
+						},
+					"line2" : 
+						{
+							"type": "string"
+						},
+					"postal_code" : 
+						{
+							"type": "string"
+						},
+					"state" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
+		"StripeCustomer":
+			{
+				"type" : "object",
+				"properties" : {
+					"balance" : 
+						{
+							"type": "integer"
+						},
+					"created" : 
+						{
+							"type": "integer"
+						},
+					"id" : 
+						{
+							"type": "string"
+						},
+					"object" : 
+						{
+							"type": "string",
+							"description" : "must be string 'customer'"
+						},
+					"address" : 
+						{
+							"$ref": "#/$defs/StripeAddress"
+						},
+					"currency" : 
+						{
+							"type": "string"
+						},
+					"description" : 
+						{
+							"type": "string"
+						},
+					"email" : 
+						{
+							"type": "string",
+							"description" : "email address"
+						},
+					"name" : 
+						{
+							"type": "string",
+							"description" : "customer name"
+						}
+				},
+				"required" : [
+					"balance",
+					"created",
+					"id",
+					"object"
+				],
+				"additionalProperties" : false
+			},
+		"StripeChargeBillingDetails":
+			{
+				"type" : "object",
+				"properties" : {
+					"address" : 
+						{
+							"$ref": "#/$defs/StripeAddress"
+						},
+					"email" : 
+						{
+							"type": "string",
+							"description" : "email address"
+						},
+					"name" : 
+						{
+							"type": "string",
+							"description" : "customer name"
+						},
+					"phone" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
+		"StripeChargeOutcomeValue":
+			{
+				"type" : "object",
+				"properties" : {
+					"type" : 
+						{
+							"type": "string"
+						},
+					"advice_code" : 
+						{
+							"type": "string"
+						},
+					"network_advice_code" : 
+						{
+							"type": "string"
+						},
+					"network_decline_code" : 
+						{
+							"type": "string"
+						},
+					"network_status" : 
+						{
+							"type": "string"
+						},
+					"reason" : 
+						{
+							"type": "string"
+						},
+					"risk_level" : 
+						{
+							"type": "string"
+						},
+					"risk_score" : 
+						{
+							"type": "integer"
+						},
+					"rule" : 
+						{
+							"type": "string"
+						},
+					"seller_message" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"type"
+				],
+				"additionalProperties" : false
+			},
+		"StripeCharge":
+			{
+				"type" : "object",
+				"properties" : {
+					"amount" : 
+						{
+							"type": "integer"
+						},
+					"amount_captured" : 
+						{
+							"type": "integer"
+						},
+					"amount_refunded" : 
+						{
+							"type": "integer"
+						},
+					"billing_details" : 
+						{
+							"$ref": "#/$defs/StripeChargeBillingDetails"
+						},
+					"captured" : 
+						{
+							"type": "boolean"
+						},
+					"created" : 
+						{
+							"type": "integer",
+							"description" : "Time at which the object was created. Measured in seconds since the Unix epoch."
+						},
+					"id" : 
+						{
+							"type": "string"
+						},
+					"object" : 
+						{
+							"type": "string",
+							"description" : "must be string 'charge'"
+						},
+					"currency" : 
+						{
+							"type": "string"
+						},
+					"outcome" : 
+						{
+							"$ref": "#/$defs/StripeChargeOutcomeValue"
+						},
+					"refunds" : 
+						{
+							"oneOf" : [
+								{
+									"type" : "array",
+									"items" : 
+										{
+											"type": "string"
+										}
+								},
+								{
+									"type" : "array",
+									"items" : 
+										{
+											"$ref": "#/$defs/StripeRefund"
+										}
+								}
+							]
+						}
+				},
+				"required" : [
+					"amount",
+					"amount_captured",
+					"amount_refunded",
+					"billing_details",
+					"captured",
+					"created",
+					"id",
+					"object"
+				],
+				"additionalProperties" : false
+			},
+		"StripeRefund":
+			{
+				"type" : "object",
+				"properties" : {
+					"amount" : 
+						{
+							"type": "integer"
+						},
+					"charge" : 
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{
+									"$ref": "#/$defs/StripeCharge"
+								}
+							]
+						},
+					"id" : 
+						{
+							"type": "string"
+						},
+					"object" : 
+						{
+							"type": "string",
+							"description" : "must be string 'refund'"
+						}
+				},
+				"required" : [
+					"amount",
+					"charge",
+					"id",
+					"object"
+				],
+				"additionalProperties" : false
+			}
+	}
+}

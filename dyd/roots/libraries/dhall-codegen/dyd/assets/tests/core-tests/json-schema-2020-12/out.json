@@ -1,0 +1,1429 @@
+
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://example.com/schemas/your-file.json",
+	"$defs": {
+		"AnyTest0":
+			{
+			},
+		"AnyTest1":
+			{
+			},
+		"AnyTest2":
+			{
+				"description" : "comment"
+			},
+		"AnyTest3":
+			{
+				"description" : "multi-line\ncomment"
+			},
+		"BooleanTest0":
+			{
+				"type": "boolean"
+			},
+		"BooleanTest1":
+			{
+				"type": "boolean",
+				"description" : "comment"
+			},
+		"BooleanTest2":
+			{
+				"type": "boolean",
+				"description" : "multi-line\ncomment"
+			},
+		"NumberTest0":
+			{
+				"type": "number"
+			},
+		"NumberTest1":
+			{
+				"type": "number",
+				"description" : "number"
+			},
+		"NumberTest2":
+			{
+				"type": "integer",
+				"description" : "natural"
+			},
+		"NumberTest3":
+			{
+				"type": "integer",
+				"description" : "integer"
+			},
+		"NumberTest4":
+			{
+				"type": "number",
+				"description" : "decimal"
+			},
+		"TextTest0":
+			{
+				"type": "string"
+			},
+		"TextTest1":
+			{
+				"type": "string",
+				"description" : "text"
+			},
+		"TextTest2":
+			{
+				"type": "string",
+				"description" : "email",
+				"format": "email"
+			},
+		"TextTest3":
+			{
+				"type": "string",
+				"description" : "url",
+				"format": "uri"
+			},
+		"TextTest4":
+			{
+				"const": "foo",
+				"description" : "text literal"
+			},
+		"TimeTest0":
+			{
+				"type" : "string",
+				"format" : "date-time"
+			},
+		"TimeTest1":
+			{
+				"type" : "string",
+				"description" : "comment",
+				"format" : "date-time"
+			},
+		"Person":
+			{
+				"type" : "object",
+				"properties" : {
+					"age" : 
+						{
+							"type": "integer"
+						},
+					"deceased" : 
+						{
+							"type": "boolean"
+						},
+					"name" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"age",
+					"deceased",
+					"name"
+				],
+				"additionalProperties" : false
+			},
+		"People":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/Person"
+					}
+			},
+		"OptionalTest0":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{ "type": "null" }
+				]
+			},
+		"OptionalTest1Value":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OptionalTest1":
+			{
+				"oneOf" : [
+					{
+						"$ref": "#/$defs/OptionalTest1Value"
+					},
+					{ "type": "null" }
+				]
+			},
+		"OptionalTest2":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{ "type": "null" }
+				]
+			},
+		"ListTest0":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"type": "string"
+					},
+				"description" : "a list"
+			},
+		"ListTest1":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"type" : "array",
+						"items" : 
+							{
+								"type": "string"
+							},
+						"description" : "a list inside a list"
+					},
+				"description" : "a list"
+			},
+		"ListTest2Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false,
+				"description" : "a record inside a list"
+			},
+		"ListTest2":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/ListTest2Values"
+					},
+				"description" : "a list"
+			},
+		"SetTest0":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"type": "string"
+					},
+				"uniqueItems" : true,
+				"description" : "a set"
+			},
+		"SetTest1":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"type": "string"
+					},
+				"uniqueItems" : true,
+				"description" : "a set-like list"
+			},
+		"SetTest2":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"type" : "array",
+						"items" : 
+							{
+								"type": "string"
+							},
+						"uniqueItems" : true,
+						"description" : "a set inside a set"
+					},
+				"uniqueItems" : true,
+				"description" : "a set"
+			},
+		"SetTest3Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false,
+				"description" : "a record inside a set"
+			},
+		"SetTest3":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/SetTest3Values"
+					},
+				"uniqueItems" : true,
+				"description" : "a set"
+			},
+		"MapTest0Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" : 
+						{
+							"type": "string"
+						},
+					"value" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest0":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/MapTest0Values"
+					},
+				"description" : "a map"
+			},
+		"MapTest1Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" : 
+						{
+							"type": "string"
+						},
+					"value" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest1":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/MapTest1Values"
+					},
+				"description" : "a map-like record"
+			},
+		"MapTest2ValuesValueValues":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" : 
+						{
+							"type": "string"
+						},
+					"value" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest2Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" : 
+						{
+							"type": "string"
+						},
+					"value" : 
+						{
+							"type" : "array",
+							"items" : 
+								{
+									"$ref": "#/$defs/MapTest2ValuesValueValues"
+								},
+							"description" : "a map inside a map"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest2":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/MapTest2Values"
+					},
+				"description" : "a map"
+			},
+		"MapTest3ValuesKey":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false,
+				"description" : "a keys record inside a map"
+			},
+		"MapTest3ValuesValue":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false,
+				"description" : "a values record inside a map"
+			},
+		"MapTest3Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" : 
+						{
+							"$ref": "#/$defs/MapTest3ValuesKey"
+						},
+					"value" : 
+						{
+							"$ref": "#/$defs/MapTest3ValuesValue"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest3":
+			{
+				"type" : "array",
+				"items" : 
+					{
+						"$ref": "#/$defs/MapTest3Values"
+					},
+				"description" : "a map"
+			},
+		"OneOfTest0":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{
+						"type": "integer"
+					}
+				]
+			},
+		"OneOfTest1":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{
+						"type": "integer"
+					}
+				],
+				"description" : "number or string"
+			},
+		"OneOfTest2Option2":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "number"
+						},
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OneOfTest2":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{
+						"type": "integer"
+					},
+					{
+						"$ref": "#/$defs/OneOfTest2Option2"
+					}
+				],
+				"description" : "number or string or record"
+			},
+		"OneOfTest3":
+			{
+				"oneOf" : [
+					{
+						"$ref": "#/$defs/Foo"
+					},
+					{
+						"$ref": "#/$defs/Bar"
+					}
+				],
+				"description" : "named references"
+			},
+		"AllOfTest0Option0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "number"
+						}
+				},
+				"required" : [
+					"bar"
+				],
+				"additionalProperties" : false
+			},
+		"AllOfTest0Option1":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"AllOfTest0":
+			{
+				"allOf" : [
+					{
+						"$ref": "#/$defs/AllOfTest0Option0"
+					},
+					{
+						"$ref": "#/$defs/AllOfTest0Option1"
+					}
+				],
+				"description" : "all of two records"
+			},
+		"TupleTest0":
+			{
+				"type" : "array",
+				"prefixItems" : [
+					{
+						"type": "string"
+					},
+					{
+						"type": "integer"
+					}
+				],
+				"items" : false
+			},
+		"TupleTest1":
+			{
+				"type" : "array",
+				"prefixItems" : [
+					{
+						"type": "string"
+					},
+					{
+						"type": "integer"
+					}
+				],
+				"items" : false,
+				"description" : "a tuple"
+			},
+		"TupleTest2":
+			{
+				"type" : "array",
+				"prefixItems" : [
+					{
+						"type": "string"
+					},
+					{
+						"type" : "array",
+						"prefixItems" : [
+							{
+								"type": "string"
+							},
+							{
+								"type": "integer"
+							}
+						],
+						"items" : false,
+						"description" : "a tuple in a tuple"
+					}
+				],
+				"items" : false,
+				"description" : "a tuple"
+			},
+		"RecordTest0":
+			{
+				"type" : "object",
+				"properties" : {
+					"age" : 
+						{
+							"type": "integer"
+						},
+					"deceased" : 
+						{
+							"type": "boolean"
+						},
+					"name" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"age",
+					"deceased",
+					"name"
+				],
+				"additionalProperties" : false
+			},
+		"RecordTest1":
+			{
+				"type" : "object",
+				"properties" : {
+					"age" : 
+						{
+							"type": "integer"
+						},
+					"deceased" : 
+						{
+							"type": "boolean"
+						},
+					"name" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"age",
+					"deceased",
+					"name"
+				],
+				"additionalProperties" : false,
+				"description" : "a record"
+			},
+		"RecordTest2Contact":
+			{
+				"type" : "object",
+				"properties" : {
+					"email" : 
+						{
+							"type": "string"
+						},
+					"phone" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
+		"RecordTest2":
+			{
+				"type" : "object",
+				"properties" : {
+					"age" : 
+						{
+							"type": "integer"
+						},
+					"contact" : 
+						{
+							"$ref": "#/$defs/RecordTest2Contact"
+						},
+					"deceased" : 
+						{
+							"type": "boolean"
+						},
+					"name" : 
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"age",
+					"contact",
+					"deceased",
+					"name"
+				],
+				"additionalProperties" : false,
+				"description" : "a record with an embedded record"
+			},
+		"RecordTest3":
+			{
+				"type" : "object",
+				"properties" : {
+					"name" : 
+						{
+							"type": "string"
+						},
+					"age" : 
+						{
+							"type": "integer"
+						},
+					"deceased" : 
+						{
+							"type": "boolean"
+						}
+				},
+				"required" : [
+					"name"
+				],
+				"additionalProperties" : false,
+				"description" : "a record with optional props"
+			},
+		"RecordTest4":
+			{
+				"type" : "object",
+				"properties" : {
+					"id" : 
+						{
+							"type": "string"
+						},
+					"status" : 
+						{
+							"type": "string"
+						},
+					"age" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"id",
+					"status"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest0":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest1":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest2":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest3":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest4":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								},
+								{
+									"type": "number"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest5":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								},
+								{
+									"type": "number"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest6":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest7":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest8":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest9":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest10":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								},
+								{
+									"type": "number"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest11":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "boolean"
+								},
+								{
+									"type": "number"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest12":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "integer"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "string"
+								},
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest13":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "integer"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"type": "string"
+								},
+								{
+									"type": "boolean"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest14InputValue0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest14OutputValue0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest14":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"$ref": "#/$defs/FunctionTest14InputValue0"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"$ref": "#/$defs/FunctionTest14OutputValue0"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest15InputValue0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest15InputValue1":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest15OutputValue0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest15OutputValue1":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" : 
+						{
+							"type": "string"
+						},
+					"foo" : 
+						{
+							"type": "integer"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"FunctionTest15":
+			{
+				"type" : "object",
+				"properties" : {
+					"input" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"$ref": "#/$defs/FunctionTest15InputValue0"
+								},
+								{
+									"$ref": "#/$defs/FunctionTest15InputValue1"
+								}
+							],
+							"items" : false
+						},
+					"kind" : 
+						{
+							"const": "function"
+						},
+					"output" : 
+						{
+							"type" : "array",
+							"prefixItems" : [
+								{
+									"$ref": "#/$defs/FunctionTest15OutputValue0"
+								},
+								{
+									"$ref": "#/$defs/FunctionTest15OutputValue1"
+								}
+							],
+							"items" : false
+						}
+				},
+				"required" : [
+					"input",
+					"kind",
+					"output"
+				],
+				"additionalProperties" : false
+			}
+	}
+}

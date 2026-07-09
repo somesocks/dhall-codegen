@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+    case "${DYD_LOG_LEVEL:-info}" in
+        debug|trace) set -x ;;
+        *) ;;
+    esac
+}
+
+setup_globals() {
+    src_package=$DYD_STEM
+    dest_package=$DYD_BUILD
+
+    dest_assets=$dest_package/dyd/assets
+    dest_commands=$dest_package/dyd/commands
+    dest_traits=$dest_package/dyd/traits
+
+    mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+resolve_traits() {
+    version=$(cat "$src_package/dyd/traits/version")
+    target_os=$(cat "$src_package/dyd/traits/os")
+    target_arch=$(cat "$src_package/dyd/traits/arch")
+
+    case "$target_os:$target_arch" in
+        linux:amd64)
+            archive_name="mdbook-v${version}-x86_64-unknown-linux-gnu.tar.gz"
+            ;;
+        linux:arm64)
+            archive_name="mdbook-v${version}-aarch64-unknown-linux-musl.tar.gz"
+            ;;
+        darwin:amd64)
+            archive_name="mdbook-v${version}-x86_64-apple-darwin.tar.gz"
+            ;;
+        darwin:arm64)
+            archive_name="mdbook-v${version}-aarch64-apple-darwin.tar.gz"
+            ;;
+        *)
+            echo "unsupported mdbook target os=$target_os arch=$target_arch" >&2
+            exit 1
+            ;;
+    esac
+
+    source="https://github.com/rust-lang/mdBook/releases/download/v${version}/${archive_name}"
+}
+
+build_package() {
+    printf '%s' mdbook > "$dest_traits/name"
+    printf '%s' "$version" > "$dest_traits/version"
+    printf '%s' "$target_os" > "$dest_traits/os"
+    printf '%s' "$target_arch" > "$dest_traits/arch"
+    printf '%s' "$source" > "$dest_traits/source"
+
+    archive_dir=${archive_name%.tar.gz}
+    cp "$src_package/dyd/dependencies/mdbook-bin/dyd/assets/$archive_dir/mdbook" "$dest_commands/dyd-stem-run"
+    chmod +x "$dest_commands/dyd-stem-run"
+}
+
+configure_logging
+setup_globals
+resolve_traits
+build_package

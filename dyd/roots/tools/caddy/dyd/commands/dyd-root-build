@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -euf -o pipefail
+
+configure_logging() {
+  case "${DYD_LOG_LEVEL:-info}" in
+    trace|debug) set -x ;;
+    *) ;;
+  esac
+}
+
+setup_globals() {
+  SRC_PACKAGE=$DYD_STEM
+  DEST_PACKAGE=$DYD_BUILD
+
+  DEST_ASSETS=$DEST_PACKAGE/dyd/assets
+  DEST_COMMANDS=$DEST_PACKAGE/dyd/commands
+  DEST_MAIN=$DEST_COMMANDS/dyd-stem-run
+  DEST_TRAITS=$DEST_PACKAGE/dyd/traits
+
+  mkdir -p "$DEST_ASSETS" "$DEST_COMMANDS" "$DEST_TRAITS"
+}
+
+resolve_variants() {
+  CADDY_VERSION=${DYD_VERSION:-}
+  TARGET_OS=${DYD_OS:-}
+  TARGET_ARCH=${DYD_ARCH:-}
+
+  if [ -z "$CADDY_VERSION" ] && [ -f "$SRC_PACKAGE/dyd/traits/version" ]; then
+    CADDY_VERSION=$(cat "$SRC_PACKAGE/dyd/traits/version")
+  fi
+
+  if [ -f "$SRC_PACKAGE/dyd/traits/os" ]; then
+    TARGET_OS=$(cat "$SRC_PACKAGE/dyd/traits/os")
+  fi
+
+  if [ -f "$SRC_PACKAGE/dyd/traits/arch" ]; then
+    TARGET_ARCH=$(cat "$SRC_PACKAGE/dyd/traits/arch")
+  fi
+
+  if [ -z "$CADDY_VERSION" ]; then
+    echo "unable to resolve caddy version variant" >&2
+    exit 1
+  fi
+
+  if [ "$TARGET_OS" = "host" ] || [ -z "$TARGET_OS" ]; then
+    case "$(uname -s)" in
+      Linux) TARGET_OS=linux ;;
+      Darwin) TARGET_OS=darwin ;;
+      *)
+        echo "unsupported host os $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$TARGET_ARCH" = "host" ] || [ -z "$TARGET_ARCH" ]; then
+    case "$(uname -m)" in
+      x86_64|amd64) TARGET_ARCH=amd64 ;;
+      arm64|aarch64) TARGET_ARCH=arm64 ;;
+      *)
+        echo "unsupported host arch $(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  PLATFORM="$TARGET_OS-$TARGET_ARCH"
+}
+
+build_package() {
+  SOURCE_OS="$TARGET_OS"
+
+  if [ "$TARGET_OS" = "darwin" ]; then
+    SOURCE_OS=mac
+  fi
+
+  case "$PLATFORM" in
+    darwin-amd64|darwin-arm64|linux-amd64|linux-arm64) ;;
+    *)
+      echo "unsupported caddy build for system $PLATFORM" >&2
+      exit 1
+      ;;
+  esac
+
+  SOURCE=$(cat "$SRC_PACKAGE/dyd/requirements/caddy-bin")
+  SOURCE=${SOURCE%%#*}
+  if [ -z "$SOURCE" ]; then
+    echo "missing source for $TARGET_OS-$TARGET_ARCH@$CADDY_VERSION" >&2
+    exit 1
+  fi
+
+  printf '%s' "caddy" > "$DEST_TRAITS/name"
+  printf '%s' "$CADDY_VERSION" > "$DEST_TRAITS/version"
+  printf '%s' "$TARGET_OS" > "$DEST_TRAITS/os"
+  printf '%s' "$TARGET_ARCH" > "$DEST_TRAITS/arch"
+  printf '%s' "$SOURCE" > "$DEST_TRAITS/source"
+
+  cp "$SRC_PACKAGE/dyd/dependencies/caddy-bin/dyd/assets/caddy_${CADDY_VERSION}_${SOURCE_OS}_${TARGET_ARCH}/caddy" "$DEST_ASSETS/caddy"
+  chmod +x "$DEST_ASSETS/caddy"
+
+  ln -s ../assets/caddy "$DEST_MAIN"
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package

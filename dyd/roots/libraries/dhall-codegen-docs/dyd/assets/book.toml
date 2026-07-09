@@ -1,0 +1,10 @@
+[book]
+title = "dhall-codegen"
+description = "Dhall-based schema language and code generators"
+authors = ["James Larsen"]
+language = "en"
+src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/somesocks/dhall-codegen"
+edit-url-template = "https://github.com/somesocks/dhall-codegen/edit/main/dyd/roots/libraries/dhall-codegen-docs/dyd/assets/src/{path}"

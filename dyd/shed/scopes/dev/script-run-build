@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+
+dryad roots build --scope=dev --log-level="$DYD_LOG_LEVEL"

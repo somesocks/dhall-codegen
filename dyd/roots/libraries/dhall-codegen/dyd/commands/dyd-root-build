@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+#
+# abort on error
+# https://sipb.mit.edu/doc/safe-shell/
+set -euf -o pipefail
+
+_set_logging () {
+    case $DYD_LOG_LEVEL in
+        # turn on shell script debug logs for trace and debug log levels
+        'debug' | 'trace' ) set -x ;;
+        * ) ;;
+    esac
+}
+
+_set_globals () {
+    SRC_PACKAGE=$DYD_STEM
+    SRC_ASSETS=$SRC_PACKAGE/dyd/assets
+
+    DEST_PACKAGE=$DYD_BUILD
+    DEST_ASSETS=$DEST_PACKAGE/dyd/assets
+    DEST_MAIN=$DEST_PACKAGE/dyd/commands/dyd-stem-run
+    DEST_TRAITS=$DEST_PACKAGE/dyd/traits
+
+    PLATFORM="$DYD_OS-$DYD_ARCH"
+}
+
+_build_package () {
+
+    # copy source assets to dest
+    cp -r $SRC_ASSETS/src/. $DEST_ASSETS
+    chmod -R +w $DEST_ASSETS/
+
+    # run dhall format on source code
+    # run dhall formatting on all source files to check
+    # for assertion errors
+    cd $DEST_ASSETS && dhall format $(find ./ -type f -name '*.dhall')
+
+}
+
+_set_logging
+_set_globals
+_build_package

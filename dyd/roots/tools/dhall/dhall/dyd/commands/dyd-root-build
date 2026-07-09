@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+    case ${DYD_LOG_LEVEL:-info} in
+        debug|trace) set -x ;;
+        *) ;;
+    esac
+}
+
+setup_globals() {
+    src_package=$DYD_STEM
+    dest_package=$DYD_BUILD
+
+    dest_assets=$dest_package/dyd/assets
+    dest_commands=$dest_package/dyd/commands
+    dest_traits=$dest_package/dyd/traits
+
+    mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+resolve_variants() {
+    version=${DYD_VERSION:-}
+    target_os=${DYD_OS:-}
+    target_arch=${DYD_ARCH:-}
+
+    if [ -f "$src_package/dyd/traits/version" ]; then
+        version=$(cat "$src_package/dyd/traits/version")
+    fi
+
+    if [ -f "$src_package/dyd/traits/os" ]; then
+        target_os=$(cat "$src_package/dyd/traits/os")
+    fi
+
+    if [ -f "$src_package/dyd/traits/arch" ]; then
+        target_arch=$(cat "$src_package/dyd/traits/arch")
+    fi
+
+    if [ -z "$version" ]; then
+        echo "unable to resolve dhall version variant" >&2
+        exit 1
+    fi
+
+    if [ "$target_os" = "host" ] || [ -z "$target_os" ]; then
+        case "$(uname -s)" in
+            Linux) target_os=linux ;;
+            Darwin) target_os=darwin ;;
+            *)
+                echo "unsupported host os $(uname -s)" >&2
+                exit 1
+                ;;
+        esac
+    fi
+
+    if [ "$target_arch" = "host" ] || [ -z "$target_arch" ]; then
+        case "$(uname -m)" in
+            x86_64|amd64) target_arch=amd64 ;;
+            arm64|aarch64) target_arch=arm64 ;;
+            *)
+                echo "unsupported host arch $(uname -m)" >&2
+                exit 1
+                ;;
+        esac
+    fi
+
+    platform=$target_os-$target_arch
+}
+
+build_package() {
+    case "$version:$platform" in
+        1.40.2:darwin-amd64)
+            archive_name=dhall-${version}-x86_64-macos
+            ;;
+        1.40.2:linux-amd64)
+            archive_name=dhall-${version}-x86_64-linux
+            ;;
+        1.41.2:darwin-amd64)
+            archive_name=dhall-${version}-x86_64-macOS
+            ;;
+        1.41.2:linux-amd64)
+            archive_name=dhall-${version}-x86_64-Linux
+            ;;
+        1.42.2:darwin-amd64)
+            archive_name=dhall-${version}-x86_64-darwin
+            ;;
+        1.42.2:darwin-arm64)
+            archive_name=dhall-${version}-aarch64-darwin
+            ;;
+        1.42.2:linux-amd64)
+            archive_name=dhall-${version}-x86_64-linux
+            ;;
+        *)
+            echo "unrecognized or unsupported dhall build for version=$version platform=$platform" >&2
+            exit 1
+            ;;
+    esac
+
+    source="https://github.com/dhall-lang/dhall-haskell/releases/download/${version}/${archive_name}.tar.bz2"
+
+    printf '%s' dhall > "$dest_traits/name"
+    printf '%s' "$version" > "$dest_traits/version"
+    printf '%s' "$source" > "$dest_traits/source"
+    printf '%s' "$target_os" > "$dest_traits/os"
+    printf '%s' "$target_arch" > "$dest_traits/arch"
+
+    cp -R "$src_package/dyd/dependencies/dhall-bin/dyd/assets/$archive_name/." "$dest_assets"
+    ln -s ../assets/bin/dhall "$dest_commands/dyd-stem-run"
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package

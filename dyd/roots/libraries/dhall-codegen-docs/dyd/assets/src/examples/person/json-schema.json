@@ -1,0 +1,44 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://example.com/schemas/your-file.json",
+	"$defs": {
+		"Person":
+			{
+				"type" : "object",
+				"properties" : {
+					"date_of_birth" : 
+						{
+							"type" : "string",
+							"description" : "date of birth",
+							"format" : "date-time"
+						},
+					"friends" : 
+						{
+							"type" : "array",
+							"items" : 
+								{
+									"$ref": "#/$defs/Person"
+								},
+							"description" : "friends"
+						},
+					"name" : 
+						{
+							"type": "string",
+							"description" : "full name"
+						},
+					"contact_email" : 
+						{
+							"type": "string",
+							"description" : "contact email (we might not have this)",
+							"format": "email"
+						}
+				},
+				"required" : [
+					"date_of_birth",
+					"friends",
+					"name"
+				],
+				"additionalProperties" : false
+			}
+	}
+}

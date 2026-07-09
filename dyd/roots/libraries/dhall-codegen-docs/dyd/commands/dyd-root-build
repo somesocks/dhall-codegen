@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+    case "${DYD_LOG_LEVEL:-info}" in
+        debug|trace) set -x ;;
+        *) ;;
+    esac
+}
+
+setup_globals() {
+    src_package=$DYD_STEM
+    dest_package=$DYD_BUILD
+
+    src_assets=$src_package/dyd/assets
+    dest_assets=$dest_package/dyd/assets
+    dest_commands=$dest_package/dyd/commands
+    dest_traits=$dest_package/dyd/traits
+
+    mdbook=$src_package/dyd/dependencies/mdbook/dyd/commands/dyd-stem-run
+
+    mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+build_site() {
+    printf '%s' dhall-codegen-docs > "$dest_traits/name"
+    printf '%s' mdbook > "$dest_traits/generator"
+
+    "$mdbook" build "$src_assets" --dest-dir "$dest_assets"
+}
+
+configure_logging
+setup_globals
+build_site

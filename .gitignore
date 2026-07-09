@@ -1,0 +1,7 @@
+
+# gitignore paths for dryad garden
+/**/dyd/heap/
+/**/dyd/sprouts/
+
+# ignore the default scope setting
+/dyd/shed/scopes/default
