@@ -1,5 +1,3 @@
-
-
  /** any test 0 */
 export type AnyTest0 = unknown;
 
@@ -57,15 +55,12 @@ export type TimeTest0 = Date;
  /** time test 1 */
 export type TimeTest1 = /** comment */ Date;
 
-
 export type Person = { age : number; deceased : boolean; name : string; };
-
 
 export type People = Array< /** reference to person type */ Person >;
 
  /** optional test 0 */
 export type OptionalTest0 = ( string | undefined );
-
 
 export type OptionalTest1Value = { foo : string; };
 
@@ -81,7 +76,6 @@ export type ListTest0 = /** a list */ Array< string >;
  /** list test 1 */
 export type ListTest1 = /** a list */ Array< /** a list inside a list */ Array< string > >;
 
-
 export type ListTest2Values = /** a record inside a list */ { foo : string; };
 
  /** list test 2 */
@@ -95,7 +89,6 @@ export type SetTest1 = /** a set-like list */ Array< string >;
 
  /** set test 2 */
 export type SetTest2 = /** a set */ Set< /** a set inside a set */ Set< string > >;
-
 
 export type SetTest3Values = /** a record inside a set */ { foo : string; };
 
@@ -111,9 +104,7 @@ export type MapTest1 = /** a map-like record */ Record< string, string >;
  /** map test 2 */
 export type MapTest2 = /** a map */ Map< string, /** a map inside a map */ Map< string, string > >;
 
-
 export type MapTest3Keys = /** a keys record inside a map */ { foo : string; };
-
 
 export type MapTest3Values = /** a values record inside a map */ { foo : string; };
 
@@ -126,7 +117,6 @@ export type OneOfTest0 = ( string | number );
  /** oneOf test 1 */
 export type OneOfTest1 = /** number or string */ ( string | number );
 
-
 export type OneOfTest2Option2 = { bar : number; foo : string; };
 
  /** oneOf test 2 */
@@ -135,9 +125,7 @@ export type OneOfTest2 = /** number or string or record */ ( string | number | O
  /** oneOf test 3 */
 export type OneOfTest3 = /** named references */ ( Foo | Bar );
 
-
 export type AllOfTest0Option0 = { bar : number; };
-
 
 export type AllOfTest0Option1 = { foo : string; };
 
@@ -158,7 +146,6 @@ export type RecordTest0 = { age : number; deceased : boolean; name : string; };
 
  /** record test 1 */
 export type RecordTest1 = /** a record */ { age : number; deceased : boolean; name : string; };
-
 
 export type RecordTest2Contact = { email ?: string; phone ?: string; };
 
@@ -213,24 +200,18 @@ export type FunctionTest12 = ( x0 : number, x1 : string ) =>  [ string, boolean 
  /** function test 13 */
 export type FunctionTest13 = ( x0 : number, x1 : string ) =>  Promise<[ string, boolean ]>;
 
-
 export type FunctionTest14Input = { bar : string; foo : number; };
-
 
 export type FunctionTest14Output = { bar : string; foo : number; };
 
  /** function test 14 */
 export type FunctionTest14 = ( x0 : FunctionTest14Input ) =>  Promise< FunctionTest14Output >;
 
-
 export type FunctionTest15Input0 = { bar : string; foo : number; };
-
 
 export type FunctionTest15Input1 = { bar : string; foo : number; };
 
-
 export type FunctionTest15Output0 = { bar : string; foo : number; };
-
 
 export type FunctionTest15Output1 = { bar : string; foo : number; };
 

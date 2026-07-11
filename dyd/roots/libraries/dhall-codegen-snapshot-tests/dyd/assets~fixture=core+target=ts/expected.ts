@@ -1,6 +1,4 @@
 
-
-
 /** any test 0 */
 export type AnyTest0 =
 	unknown;
@@ -110,7 +108,6 @@ export type TimeTest1 =
 	/** comment */
 	Date;
 
-
 export type Person =
 	{
 		age :
@@ -120,7 +117,6 @@ export type Person =
 		name :
 			string;
 	};
-
 
 export type People =
 	Array<
@@ -135,7 +131,6 @@ export type OptionalTest0 =
 		string
 		| undefined
 	);
-
 
 export type OptionalTest1Value =
 	{
@@ -177,7 +172,6 @@ export type ListTest1 =
 			string
 		>
 	>;
-
 
 export type ListTest2Values =
 	/** a record inside a list */
@@ -221,7 +215,6 @@ export type SetTest2 =
 			string
 		>
 	>;
-
 
 export type SetTest3Values =
 	/** a record inside a set */
@@ -270,14 +263,12 @@ export type MapTest2 =
 		>
 	>;
 
-
 export type MapTest3Keys =
 	/** a keys record inside a map */
 	{
 		foo :
 			string;
 	};
-
 
 export type MapTest3Values =
 	/** a values record inside a map */
@@ -314,7 +305,6 @@ export type OneOfTest1 =
 		number
 	);
 
-
 export type OneOfTest2Option2 =
 	{
 		bar :
@@ -342,13 +332,11 @@ export type OneOfTest3 =
 		Bar
 	);
 
-
 export type AllOfTest0Option0 =
 	{
 		bar :
 			number;
 	};
-
 
 export type AllOfTest0Option1 =
 	{
@@ -419,7 +407,6 @@ export type RecordTest1 =
 		name :
 			string;
 	};
-
 
 export type RecordTest2Contact =
 	{
@@ -607,7 +594,6 @@ export type FunctionTest13 =
 		boolean
 	]>;
 
-
 export type FunctionTest14Input =
 	{
 		bar :
@@ -615,7 +601,6 @@ export type FunctionTest14Input =
 		foo :
 			number;
 	};
-
 
 export type FunctionTest14Output =
 	{
@@ -636,7 +621,6 @@ export type FunctionTest14 =
 		FunctionTest14Output
 	>;
 
-
 export type FunctionTest15Input0 =
 	{
 		bar :
@@ -644,7 +628,6 @@ export type FunctionTest15Input0 =
 		foo :
 			number;
 	};
-
 
 export type FunctionTest15Input1 =
 	{
@@ -654,7 +637,6 @@ export type FunctionTest15Input1 =
 			number;
 	};
 
-
 export type FunctionTest15Output0 =
 	{
 		bar :
@@ -662,7 +644,6 @@ export type FunctionTest15Output0 =
 		foo :
 			number;
 	};
-
 
 export type FunctionTest15Output1 =
 	{

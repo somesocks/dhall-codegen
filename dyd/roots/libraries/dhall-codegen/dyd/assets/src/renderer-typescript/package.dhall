@@ -52,14 +52,23 @@ let renderRootSchema
       \(ctx : RenderContext) ->
         let ctx1 = ctx // { depth = ctx.depth + 1 }
 
-        let description = renderDescription root.meta.description ctx
+        let description =
+              merge
+                { None = [] : List Text
+                , Some =
+                    \(description : Text) ->
+                      [ (renderDescription (Some description) ctx).expression ]
+                }
+                root.meta.description
 
         let definition = renderSchema root.contains ctx1
 
         let statement =
-              ''
-              ${description.expression}
-              export type ${ctx.options.prefix}${root.meta.name} =${definition.expression};''
+              Text/concatSep
+                "\n"
+                (   description
+                  # [ "export type ${ctx.options.prefix}${root.meta.name} =${definition.expression};" ]
+                )
 
         in  statement
 
@@ -81,13 +90,16 @@ let renderDocument
 
         let body = Text/concatSep "\n\n" renderedSchemas
 
-        let description = (renderDescription d.description ctx).expression
+        let description =
+              merge
+                { None = [] : List Text
+                , Some =
+                    \(description : Text) ->
+                      [ (renderDescription (Some description) ctx).expression ]
+                }
+                d.description
 
-        let headers = Text/concatSep "\n" d.headers
-
-        let footer = ""
-
-        in  Text/concatSep "\n" [ description, headers, body, footer ]
+        in  Text/concatSep "\n" (description # d.headers # [ body ])
 
 let options =
       { Type = RenderOptions

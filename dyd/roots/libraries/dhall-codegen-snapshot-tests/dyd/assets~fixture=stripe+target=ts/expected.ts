@@ -1,6 +1,3 @@
-
-
-
 export type StripeAddress =
 	{
 		city ?:
@@ -16,7 +13,6 @@ export type StripeAddress =
 		state ?:
 			string;
 	};
-
 
 export type StripeCustomer =
 	{
@@ -43,7 +39,6 @@ export type StripeCustomer =
 			string;
 	};
 
-
 export type StripeChargeBillingDetails =
 	{
 		address ?:
@@ -57,7 +52,6 @@ export type StripeChargeBillingDetails =
 		phone ?:
 			string;
 	};
-
 
 export type StripeChargeOutcomeValue =
 	{
@@ -82,7 +76,6 @@ export type StripeChargeOutcomeValue =
 		seller_message ?:
 			string;
 	};
-
 
 export type StripeCharge =
 	{
@@ -118,7 +111,6 @@ export type StripeCharge =
 				>
 			);
 	};
-
 
 export type StripeRefund =
 	{

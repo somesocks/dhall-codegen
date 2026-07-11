@@ -2,9 +2,6 @@
 
 import { z } from 'zod';
 
-
-
-
 export type TPerson =
 	{
 		name :
@@ -14,7 +11,6 @@ export type TPerson =
 				TPerson
 			>;
 	};
-
 
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({

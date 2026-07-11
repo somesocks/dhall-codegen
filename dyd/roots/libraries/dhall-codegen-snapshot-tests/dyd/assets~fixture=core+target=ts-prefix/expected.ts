@@ -1,6 +1,4 @@
 
-
-
 /** any test 0 */
 export type TAnyTest0 =
 	unknown;
@@ -110,7 +108,6 @@ export type TTimeTest1 =
 	/** comment */
 	Date;
 
-
 export type TPerson =
 	{
 		age :
@@ -120,7 +117,6 @@ export type TPerson =
 		name :
 			string;
 	};
-
 
 export type TPeople =
 	Array<
@@ -135,7 +131,6 @@ export type TOptionalTest0 =
 		string
 		| undefined
 	);
-
 
 export type TOptionalTest1Value =
 	{
@@ -177,7 +172,6 @@ export type TListTest1 =
 			string
 		>
 	>;
-
 
 export type TListTest2Values =
 	/** a record inside a list */
@@ -221,7 +215,6 @@ export type TSetTest2 =
 			string
 		>
 	>;
-
 
 export type TSetTest3Values =
 	/** a record inside a set */
@@ -270,14 +263,12 @@ export type TMapTest2 =
 		>
 	>;
 
-
 export type TMapTest3Keys =
 	/** a keys record inside a map */
 	{
 		foo :
 			string;
 	};
-
 
 export type TMapTest3Values =
 	/** a values record inside a map */
@@ -314,7 +305,6 @@ export type TOneOfTest1 =
 		number
 	);
 
-
 export type TOneOfTest2Option2 =
 	{
 		bar :
@@ -342,13 +332,11 @@ export type TOneOfTest3 =
 		TBar
 	);
 
-
 export type TAllOfTest0Option0 =
 	{
 		bar :
 			number;
 	};
-
 
 export type TAllOfTest0Option1 =
 	{
@@ -419,7 +407,6 @@ export type TRecordTest1 =
 		name :
 			string;
 	};
-
 
 export type TRecordTest2Contact =
 	{
@@ -607,7 +594,6 @@ export type TFunctionTest13 =
 		boolean
 	]>;
 
-
 export type TFunctionTest14Input =
 	{
 		bar :
@@ -615,7 +601,6 @@ export type TFunctionTest14Input =
 		foo :
 			number;
 	};
-
 
 export type TFunctionTest14Output =
 	{
@@ -636,7 +621,6 @@ export type TFunctionTest14 =
 		TFunctionTest14Output
 	>;
 
-
 export type TFunctionTest15Input0 =
 	{
 		bar :
@@ -644,7 +628,6 @@ export type TFunctionTest15Input0 =
 		foo :
 			number;
 	};
-
 
 export type TFunctionTest15Input1 =
 	{
@@ -654,7 +637,6 @@ export type TFunctionTest15Input1 =
 			number;
 	};
 
-
 export type TFunctionTest15Output0 =
 	{
 		bar :
@@ -662,7 +644,6 @@ export type TFunctionTest15Output0 =
 		foo :
 			number;
 	};
-
 
 export type TFunctionTest15Output1 =
 	{

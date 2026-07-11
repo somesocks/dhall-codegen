@@ -2,9 +2,6 @@
 
 import { z } from 'zod';
 
-
-
-
 export type TPerson =
 	{
 		date_of_birth :
@@ -22,7 +19,6 @@ export type TPerson =
 			/** contact email (we might not have this) */
 			string;
 	};
-
 
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({

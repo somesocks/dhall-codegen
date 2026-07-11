@@ -1,6 +1,3 @@
-
-
-
 export type Person =
 	{
 		date_of_birth :
