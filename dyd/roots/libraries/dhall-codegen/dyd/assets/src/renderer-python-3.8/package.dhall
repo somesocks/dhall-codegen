@@ -68,6 +68,8 @@ let renderRootSchema
 
 let imports =
       ''
+      from __future__ import annotations
+
       from datetime import datetime
       from pydantic import BaseModel, Field, TypeAdapter
       from typing import (

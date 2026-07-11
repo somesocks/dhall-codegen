@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_commands=$dest_package/dyd/commands
+dest_dependencies=$dest_package/dyd/dependencies
+dest_traits=$dest_package/dyd/traits
+dest_main=$dest_commands/dyd-stem-run
+build_cache=$dest_package/dyd/build/uv-cache
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+resolve_fixture_output_dep() {
+  if [ -e "$src_dependencies/fixture-output~fixture=$fixture+target=$target" ]; then
+    printf '%s' "$src_dependencies/fixture-output~fixture=$fixture+target=$target"
+    return 0
+  fi
+
+  if [ -e "$src_dependencies/fixture-output" ]; then
+    printf '%s' "$src_dependencies/fixture-output"
+    return 0
+  fi
+
+  echo "missing fixture-output dependency" >&2
+  exit 1
+}
+
+fixture_output_dep=$(resolve_fixture_output_dep)
+app_dir=$dest_assets/$fixture/$target
+venv=$app_dir/.venv
+
+mkdir -p "$app_dir" "$dest_commands" "$dest_dependencies" "$dest_traits" "$build_cache"
+
+cp "$fixture_output_dep/dyd/assets/out.py" "$app_dir/out.py"
+cp "$src_assets/requirements.txt" "$app_dir/requirements.txt"
+cp "$src_assets/smoke_test.py" "$app_dir/smoke_test.py"
+ln -s "$src_dependencies/uv" "$dest_dependencies/uv"
+
+UV_CACHE_DIR="$build_cache" \
+  "$src_dependencies/uv/dyd/commands/uv" venv --relocatable --python 3.8 "$venv"
+
+real_python=$(readlink -f "$venv/bin/python")
+python_home=$(dirname "$(dirname "$real_python")")
+rm "$venv/bin/python" "$venv/bin/python3" "$venv/bin/python3.8"
+cp "$python_home/bin/python3.8" "$venv/bin/python"
+ln -s python "$venv/bin/python3"
+ln -s python "$venv/bin/python3.8"
+cp "$python_home/lib/libpython3.8.so.1.0" "$venv/lib/"
+cp -R "$python_home/lib/python3.8/." "$venv/lib/python3.8/"
+
+UV_CACHE_DIR="$build_cache" \
+  "$src_dependencies/uv/dyd/commands/uv" pip install --python "$venv/bin/python" --requirements "$app_dir/requirements.txt" --link-mode copy
+"$venv/bin/python" -c 'import sys; assert sys.version_info[:2] == (3, 8), sys.version'
+
+printf '%s' dhall-codegen-smoke-tests > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"
+printf '%s' true > "$dest_traits/smoke-test"
+
+cat > "$dest_main" <<'EOF'
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+fixture=$(cat "$DYD_STEM/dyd/traits/fixture")
+target=$(cat "$DYD_STEM/dyd/traits/target")
+work_dir=$(mktemp -d)
+trap 'rm -rf "$work_dir"' EXIT
+
+cp -R "$DYD_STEM/dyd/assets/$fixture/$target/." "$work_dir/"
+chmod -R u+w "$work_dir"
+cd "$work_dir"
+
+"$work_dir/.venv/bin/python" "$work_dir/smoke_test.py"
+EOF
+chmod +x "$dest_main"

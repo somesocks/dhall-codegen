@@ -20,6 +20,7 @@ The main roots are:
 - `dyd/roots/tools/dhall/dhall` — the pinned Dhall interpreter used by the library root.
 - `dyd/roots/tools/go` — the pinned Go toolchain used by Go smoke tests.
 - `dyd/roots/tools/node` — the pinned Node.js toolchain used by TypeScript smoke tests.
+- `dyd/roots/tools/uv` — the pinned uv tool used by Python smoke tests.
 - `dyd/roots/tools/mdbook` — the pinned mdBook binary used by the docs root.
 - `dyd/roots/tools/caddy` — the pinned Caddy binary used to serve the docs locally.
 
@@ -115,7 +116,7 @@ Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`.
 - `expected.<ext>` is the checked-in snapshot output.
 - `dyd-stem-run` compares generated output against the snapshot output with `diff`.
 
-Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, and compiled runtime validation for generated Zod schemas.
+Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, compiled runtime validation for generated Zod schemas, and real Python 3.8 runtime validation for generated Python code.
 
 TypeScript smoke test variants keep `package.json`, `package-lock.json`, `tsconfig.json`, and smoke source files together in the selected `assets~fixture=<name>+target=<target>/` directory. The root build runs `npm ci`, so built smoke assets include `node_modules` and runtime only executes prepared compiler or validator checks. Regenerate a TypeScript lockfile from the selected development environment:
 

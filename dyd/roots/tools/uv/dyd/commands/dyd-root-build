@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+  case "${DYD_LOG_LEVEL:-info}" in
+    trace|debug) set -x ;;
+    *) ;;
+  esac
+}
+
+setup_globals() {
+  src_package=$DYD_STEM
+  dest_package=$DYD_BUILD
+
+  dest_assets=$dest_package/dyd/assets
+  dest_commands=$dest_package/dyd/commands
+  dest_traits=$dest_package/dyd/traits
+
+  mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+resolve_variants() {
+  uv_version=${DYD_VERSION:-}
+  target_os=${DYD_OS:-}
+  target_arch=${DYD_ARCH:-}
+
+  if [ -z "$uv_version" ] && [ -f "$src_package/dyd/traits/version" ]; then
+    uv_version=$(cat "$src_package/dyd/traits/version")
+  fi
+
+  if [ -f "$src_package/dyd/traits/os" ]; then
+    target_os=$(cat "$src_package/dyd/traits/os")
+  fi
+
+  if [ -f "$src_package/dyd/traits/arch" ]; then
+    target_arch=$(cat "$src_package/dyd/traits/arch")
+  fi
+
+  if [ -z "$uv_version" ]; then
+    echo "unable to resolve uv version variant" >&2
+    exit 1
+  fi
+
+  if [ "$target_os" = "host" ] || [ -z "$target_os" ]; then
+    case "$(uname -s)" in
+      Linux) target_os=linux ;;
+      Darwin) target_os=darwin ;;
+      *)
+        echo "unsupported host os $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$target_arch" = "host" ] || [ -z "$target_arch" ]; then
+    case "$(uname -m)" in
+      x86_64|amd64) target_arch=amd64 ;;
+      arm64|aarch64) target_arch=arm64 ;;
+      *)
+        echo "unsupported host arch $(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  platform=$target_os-$target_arch
+}
+
+build_package() {
+  case "$platform" in
+    darwin-amd64) source_name=uv-x86_64-apple-darwin ;;
+    darwin-arm64) source_name=uv-aarch64-apple-darwin ;;
+    linux-amd64) source_name=uv-x86_64-unknown-linux-gnu ;;
+    linux-arm64) source_name=uv-aarch64-unknown-linux-gnu ;;
+    *)
+      echo "unsupported uv build for version=$uv_version os=$target_os arch=$target_arch" >&2
+      exit 1
+      ;;
+  esac
+
+  source="https://github.com/astral-sh/uv/releases/download/$uv_version/$source_name.tar.gz"
+
+  printf '%s' uv > "$dest_traits/name"
+  printf '%s' "$uv_version" > "$dest_traits/version"
+  printf '%s' "$target_os" > "$dest_traits/os"
+  printf '%s' "$target_arch" > "$dest_traits/arch"
+  printf '%s' "$source" > "$dest_traits/source"
+
+  cp "$src_package/dyd/dependencies/uv-bin/dyd/assets/$source_name/$source_name/uv" "$dest_assets/uv"
+  cp "$src_package/dyd/dependencies/uv-bin/dyd/assets/$source_name/$source_name/uvx" "$dest_assets/uvx"
+  chmod +x "$dest_assets/uv" "$dest_assets/uvx"
+
+  ln -s ../assets/uv "$dest_commands/dyd-stem-run"
+  ln -s ../assets/uv "$dest_commands/uv"
+  ln -s ../assets/uvx "$dest_commands/uvx"
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package
