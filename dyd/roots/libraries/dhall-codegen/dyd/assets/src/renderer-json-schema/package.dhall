@@ -99,7 +99,7 @@ let renderDocument
                 ctx.main
 
         let headers =
-                  "${p0}{"
+                  "{"
               ++  "${p1}\"\$schema\": \"${schema}\","
               ++  "${p1}\"\$id\": \"https://example.com/schemas/your-file.json\","
               ++  main
