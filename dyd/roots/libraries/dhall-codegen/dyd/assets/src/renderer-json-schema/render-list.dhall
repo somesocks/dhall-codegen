@@ -38,7 +38,7 @@ let renderList
 
         let type = Some "${p1}\"type\" : \"array\""
 
-        let items = Some "${p1}\"items\" : ${e1}"
+        let items = Some "${p1}\"items\" :${e1}"
 
         let description = renderDescription2 node.meta.description ctx1
 

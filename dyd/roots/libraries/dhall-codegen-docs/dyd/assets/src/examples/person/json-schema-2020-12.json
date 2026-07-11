@@ -1,4 +1,3 @@
-
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "https://example.com/schemas/your-file.json",
@@ -7,27 +6,27 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"date_of_birth" : 
+					"date_of_birth" :
 						{
 							"type" : "string",
 							"description" : "date of birth",
 							"format" : "date-time"
 						},
-					"friends" : 
+					"friends" :
 						{
 							"type" : "array",
-							"items" : 
+							"items" :
 								{
 									"$ref": "#/$defs/Person"
 								},
 							"description" : "friends"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string",
 							"description" : "full name"
 						},
-					"contact_email" : 
+					"contact_email" :
 						{
 							"type": "string",
 							"description" : "contact email (we might not have this)",

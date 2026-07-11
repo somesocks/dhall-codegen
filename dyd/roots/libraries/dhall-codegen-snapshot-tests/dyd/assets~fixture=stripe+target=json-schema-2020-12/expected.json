@@ -7,27 +7,27 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"city" : 
+					"city" :
 						{
 							"type": "string"
 						},
-					"country" : 
+					"country" :
 						{
 							"type": "string"
 						},
-					"line1" : 
+					"line1" :
 						{
 							"type": "string"
 						},
-					"line2" : 
+					"line2" :
 						{
 							"type": "string"
 						},
-					"postal_code" : 
+					"postal_code" :
 						{
 							"type": "string"
 						},
-					"state" : 
+					"state" :
 						{
 							"type": "string"
 						}
@@ -40,41 +40,41 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"balance" : 
+					"balance" :
 						{
 							"type": "integer"
 						},
-					"created" : 
+					"created" :
 						{
 							"type": "integer"
 						},
-					"id" : 
+					"id" :
 						{
 							"type": "string"
 						},
-					"object" : 
+					"object" :
 						{
 							"type": "string",
 							"description" : "must be string 'customer'"
 						},
-					"address" : 
+					"address" :
 						{
 							"$ref": "#/$defs/StripeAddress"
 						},
-					"currency" : 
+					"currency" :
 						{
 							"type": "string"
 						},
-					"description" : 
+					"description" :
 						{
 							"type": "string"
 						},
-					"email" : 
+					"email" :
 						{
 							"type": "string",
 							"description" : "email address"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string",
 							"description" : "customer name"
@@ -92,21 +92,21 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"address" : 
+					"address" :
 						{
 							"$ref": "#/$defs/StripeAddress"
 						},
-					"email" : 
+					"email" :
 						{
 							"type": "string",
 							"description" : "email address"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string",
 							"description" : "customer name"
 						},
-					"phone" : 
+					"phone" :
 						{
 							"type": "string"
 						}
@@ -119,43 +119,43 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"type" : 
+					"type" :
 						{
 							"type": "string"
 						},
-					"advice_code" : 
+					"advice_code" :
 						{
 							"type": "string"
 						},
-					"network_advice_code" : 
+					"network_advice_code" :
 						{
 							"type": "string"
 						},
-					"network_decline_code" : 
+					"network_decline_code" :
 						{
 							"type": "string"
 						},
-					"network_status" : 
+					"network_status" :
 						{
 							"type": "string"
 						},
-					"reason" : 
+					"reason" :
 						{
 							"type": "string"
 						},
-					"risk_level" : 
+					"risk_level" :
 						{
 							"type": "string"
 						},
-					"risk_score" : 
+					"risk_score" :
 						{
 							"type": "integer"
 						},
-					"rule" : 
+					"rule" :
 						{
 							"type": "string"
 						},
-					"seller_message" : 
+					"seller_message" :
 						{
 							"type": "string"
 						}
@@ -169,61 +169,61 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"amount" : 
+					"amount" :
 						{
 							"type": "integer"
 						},
-					"amount_captured" : 
+					"amount_captured" :
 						{
 							"type": "integer"
 						},
-					"amount_refunded" : 
+					"amount_refunded" :
 						{
 							"type": "integer"
 						},
-					"billing_details" : 
+					"billing_details" :
 						{
 							"$ref": "#/$defs/StripeChargeBillingDetails"
 						},
-					"captured" : 
+					"captured" :
 						{
 							"type": "boolean"
 						},
-					"created" : 
+					"created" :
 						{
 							"type": "integer",
 							"description" : "Time at which the object was created. Measured in seconds since the Unix epoch."
 						},
-					"id" : 
+					"id" :
 						{
 							"type": "string"
 						},
-					"object" : 
+					"object" :
 						{
 							"type": "string",
 							"description" : "must be string 'charge'"
 						},
-					"currency" : 
+					"currency" :
 						{
 							"type": "string"
 						},
-					"outcome" : 
+					"outcome" :
 						{
 							"$ref": "#/$defs/StripeChargeOutcomeValue"
 						},
-					"refunds" : 
+					"refunds" :
 						{
 							"oneOf" : [
 								{
 									"type" : "array",
-									"items" : 
+									"items" :
 										{
 											"type": "string"
 										}
 								},
 								{
 									"type" : "array",
-									"items" : 
+									"items" :
 										{
 											"$ref": "#/$defs/StripeRefund"
 										}
@@ -247,11 +247,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"amount" : 
+					"amount" :
 						{
 							"type": "integer"
 						},
-					"charge" : 
+					"charge" :
 						{
 							"oneOf" : [
 								{
@@ -262,11 +262,11 @@
 								}
 							]
 						},
-					"id" : 
+					"id" :
 						{
 							"type": "string"
 						},
-					"object" : 
+					"object" :
 						{
 							"type": "string",
 							"description" : "must be string 'refund'"

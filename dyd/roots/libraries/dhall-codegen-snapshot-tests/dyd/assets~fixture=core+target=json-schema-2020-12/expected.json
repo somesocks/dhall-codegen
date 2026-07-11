@@ -96,15 +96,15 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						},
-					"deceased" : 
+					"deceased" :
 						{
 							"type": "boolean"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string"
 						}
@@ -119,7 +119,7 @@
 		"People":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/Person"
 					}
@@ -137,7 +137,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -168,7 +168,7 @@
 		"ListTest0":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"type": "string"
 					},
@@ -177,10 +177,10 @@
 		"ListTest1":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"type" : "array",
-						"items" : 
+						"items" :
 							{
 								"type": "string"
 							},
@@ -192,7 +192,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -206,7 +206,7 @@
 		"ListTest2":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/ListTest2Values"
 					},
@@ -215,7 +215,7 @@
 		"SetTest0":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"type": "string"
 					},
@@ -225,7 +225,7 @@
 		"SetTest1":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"type": "string"
 					},
@@ -235,10 +235,10 @@
 		"SetTest2":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"type" : "array",
-						"items" : 
+						"items" :
 							{
 								"type": "string"
 							},
@@ -252,7 +252,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -266,7 +266,7 @@
 		"SetTest3":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/SetTest3Values"
 					},
@@ -277,11 +277,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"key" : 
+					"key" :
 						{
 							"type": "string"
 						},
-					"value" : 
+					"value" :
 						{
 							"type": "string"
 						}
@@ -295,7 +295,7 @@
 		"MapTest0":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/MapTest0Values"
 					},
@@ -305,11 +305,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"key" : 
+					"key" :
 						{
 							"type": "string"
 						},
-					"value" : 
+					"value" :
 						{
 							"type": "string"
 						}
@@ -323,7 +323,7 @@
 		"MapTest1":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/MapTest1Values"
 					},
@@ -333,11 +333,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"key" : 
+					"key" :
 						{
 							"type": "string"
 						},
-					"value" : 
+					"value" :
 						{
 							"type": "string"
 						}
@@ -352,14 +352,14 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"key" : 
+					"key" :
 						{
 							"type": "string"
 						},
-					"value" : 
+					"value" :
 						{
 							"type" : "array",
-							"items" : 
+							"items" :
 								{
 									"$ref": "#/$defs/MapTest2ValuesValueValues"
 								},
@@ -375,7 +375,7 @@
 		"MapTest2":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/MapTest2Values"
 					},
@@ -385,7 +385,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -400,7 +400,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -415,11 +415,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"key" : 
+					"key" :
 						{
 							"$ref": "#/$defs/MapTest3ValuesKey"
 						},
-					"value" : 
+					"value" :
 						{
 							"$ref": "#/$defs/MapTest3ValuesValue"
 						}
@@ -433,7 +433,7 @@
 		"MapTest3":
 			{
 				"type" : "array",
-				"items" : 
+				"items" :
 					{
 						"$ref": "#/$defs/MapTest3Values"
 					},
@@ -466,11 +466,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "number"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -512,7 +512,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "number"
 						}
@@ -526,7 +526,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"foo" : 
+					"foo" :
 						{
 							"type": "string"
 						}
@@ -603,15 +603,15 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						},
-					"deceased" : 
+					"deceased" :
 						{
 							"type": "boolean"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string"
 						}
@@ -627,15 +627,15 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						},
-					"deceased" : 
+					"deceased" :
 						{
 							"type": "boolean"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string"
 						}
@@ -652,11 +652,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"email" : 
+					"email" :
 						{
 							"type": "string"
 						},
-					"phone" : 
+					"phone" :
 						{
 							"type": "string"
 						}
@@ -669,19 +669,19 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						},
-					"contact" : 
+					"contact" :
 						{
 							"$ref": "#/$defs/RecordTest2Contact"
 						},
-					"deceased" : 
+					"deceased" :
 						{
 							"type": "boolean"
 						},
-					"name" : 
+					"name" :
 						{
 							"type": "string"
 						}
@@ -699,15 +699,15 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"name" : 
+					"name" :
 						{
 							"type": "string"
 						},
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						},
-					"deceased" : 
+					"deceased" :
 						{
 							"type": "boolean"
 						}
@@ -722,15 +722,15 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"id" : 
+					"id" :
 						{
 							"type": "string"
 						},
-					"status" : 
+					"status" :
 						{
 							"type": "string"
 						},
-					"age" : 
+					"age" :
 						{
 							"type": "integer"
 						}
@@ -745,18 +745,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -775,18 +775,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -805,7 +805,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -815,11 +815,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -838,7 +838,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -848,11 +848,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -871,7 +871,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -887,11 +887,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -910,7 +910,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -926,11 +926,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -949,18 +949,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -979,18 +979,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1009,18 +1009,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1042,18 +1042,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1075,18 +1075,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1114,18 +1114,18 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1153,7 +1153,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1166,11 +1166,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1195,7 +1195,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1208,11 +1208,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1237,11 +1237,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1256,11 +1256,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1275,7 +1275,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1285,11 +1285,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1311,11 +1311,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1330,11 +1330,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1349,11 +1349,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1368,11 +1368,11 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"bar" : 
+					"bar" :
 						{
 							"type": "string"
 						},
-					"foo" : 
+					"foo" :
 						{
 							"type": "integer"
 						}
@@ -1387,7 +1387,7 @@
 			{
 				"type" : "object",
 				"properties" : {
-					"input" : 
+					"input" :
 						{
 							"type" : "array",
 							"prefixItems" : [
@@ -1400,11 +1400,11 @@
 							],
 							"items" : false
 						},
-					"kind" : 
+					"kind" :
 						{
 							"const": "function"
 						},
-					"output" : 
+					"output" :
 						{
 							"type" : "array",
 							"prefixItems" : [

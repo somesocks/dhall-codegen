@@ -33,7 +33,7 @@ let renderRecordField
         let expression =
                   renderPrefix ctx
               ++  "\"${node.mapKey}\""
-              ++  " : "
+              ++  " :"
               ++  value.expression
 
         in  expression

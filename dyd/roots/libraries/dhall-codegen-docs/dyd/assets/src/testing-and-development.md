@@ -116,7 +116,7 @@ Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`.
 - `expected.<ext>` is the checked-in snapshot output.
 - `dyd-stem-run` compares generated output against the snapshot output with `diff`.
 
-Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, compiled runtime validation for generated Zod schemas, real JSON Schema validation, and real Python 3.8 runtime validation for generated Python code.
+Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, compiled runtime validation for generated Zod schemas, real JSON Schema draft-07 and 2020-12 validation, and real Python 3.8 runtime validation for generated Python code.
 
 TypeScript smoke test variants keep `package.json`, `package-lock.json`, `tsconfig.json`, and smoke source files together in the selected `assets~fixture=<name>+target=<target>/` directory. The root build runs `npm ci`, so built smoke assets include `node_modules` and runtime only executes prepared compiler or validator checks. Regenerate a TypeScript lockfile from the selected development environment:
 

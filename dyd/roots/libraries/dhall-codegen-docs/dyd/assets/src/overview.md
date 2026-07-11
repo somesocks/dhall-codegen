@@ -24,9 +24,9 @@ In Go:
 {{#include examples/person/go.go}}
 ```
 
-And in JSON Schema:
+And in JSON Schema 2020-12:
 ```json
-{{#include examples/person/json-schema.json}}
+{{#include examples/person/json-schema-2020-12.json}}
 ```
 
 ## What's in this package
