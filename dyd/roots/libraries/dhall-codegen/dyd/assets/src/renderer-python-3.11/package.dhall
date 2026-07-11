@@ -39,7 +39,14 @@ let renderRootSchema
     : Schema.root.type -> RenderContext -> Text
     = \(root : Schema.root.type) ->
       \(ctx : RenderContext) ->
-        let description = renderDescription root.meta.description ctx
+        let description =
+              merge
+                { None = [] : List Text
+                , Some =
+                    \(description : Text) ->
+                      [ (renderDescription (Some description) ctx).expression ]
+                }
+                root.meta.description
 
         let definition = renderSchema root.contains ctx
 
@@ -47,20 +54,17 @@ let renderRootSchema
               merge
                 { None = ""
                 , TypeAlias =
-                    ''
-                    ${description.expression}
-                    ${root.meta.name}: TypeAlias = ${definition.expression}
-                    ''
+                    Text/concatSep
+                      "\n"
+                      (description # [ "${root.meta.name}: TypeAlias = ${definition.expression}" ])
                 , Class =
-                    ''
-                    ${description.expression}
-                    class ${root.meta.name}(BaseModel):${definition.expression}
-                    ''
+                    Text/concatSep
+                      "\n"
+                      (description # [ "class ${root.meta.name}(BaseModel):${definition.expression}" ])
                 , Protocol =
-                    ''
-                    ${description.expression}
-                    class ${root.meta.name}(Protocol):${definition.expression}
-                    ''
+                    Text/concatSep
+                      "\n"
+                      (description # [ "class ${root.meta.name}(Protocol):${definition.expression}" ])
                 }
                 definition.type
 
@@ -100,13 +104,18 @@ let renderDocument
         let renderedSchemas =
               List/mapWithIndex Schema.root.type Text renderSchemaLine d.schemas
 
-        let body = Text/concatSep "\n" renderedSchemas
+        let body = Text/concatSep "\n\n" renderedSchemas
 
-        let description = (renderDescription d.description ctx).expression
+        let description =
+              merge
+                { None = [] : List Text
+                , Some =
+                    \(description : Text) ->
+                      [ (renderDescription (Some description) ctx).expression ]
+                }
+                d.description
 
-        let headers = Text/concatSep "\n" d.headers
-
-        in  Text/concatSep "\n" [ description, imports, headers, body ]
+        in  Text/concatSep "\n" (description # [ imports ] # d.headers # [ body ])
 
 in  { render =
         renderDocument { index = 0, depth = 0, indent = "    ", break = "\n" }

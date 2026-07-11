@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
@@ -14,8 +13,6 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
             ta.validate_python(v)  # raises on failure
         return v
     return check
-
-
 
 
 class Person(BaseModel):

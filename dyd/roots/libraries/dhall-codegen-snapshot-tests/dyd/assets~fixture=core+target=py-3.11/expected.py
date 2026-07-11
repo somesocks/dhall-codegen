@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
@@ -14,7 +13,6 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
             ta.validate_python(v)  # raises on failure
         return v
     return check
-
 
 
 # any test 0
@@ -74,18 +72,15 @@ TimeTest0: TypeAlias = datetime
 # time test 1
 TimeTest1: TypeAlias = datetime
 
-
 class Person(BaseModel):
     age : int
     deceased : bool
     name : str
 
-
 People: TypeAlias = list[Person]
 
 # optional test 0
 OptionalTest0: TypeAlias = (str) | None
-
 
 class OptionalTest1Value(BaseModel):
     foo : str
@@ -102,7 +97,6 @@ ListTest0: TypeAlias = list[str]
 # list test 1
 ListTest1: TypeAlias = list[list[str]]
 
-
 class ListTest2Values(BaseModel):# a record inside a list
     foo : str
 
@@ -117,7 +111,6 @@ SetTest1: TypeAlias = list[str]
 
 # set test 2
 SetTest2: TypeAlias = set[set[str]]
-
 
 class SetTest3Values(BaseModel):# a record inside a set
     foo : str
@@ -134,10 +127,8 @@ MapTest1: TypeAlias = dict[str, str]
 # map test 2
 MapTest2: TypeAlias = dict[str, dict[str, str]]
 
-
 class MapTest3Keys(BaseModel):# a keys record inside a map
     foo : str
-
 
 class MapTest3Values(BaseModel):# a values record inside a map
     foo : str
@@ -151,7 +142,6 @@ OneOfTest0: TypeAlias = (str | int)
 # oneOf test 1
 OneOfTest1: TypeAlias = (str | int)
 
-
 class OneOfTest2Option2(BaseModel):
     bar : float
     foo : str
@@ -162,10 +152,8 @@ OneOfTest2: TypeAlias = (str | int | OneOfTest2Option2)
 # oneOf test 3
 OneOfTest3: TypeAlias = (Foo | Bar)
 
-
 class AllOfTest0Option0(BaseModel):
     bar : float
-
 
 class AllOfTest0Option1(BaseModel):
     foo : str
@@ -193,7 +181,6 @@ class RecordTest1(BaseModel):# a record
     age : int
     deceased : bool
     name : str
-
 
 class RecordTest2Contact(BaseModel):
     email : (str) | None
@@ -260,11 +247,9 @@ FunctionTest12: TypeAlias = Callable[[int, str], tuple[str, bool]]
 # function test 13
 FunctionTest13: TypeAlias = Callable[[int, str], Awaitable[tuple[str, bool]]]
 
-
 class FunctionTest14Input(BaseModel):
     bar : str
     foo : int
-
 
 class FunctionTest14Output(BaseModel):
     bar : str
@@ -273,21 +258,17 @@ class FunctionTest14Output(BaseModel):
 # function test 14
 FunctionTest14: TypeAlias = Callable[[FunctionTest14Input], Awaitable[FunctionTest14Output]]
 
-
 class FunctionTest15Input0(BaseModel):
     bar : str
     foo : int
-
 
 class FunctionTest15Input1(BaseModel):
     bar : str
     foo : int
 
-
 class FunctionTest15Output0(BaseModel):
     bar : str
     foo : int
-
 
 class FunctionTest15Output1(BaseModel):
     bar : str

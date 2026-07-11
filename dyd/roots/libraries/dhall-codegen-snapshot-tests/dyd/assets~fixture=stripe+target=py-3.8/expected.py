@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -29,8 +28,6 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
-
-
 class StripeAddress(BaseModel):
     city : Optional[str]
     country : Optional[str]
@@ -38,7 +35,6 @@ class StripeAddress(BaseModel):
     line2 : Optional[str]
     postal_code : Optional[str]
     state : Optional[str]
-
 
 class StripeCustomer(BaseModel):
     balance : int
@@ -51,13 +47,11 @@ class StripeCustomer(BaseModel):
     email : Optional[str]
     name : Optional[str]
 
-
 class StripeChargeBillingDetails(BaseModel):
     address : Optional[StripeAddress]
     email : Optional[str]
     name : Optional[str]
     phone : Optional[str]
-
 
 class StripeChargeOutcomeValue(BaseModel):
     type : str
@@ -70,7 +64,6 @@ class StripeChargeOutcomeValue(BaseModel):
     risk_score : Optional[int]
     rule : Optional[str]
     seller_message : Optional[str]
-
 
 class StripeCharge(BaseModel):
     amount : int
@@ -85,10 +78,8 @@ class StripeCharge(BaseModel):
     outcome : Optional[StripeChargeOutcomeValue]
     refunds : Optional[Union[List[str],List[StripeRefund]]]
 
-
 class StripeRefund(BaseModel):
     amount : int
     charge : Union[str,StripeCharge]
     id : str
     object : str
-

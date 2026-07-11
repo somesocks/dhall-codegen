@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -29,11 +28,8 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
-
-
 class Person(BaseModel):
     date_of_birth : datetime
     friends : List[Person]
     name : str
     contact_email : Optional[str]
-

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
@@ -16,8 +15,6 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
-
-
 class StripeAddress(BaseModel):
     city : (str) | None
     country : (str) | None
@@ -25,7 +22,6 @@ class StripeAddress(BaseModel):
     line2 : (str) | None
     postal_code : (str) | None
     state : (str) | None
-
 
 class StripeCustomer(BaseModel):
     balance : int
@@ -38,13 +34,11 @@ class StripeCustomer(BaseModel):
     email : (str) | None
     name : (str) | None
 
-
 class StripeChargeBillingDetails(BaseModel):
     address : (StripeAddress) | None
     email : (str) | None
     name : (str) | None
     phone : (str) | None
-
 
 class StripeChargeOutcomeValue(BaseModel):
     type : str
@@ -58,7 +52,6 @@ class StripeChargeOutcomeValue(BaseModel):
     rule : (str) | None
     seller_message : (str) | None
 
-
 class StripeCharge(BaseModel):
     amount : int
     amount_captured : int
@@ -71,7 +64,6 @@ class StripeCharge(BaseModel):
     currency : (str) | None
     outcome : (StripeChargeOutcomeValue) | None
     refunds : ((list[str] | list[StripeRefund])) | None
-
 
 class StripeRefund(BaseModel):
     amount : int
