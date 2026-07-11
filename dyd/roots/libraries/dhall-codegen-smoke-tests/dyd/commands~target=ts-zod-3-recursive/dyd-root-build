@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_commands=$dest_package/dyd/commands
+dest_dependencies=$dest_package/dyd/dependencies
+dest_traits=$dest_package/dyd/traits
+dest_main=$dest_commands/dyd-stem-run
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+resolve_fixture_output_dep() {
+  if [ -e "$src_dependencies/fixture-output~fixture=$fixture+target=$target" ]; then
+    printf '%s' "$src_dependencies/fixture-output~fixture=$fixture+target=$target"
+    return 0
+  fi
+
+  if [ -e "$src_dependencies/fixture-output" ]; then
+    printf '%s' "$src_dependencies/fixture-output"
+    return 0
+  fi
+
+  echo "missing fixture-output dependency" >&2
+  exit 1
+}
+
+fixture_output_dep=$(resolve_fixture_output_dep)
+
+app_dir=$dest_assets/$fixture/$target
+
+mkdir -p "$app_dir" "$dest_commands" "$dest_dependencies" "$dest_traits"
+
+cp "$fixture_output_dep/dyd/assets/out.ts" "$app_dir/out.ts"
+cp "$src_assets/package.json" "$app_dir/package.json"
+cp "$src_assets/package-lock.json" "$app_dir/package-lock.json"
+cp "$src_assets/tsconfig.json" "$app_dir/tsconfig.json"
+cp "$src_assets/smoke.test.ts" "$app_dir/smoke.test.ts"
+ln -s "$src_dependencies/node" "$dest_dependencies/node"
+
+(
+  cd "$app_dir"
+  "$src_dependencies/node/dyd/commands/npm" ci
+)
+
+printf '%s' dhall-codegen-smoke-tests > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"
+printf '%s' true > "$dest_traits/smoke-test"
+
+cat > "$dest_main" <<'EOF'
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+fixture=$(cat "$DYD_STEM/dyd/traits/fixture")
+target=$(cat "$DYD_STEM/dyd/traits/target")
+node_commands=$DYD_STEM/dyd/dependencies/node/dyd/commands
+work_dir=$(mktemp -d)
+trap 'rm -rf "$work_dir"' EXIT
+
+cp -R "$DYD_STEM/dyd/assets/$fixture/$target/." "$work_dir/"
+chmod -R u+w "$work_dir"
+cd "$work_dir"
+
+"$node_commands/dyd-stem-run" "$work_dir/node_modules/typescript/bin/tsc" --project "$work_dir/tsconfig.json"
+"$node_commands/dyd-stem-run" "$work_dir/dist/smoke.test.js"
+EOF
+chmod +x "$dest_main"

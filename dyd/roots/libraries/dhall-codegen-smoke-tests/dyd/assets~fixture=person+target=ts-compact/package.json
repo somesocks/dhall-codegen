@@ -1,0 +1,11 @@
+{
+  "name": "dhall-codegen-smoke-ts-compact-person",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "smoke": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

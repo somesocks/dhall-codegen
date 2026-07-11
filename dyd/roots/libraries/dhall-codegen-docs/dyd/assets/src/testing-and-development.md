@@ -115,12 +115,12 @@ Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`.
 - `expected.<ext>` is the checked-in snapshot output.
 - `dyd-stem-run` compares generated output against the snapshot output with `diff`.
 
-Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code and `tsc --noEmit` for generated TypeScript types.
+Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, and compiled runtime validation for generated Zod schemas.
 
-TypeScript smoke test variants keep `package.json`, `package-lock.json`, `tsconfig.json`, and smoke source files together in the selected `assets~fixture=<name>+target=ts/` directory. The root build runs `npm ci`, so built smoke assets include `node_modules` and runtime only executes the prepared compiler check. Regenerate a TypeScript lockfile from the selected development environment:
+TypeScript smoke test variants keep `package.json`, `package-lock.json`, `tsconfig.json`, and smoke source files together in the selected `assets~fixture=<name>+target=<target>/` directory. The root build runs `npm ci`, so built smoke assets include `node_modules` and runtime only executes prepared compiler or validator checks. Regenerate a TypeScript lockfile from the selected development environment:
 
 ```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen-smoke-tests~fixture=person+target=ts --scope=none --on-exit=save -- z-update-lockfile
+dryad root develop start dyd/roots/libraries/dhall-codegen-smoke-tests~fixture=person+target=<target> --scope=none --on-exit=save -- z-update-lockfile
 ```
 
 When a renderer, transformer, or grammar change intentionally changes generated output, update the matching snapshot output files and review the diffs.
