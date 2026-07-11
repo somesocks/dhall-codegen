@@ -90,13 +90,13 @@ export type TTextTest1 = z.infer<typeof TextTest1>
 
 	/** text test 2 */
 export const TextTest2 =
-	z.email().describe("email");
+	z.string().email().describe("email");
 export type TTextTest2 = z.infer<typeof TextTest2>
 
 
 	/** text test 3 */
 export const TextTest3 =
-	z.url().describe("url");
+	z.string().url().describe("url");
 export type TTextTest3 = z.infer<typeof TextTest3>
 
 

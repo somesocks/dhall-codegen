@@ -35,5 +35,5 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 		name :
 			z.string().describe("full name"),
 		contact_email :
-			z.email().describe("contact email (we might not have this)").optional(),
+			z.string().email().describe("contact email (we might not have this)").optional(),
 	}));

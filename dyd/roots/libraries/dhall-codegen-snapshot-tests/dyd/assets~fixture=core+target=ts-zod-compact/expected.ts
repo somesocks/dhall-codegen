@@ -60,11 +60,11 @@ export const TextTest1 = z.string().describe("text");
 export type TTextTest1 = z.infer<typeof TextTest1>
 
  /** text test 2 */
-export const TextTest2 = z.email().describe("email");
+export const TextTest2 = z.string().email().describe("email");
 export type TTextTest2 = z.infer<typeof TextTest2>
 
  /** text test 3 */
-export const TextTest3 = z.url().describe("url");
+export const TextTest3 = z.string().url().describe("url");
 export type TTextTest3 = z.infer<typeof TextTest3>
 
  /** text test 4 */
