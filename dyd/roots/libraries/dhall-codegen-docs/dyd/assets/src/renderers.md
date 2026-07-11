@@ -193,13 +193,6 @@ See [Transformers](./transformers.md) for details.
 
 The renderer includes a placeholder `$id`. Treat it as an example and replace it as needed.
 
-## Python (Pydantic)
-
-There are two Python renderers:
-
-- `renderer-python-3.11` emits modern Python 3.11 type syntax.
-- `renderer-python-3.8` keeps Python 3.8-compatible syntax.
-
 ## Python 3.11
 
 **Path:** `dhall-codegen/renderer-python-3.11/package.dhall`
