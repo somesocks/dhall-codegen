@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+  case "${DYD_LOG_LEVEL:-info}" in
+    trace|debug) set -x ;;
+    *) ;;
+  esac
+}
+
+setup_globals() {
+  src_package=$DYD_STEM
+  dest_package=$DYD_BUILD
+
+  dest_assets=$dest_package/dyd/assets
+  dest_commands=$dest_package/dyd/commands
+  dest_traits=$dest_package/dyd/traits
+
+  mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+resolve_variants() {
+  version=${DYD_VERSION:-}
+  target_os=${DYD_OS:-}
+  target_arch=${DYD_ARCH:-}
+
+  if [ -f "$src_package/dyd/traits/version" ]; then
+    version=$(cat "$src_package/dyd/traits/version")
+  fi
+
+  if [ -f "$src_package/dyd/traits/os" ]; then
+    target_os=$(cat "$src_package/dyd/traits/os")
+  fi
+
+  if [ -f "$src_package/dyd/traits/arch" ]; then
+    target_arch=$(cat "$src_package/dyd/traits/arch")
+  fi
+
+  if [ -z "$version" ]; then
+    echo "unable to resolve node version variant" >&2
+    exit 1
+  fi
+
+  if [ "$target_os" = "host" ] || [ -z "$target_os" ]; then
+    case "$(uname -s)" in
+      Linux) target_os=linux ;;
+      Darwin) target_os=darwin ;;
+      *)
+        echo "unsupported host os $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$target_arch" = "host" ] || [ -z "$target_arch" ]; then
+    case "$(uname -m)" in
+      x86_64|amd64) target_arch=amd64 ;;
+      arm64|aarch64) target_arch=arm64 ;;
+      *)
+        echo "unsupported host arch $(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  platform=$target_os-$target_arch
+}
+
+build_package() {
+  case "$version:$platform" in
+    v24.18.0:darwin-amd64) archive_dir=node-$version-darwin-x64 ;;
+    v24.18.0:darwin-arm64) archive_dir=node-$version-darwin-arm64 ;;
+    v24.18.0:linux-amd64) archive_dir=node-$version-linux-x64 ;;
+    v24.18.0:linux-arm64) archive_dir=node-$version-linux-arm64 ;;
+    *)
+      echo "unsupported node build for version=$version platform=$platform" >&2
+      exit 1
+      ;;
+  esac
+
+  source=$(cat "$src_package/dyd/requirements/archive")
+  source=${source%%#*}
+
+  printf '%s' node > "$dest_traits/name"
+  printf '%s' "$version" > "$dest_traits/version"
+  printf '%s' "$target_os" > "$dest_traits/os"
+  printf '%s' "$target_arch" > "$dest_traits/arch"
+  printf '%s' "$source" > "$dest_traits/source"
+
+  archive_source=$src_package/dyd/dependencies/archive/dyd/assets/$archive_dir
+  if [ -d "$archive_source/$archive_dir" ]; then
+    archive_source=$archive_source/$archive_dir
+  fi
+
+  cp -R "$archive_source/." "$dest_assets/"
+
+  cat > "$dest_commands/dyd-stem-run" <<'EOF'
+#!/usr/bin/env sh
+set -eu
+
+stem=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+PATH=$stem/dyd/assets/bin:$PATH
+
+exec "$stem/dyd/assets/bin/node" "$@"
+EOF
+
+  cat > "$dest_commands/npm" <<'EOF'
+#!/usr/bin/env sh
+set -eu
+
+stem=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+PATH=$stem/dyd/assets/bin:$PATH
+
+exec "$stem/dyd/assets/bin/npm" "$@"
+EOF
+
+  cat > "$dest_commands/npx" <<'EOF'
+#!/usr/bin/env sh
+set -eu
+
+stem=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+PATH=$stem/dyd/assets/bin:$PATH
+
+exec "$stem/dyd/assets/bin/npx" "$@"
+EOF
+
+  cat > "$dest_commands/corepack" <<'EOF'
+#!/usr/bin/env sh
+set -eu
+
+stem=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+PATH=$stem/dyd/assets/bin:$PATH
+
+exec "$stem/dyd/assets/bin/corepack" "$@"
+EOF
+
+  chmod +x "$dest_commands/dyd-stem-run" "$dest_commands/npm" "$dest_commands/npx" "$dest_commands/corepack"
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package
