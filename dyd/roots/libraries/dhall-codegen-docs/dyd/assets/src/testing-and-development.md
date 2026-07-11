@@ -111,6 +111,8 @@ Fixture rendering lives in `dyd/roots/libraries/dhall-codegen-test-fixtures`. Ea
 - `document.dhall` defines the schema document for a test case.
 - `out.<ext>.dhall` invokes a renderer and evaluates to generated `Text`.
 
+The docs root also consumes selected fixture outputs to populate mdBook examples, so docs snippets stay tied to the same fixture sources and renderer outputs used by tests.
+
 Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`. Each valid `fixture=<name>+target=<name>` variant depends on the matching generated fixture output with `fixture=inherit&target=inherit`.
 
 - `expected.<ext>` is the checked-in snapshot output.

@@ -13,20 +13,49 @@ setup_globals() {
     dest_package=$DYD_BUILD
 
     src_assets=$src_package/dyd/assets
+    src_dependencies=$src_package/dyd/dependencies
     dest_assets=$dest_package/dyd/assets
     dest_commands=$dest_package/dyd/commands
     dest_traits=$dest_package/dyd/traits
+    book_src=$dest_package/book-src
 
     mdbook=$src_package/dyd/dependencies/mdbook/dyd/commands/dyd-stem-run
 
     mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
 }
 
+copy_example() {
+    variant=$1
+    source_name=$2
+    dest_name=$3
+
+    cp \
+        "$src_dependencies/example-person~fixture=person+target=$variant/dyd/assets/$source_name" \
+        "$book_src/src/examples/person/$dest_name"
+}
+
+prepare_book_source() {
+    rm -rf "$book_src"
+    mkdir -p "$book_src"
+    cp -R "$src_assets/." "$book_src/"
+    chmod -R u+w "$book_src"
+
+    rm -rf "$book_src/src/examples/person"
+    mkdir -p "$book_src/src/examples/person"
+
+    copy_example schema out.dhall schema.dhall
+    copy_example py-3.11 out.py python.py
+    copy_example ts out.ts typescript.ts
+    copy_example go out.go go.go
+    copy_example json-schema-2020-12 out.json json-schema-2020-12.json
+}
+
 build_site() {
     printf '%s' dhall-codegen-docs > "$dest_traits/name"
     printf '%s' mdbook > "$dest_traits/generator"
 
-    "$mdbook" build "$src_assets" --dest-dir "$dest_assets"
+    prepare_book_source
+    "$mdbook" build "$book_src" --dest-dir "$dest_assets"
 }
 
 configure_logging

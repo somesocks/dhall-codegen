@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_traits=$dest_package/dyd/traits
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+mkdir -p "$dest_assets" "$dest_traits"
+cp "$src_assets/document.dhall" "$dest_assets/out.dhall"
+
+printf '%s' dhall-codegen-test-fixtures > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"

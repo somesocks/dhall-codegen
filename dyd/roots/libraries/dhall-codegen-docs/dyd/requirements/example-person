@@ -1,0 +1,1 @@
+root:../../../dhall-codegen-test-fixtures?fixture=person&target=schema,py-3.11,ts,go,json-schema-2020-12

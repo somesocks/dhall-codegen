@@ -14,7 +14,7 @@ The generated definition in Typescript:
 {{#include examples/person/typescript.ts}}
 ```
 
-In Python (3.8 compatible):
+In Python 3.11:
 ```python
 {{#include examples/person/python.py}}
 ```
