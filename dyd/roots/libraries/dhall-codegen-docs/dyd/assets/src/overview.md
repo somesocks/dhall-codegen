@@ -34,7 +34,7 @@ And in JSON Schema 2020-12:
 This package provides a core grammar for the codegen schema language plus a set of pure Dhall code renderers for different languages. Today `dhall-codegen` has renderers for:
 
 - TypeScript (pure types or Zod validators)
-- Python
+- Python (3.8-compatible and modern 3.11)
 - Go
 - JSON Schema (draft-07 and 2020-12)
 - Dhall itself

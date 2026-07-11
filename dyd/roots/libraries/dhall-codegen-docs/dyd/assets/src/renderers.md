@@ -193,7 +193,47 @@ See [Transformers](./transformers.md) for details.
 
 The renderer includes a placeholder `$id`. Treat it as an example and replace it as needed.
 
-## Python (Pydantic, Python 3.8+)
+## Python (Pydantic)
+
+There are two Python renderers:
+
+- `renderer-python-3.11` emits modern Python 3.11 type syntax.
+- `renderer-python-3.8` keeps Python 3.8-compatible syntax.
+
+## Python 3.11
+
+**Path:** `dhall-codegen/renderer-python-3.11/package.dhall`
+
+### API
+
+```dhall
+let Py = ./dhall-codegen/renderer-python-3.11/package.dhall
+
+in  Py.render myDocument
+```
+
+### Options
+
+The Python 3.11 renderer does not currently expose a public options record. It renders with four-space indentation and newline breaks.
+
+### Output Shape
+
+Records render as Pydantic models with modern type annotations:
+
+```python
+class Person(BaseModel):
+    name : str
+    friends : list[Person]
+    contact_email : str | None
+```
+
+Notes:
+
+- Output includes imports for Pydantic and Python 3.11 standard-library typing helpers.
+- Output includes a small runtime helper to emulate `allOf` intersection checks.
+- Descriptions render as Python comments.
+
+## Python 3.8
 
 **Path:** `dhall-codegen/renderer-python-3.8/package.dhall`
 
@@ -207,11 +247,11 @@ in  Py.render myDocument
 
 ### Options
 
-The Python renderer does not currently expose a public options record. It renders with four-space indentation and newline breaks.
+The Python 3.8 renderer does not currently expose a public options record. It renders with four-space indentation and newline breaks.
 
 ### Output Shape
 
-Records render as Pydantic models:
+Records render as Pydantic models with Python 3.8-compatible type annotations:
 
 ```python
 class Person(BaseModel):
