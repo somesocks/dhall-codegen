@@ -48,35 +48,6 @@ _build_package_output () {
 
 }
 
-_build_tests_output () {
-    cp -r "$SRC_ASSETS/src" "$DEST_ASSETS/src"
-    cp -r "$SRC_ASSETS/tests" "$DEST_ASSETS/tests"
-    ln -s "$SRC_PACKAGE/dyd/dependencies/dhall" "$DEST_DEPENDENCIES/dhall"
-    chmod -R +w "$DEST_ASSETS/"
-
-    cd "$DEST_ASSETS" && dhall format $(find ./src -type f -name '*.dhall')
-
-    cat > "$DEST_MAIN" <<'EOF'
-#!/usr/bin/env bash
-set -euf -o pipefail
-
-case "${DYD_LOG_LEVEL:-info}" in
-    debug|trace) set -x ;;
-    *) ;;
-esac
-
-cd "$DYD_STEM/dyd/assets"
-
-while IFS= read -r -d '' f; do
-    echo "checking $f"
-    time dhall --explain --file "$f" >/dev/null
-    echo "done"
-    echo ""
-done < <(find ./tests -type f -name 'check*.dhall' -print0 | sort -z)
-EOF
-    chmod +x "$DEST_MAIN"
-}
-
 _build_archive_output () {
     ARCHIVE_DIR=dhall-codegen-$VERSION
     ARCHIVE_NAME=$ARCHIVE_DIR.tar.gz
@@ -98,7 +69,6 @@ _build_package () {
     case "$OUTPUT" in
         archive) _build_archive_output ;;
         package) _build_package_output ;;
-        tests) _build_tests_output ;;
         *)
             echo "unsupported dhall-codegen output variant: $OUTPUT" >&2
             exit 1

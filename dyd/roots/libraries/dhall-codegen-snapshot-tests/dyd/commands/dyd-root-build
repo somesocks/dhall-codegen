@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_commands=$dest_package/dyd/commands
+dest_traits=$dest_package/dyd/traits
+dest_main=$dest_commands/dyd-stem-run
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+resolve_fixture_output_dep() {
+  if [ -e "$src_dependencies/fixture-output~fixture=$fixture+target=$target" ]; then
+    printf '%s' "$src_dependencies/fixture-output~fixture=$fixture+target=$target"
+    return 0
+  fi
+
+  if [ -e "$src_dependencies/fixture-output" ]; then
+    printf '%s' "$src_dependencies/fixture-output"
+    return 0
+  fi
+
+  echo "missing fixture-output dependency" >&2
+  exit 1
+}
+
+fixture_output_dep=$(resolve_fixture_output_dep)
+
+mkdir -p "$dest_assets/$fixture/$target/actual" "$dest_commands" "$dest_traits"
+
+mapfile -d '' actual_files < <(find "$fixture_output_dep/dyd/assets" -maxdepth 1 -type f -print0 | sort -z)
+mapfile -d '' expected_files < <(find "$src_assets" -maxdepth 1 -type f -name 'expected.*' -print0 | sort -z)
+
+if [ "${#actual_files[@]}" -ne 1 ]; then
+  echo "expected exactly one generated output for fixture=$fixture target=$target, found ${#actual_files[@]}" >&2
+  exit 1
+fi
+
+if [ "${#expected_files[@]}" -ne 1 ]; then
+  echo "expected exactly one snapshot output for fixture=$fixture target=$target, found ${#expected_files[@]}" >&2
+  exit 1
+fi
+
+actual_name=$(basename "${actual_files[0]}")
+expected_name=$(basename "${expected_files[0]}")
+
+cp "${actual_files[0]}" "$dest_assets/$fixture/$target/actual/$actual_name"
+cp "${expected_files[0]}" "$dest_assets/$fixture/$target/$expected_name"
+
+printf '%s' dhall-codegen-snapshot-tests > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"
+printf '%s' true > "$dest_traits/snapshot-test"
+
+cat > "$dest_main" <<'EOF'
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+fixture=$(cat "$DYD_STEM/dyd/traits/fixture")
+target=$(cat "$DYD_STEM/dyd/traits/target")
+test_dir="$DYD_STEM/dyd/assets/$fixture/$target"
+
+actual=$(find "$test_dir/actual" -maxdepth 1 -type f | sort)
+expected=$(find "$test_dir" -maxdepth 1 -type f -name 'expected.*' | sort)
+
+echo "checking snapshot fixture=$fixture target=$target"
+diff -u "$expected" "$actual"
+EOF
+chmod +x "$dest_main"

@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_commands=$dest_package/dyd/commands
+dest_dependencies=$dest_package/dyd/dependencies
+dest_traits=$dest_package/dyd/traits
+dest_main=$dest_commands/dyd-stem-run
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+resolve_fixture_output_dep() {
+  if [ -e "$src_dependencies/fixture-output~fixture=$fixture+target=$target" ]; then
+    printf '%s' "$src_dependencies/fixture-output~fixture=$fixture+target=$target"
+    return 0
+  fi
+
+  if [ -e "$src_dependencies/fixture-output" ]; then
+    printf '%s' "$src_dependencies/fixture-output"
+    return 0
+  fi
+
+  echo "missing fixture-output dependency" >&2
+  exit 1
+}
+
+fixture_output_dep=$(resolve_fixture_output_dep)
+
+mkdir -p "$dest_assets/$fixture/$target" "$dest_commands" "$dest_dependencies" "$dest_traits"
+
+cp "$fixture_output_dep/dyd/assets/out.go" "$dest_assets/$fixture/$target/out.go"
+cp "$src_assets/go.mod" "$dest_assets/$fixture/$target/go.mod"
+cp "$src_assets/smoke_test.go" "$dest_assets/$fixture/$target/smoke_test.go"
+ln -s "$src_dependencies/go" "$dest_dependencies/go"
+
+printf '%s' dhall-codegen-smoke-tests > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"
+printf '%s' true > "$dest_traits/smoke-test"
+
+cat > "$dest_main" <<'EOF'
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+fixture=$(cat "$DYD_STEM/dyd/traits/fixture")
+target=$(cat "$DYD_STEM/dyd/traits/target")
+
+cd "$DYD_STEM/dyd/assets/$fixture/$target"
+go test ./...
+EOF
+chmod +x "$dest_main"

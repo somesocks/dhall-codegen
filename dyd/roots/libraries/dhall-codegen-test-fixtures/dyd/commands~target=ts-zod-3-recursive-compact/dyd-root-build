@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_traits=$dest_package/dyd/traits
+work_dir=$dest_package/render-work
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+mkdir -p "$dest_assets" "$dest_traits" "$work_dir"
+cp -r "$src_assets/." "$work_dir/"
+chmod -R +w "$work_dir"
+ln -s "$src_dependencies/dhall-codegen/dyd/assets" "$work_dir/dhall-codegen"
+
+cat > "$work_dir/render.dhall" <<'EOF'
+let renderer = ./dhall-codegen/renderer-typescript-zod/package.dhall
+
+let output =
+      renderer.render
+        renderer.options::{ break = " ", indent = "", variant = renderer.variant.ZOD_3_RECURSION }
+        ./document.dhall
+
+in  output
+EOF
+
+dhall text --file "$work_dir/render.dhall" --output "$dest_assets/out.ts"
+rm -rf "$work_dir"
+
+printf '%s' dhall-codegen-test-fixtures > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"

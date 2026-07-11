@@ -12,9 +12,13 @@ The repo is a Dryad garden. Source packages live under `dyd/roots/`, and generat
 
 The main roots are:
 
-- `dyd/roots/libraries/dhall-codegen` — the pure-Dhall library, renderers, transformers, and test fixtures.
+- `dyd/roots/libraries/dhall-codegen` — the pure-Dhall library, renderers, and transformers.
+- `dyd/roots/libraries/dhall-codegen-test-fixtures` — generated renderer outputs for fixture and target variants.
+- `dyd/roots/libraries/dhall-codegen-snapshot-tests` — checked-in generated-output snapshot comparisons.
+- `dyd/roots/libraries/dhall-codegen-smoke-tests` — target-toolchain smoke tests for generated outputs.
 - `dyd/roots/libraries/dhall-codegen-docs` — the mdBook docs site.
 - `dyd/roots/tools/dhall/dhall` — the pinned Dhall interpreter used by the library root.
+- `dyd/roots/tools/go` — the pinned Go toolchain used by Go smoke tests.
 - `dyd/roots/tools/mdbook` — the pinned mdBook binary used by the docs root.
 - `dyd/roots/tools/caddy` — the pinned Caddy binary used to serve the docs locally.
 
@@ -28,8 +32,8 @@ dryad scope use dev
 
 Then you have access to the following scoped commands:
 
-- `dryad run build` builds the library package, test, and archive variants, docs, and local docs server tool.
-- `dryad run test` builds the development scope and runs test sprouts.
+- `dryad run build` builds the library package and archive variants, docs, and local docs server tool.
+- `dryad run test` builds the development scope, then runs snapshot and smoke test sprouts.
 - `dryad run open-docs` serves the generated docs site with Caddy.
 - `dryad run publish-release-tag` creates and pushes the `release-<version>` git tag.
 
@@ -39,7 +43,7 @@ Build the project roots used during development:
 dryad run build
 ```
 
-This builds the `dhall-codegen` library package, test, and archive variants, the docs site, and the local Caddy tool used to serve the docs.
+This builds the `dhall-codegen` library package and archive variants, the docs site, and the local Caddy tool used to serve the docs.
 
 To build only the library root:
 
@@ -47,10 +51,9 @@ To build only the library root:
 dryad root build dyd/roots/libraries/dhall-codegen --scope=none
 ```
 
-The library root has three output variants:
+The library root has two output variants:
 
 - `output=package` bundles the reusable Dhall source package.
-- `output=tests` bundles the source package plus test fixtures and exposes a runnable test command.
 - `output=archive` bundles the reusable Dhall source package as `dhall-codegen-<version>.tar.gz`.
 
 To build only the release archive:
@@ -79,20 +82,14 @@ Most package-level commands should be run through `dryad root develop start`:
 dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=discard -- <command>
 ```
 
-The `~output=package` selector keeps development commands tied to the package variant now that the root also has a runnable `output=tests` variant.
+The `~output=package` selector keeps development commands tied to the package variant.
 
-Use `--on-exit=save` for commands that intentionally modify files, such as formatting or regenerating golden outputs.
+Use `--on-exit=save` for commands that intentionally modify files.
 
 Format source files under `dyd/assets/src/`:
 
 ```bash
 dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-format-src
-```
-
-Format test files under `dyd/assets/tests/`:
-
-```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-format-tests
 ```
 
 Run the full scoped test command:
@@ -101,46 +98,37 @@ Run the full scoped test command:
 dryad run test
 ```
 
-This builds the development scope, then runs every sprout matching `output=tests`.
-
-Run the test suite inside a development environment:
-
-```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=discard -- z-run-tests
-```
-
-Prefer `dryad run test` for the full sprout-based check that builds and runs the `output=tests` variant.
-
-Regenerate checked-in golden outputs:
-
-```bash
-dryad root develop start dyd/roots/libraries/dhall-codegen~output=package --on-exit=save -- z-update-tests
-```
+This builds the development scope, then runs `dryad run snapshot-test` and `dryad run smoke-test`.
 
 ## Testing
 
-Testing is done by comparing generated output against checked-in golden fixtures. A test renders a schema document, reads the expected output file, and asserts that the two are identical.
+Testing is split into fixture rendering, snapshot comparisons, and smoke tests.
 
-Tests live under `dyd/assets/tests/`. Each test case usually contains a schema document plus one or more renderer output checks.
+Fixture rendering lives in `dyd/roots/libraries/dhall-codegen-test-fixtures`. Each valid `fixture=<name>+target=<name>` variant renders exactly one output file from a schema document and renderer expression.
 
 - `document.dhall` defines the schema document for a test case.
 - `out.<ext>.dhall` invokes a renderer and evaluates to generated `Text`.
-- `out.<ext>` is the checked-in golden output.
-- `check*.dhall` asserts that generated output matches the golden output.
 
-When a renderer, transformer, or grammar change intentionally changes generated output, run `z-update-tests` and review the golden fixture diffs.
+Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`. Each valid `fixture=<name>+target=<name>` variant depends on the matching generated fixture output with `fixture=inherit&target=inherit`.
+
+- `expected.<ext>` is the checked-in snapshot output.
+- `dyd-stem-run` compares generated output against the snapshot output with `diff`.
+
+Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code.
+
+When a renderer, transformer, or grammar change intentionally changes generated output, update the matching snapshot output files and review the diffs.
 
 ## Adding a Test Case
 
-The fastest way to add a new test case is to copy an existing one. `dyd/assets/tests/example-person/` is a small, representative example.
+The fastest way to add a new test case is to copy an existing fixture variant. `fixture=person` is a small, representative example.
 
 Typical workflow:
 
-1. Copy an existing test directory.
-2. Edit `document.dhall` to define the schema case.
-3. Add or remove renderer subdirectories as needed.
-4. Run `z-update-tests` to regenerate golden outputs.
-5. Run `z-run-tests` to validate the generated outputs.
+1. Add a fixture option under `dhall-codegen-test-fixtures/dyd/variants/fixture/` and `dhall-codegen-snapshot-tests/dyd/variants/fixture/`.
+2. Add concrete `assets~fixture=<name>/` fixture inputs.
+3. Add matching snapshot output as `dhall-codegen-snapshot-tests/dyd/assets~fixture=<name>+target=<target>/expected.<ext>`.
+4. Add `_exclude` entries for unsupported fixture and target pairs.
+5. Run `dryad run snapshot-test`.
 
 ## Adding a Renderer
 
@@ -161,21 +149,25 @@ Typical workflow:
 3. Update `common.dhall` with target-specific options and render context.
 4. Update `package.dhall` to import the right modules, apply any needed transformers, and export `{ render, options }` if the renderer has options.
 5. Implement or adjust each `render-<type>.dhall` file.
-6. Add golden tests under `dyd/assets/tests/`.
-7. Run `z-update-tests`.
-8. Run `z-run-tests`.
+6. Add target command variants under the test fixture root and snapshot-test assets under the snapshot-test root.
+7. Run `dryad run snapshot-test`.
+8. Add smoke tests if the target has a local toolchain check.
 9. Add the renderer to `renderers.md`.
 
-For tests, start with a small fixture like `example-person` and add a new renderer subdirectory:
+For tests, start with a small fixture like `person` and add a concrete target asset directory:
 
 ```text
-dyd/assets/tests/example-person/<target>/
-  out.<ext>.dhall
-  out.<ext>
-  check.<ext>.dhall
+dyd/roots/libraries/dhall-codegen-test-fixtures/dyd/assets~fixture=person/
+  document.dhall
+
+dyd/roots/libraries/dhall-codegen-test-fixtures/dyd/commands~target=<target>/
+  dyd-root-build
+
+dyd/roots/libraries/dhall-codegen-snapshot-tests/dyd/assets~fixture=person+target=<target>/
+  expected.<ext>
 ```
 
-The `out.<ext>.dhall` file should import the new renderer and render `../document.dhall`.
+The target command should import the new renderer and render the fixture `document.dhall`.
 
 ## Docs Site
 

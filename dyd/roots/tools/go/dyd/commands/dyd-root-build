@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+  case "${DYD_LOG_LEVEL:-info}" in
+    trace|debug) set -x ;;
+    *) ;;
+  esac
+}
+
+setup_globals() {
+  SRC_DIR=$DYD_STEM
+  DEST_DIR=$DYD_BUILD
+
+  DEST_ASSETS=$DEST_DIR/dyd/assets
+  DEST_COMMANDS=$DEST_DIR/dyd/commands
+  DEST_MAIN=$DEST_COMMANDS/dyd-stem-run
+  DEST_TRAITS=$DEST_DIR/dyd/traits
+
+  mkdir -p "$DEST_ASSETS" "$DEST_COMMANDS" "$DEST_TRAITS"
+}
+
+resolve_variants() {
+  GO_VERSION=${DYD_VERSION:-}
+  TARGET_OS=${DYD_OS:-}
+  TARGET_ARCH=${DYD_ARCH:-}
+
+  if [ -z "$GO_VERSION" ] && [ -f "$SRC_DIR/dyd/traits/version" ]; then
+    GO_VERSION=$(cat "$SRC_DIR/dyd/traits/version")
+  fi
+
+  if [ -f "$SRC_DIR/dyd/traits/os" ]; then
+    TARGET_OS=$(cat "$SRC_DIR/dyd/traits/os")
+  fi
+
+  if [ -f "$SRC_DIR/dyd/traits/arch" ]; then
+    TARGET_ARCH=$(cat "$SRC_DIR/dyd/traits/arch")
+  fi
+
+  if [ -z "$GO_VERSION" ]; then
+    echo "unable to resolve go version variant" >&2
+    exit 1
+  fi
+
+  if [ "$TARGET_OS" = "host" ] || [ -z "$TARGET_OS" ]; then
+    case "$(uname -s)" in
+      Linux) TARGET_OS=linux ;;
+      Darwin) TARGET_OS=darwin ;;
+      *)
+        echo "unsupported host os $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$TARGET_ARCH" = "host" ] || [ -z "$TARGET_ARCH" ]; then
+    case "$(uname -m)" in
+      x86_64|amd64) TARGET_ARCH=amd64 ;;
+      arm64|aarch64) TARGET_ARCH=arm64 ;;
+      *)
+        echo "unsupported host arch $(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  case "$GO_VERSION" in
+    1.25) RESOLVED_GO_VERSION=1.25.6 ;;
+    *)
+      echo "unsupported go version $GO_VERSION" >&2
+      exit 1
+      ;;
+  esac
+}
+
+build_package() {
+  SOURCE="https://go.dev/dl/go${RESOLVED_GO_VERSION}.${TARGET_OS}-${TARGET_ARCH}.tar.gz"
+
+  printf '%s' go > "$DEST_TRAITS/name"
+  printf '%s' "$GO_VERSION" > "$DEST_TRAITS/version"
+  printf '%s' "$TARGET_OS" > "$DEST_TRAITS/os"
+  printf '%s' "$TARGET_ARCH" > "$DEST_TRAITS/arch"
+  printf '%s' "$SOURCE" > "$DEST_TRAITS/source"
+
+  cp -R "$SRC_DIR/dyd/dependencies/go-bin/dyd/assets/go${RESOLVED_GO_VERSION}.${TARGET_OS}-${TARGET_ARCH}/go" "$DEST_ASSETS/go"
+
+  cp "$SRC_DIR/dyd/assets/main" "$DEST_MAIN"
+  chmod +x "$DEST_MAIN"
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package

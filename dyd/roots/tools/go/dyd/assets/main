@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -eu
+
+PATH=$DYD_STEM/dyd/assets/go/bin:$PATH
+
+GOROOT=$DYD_STEM/dyd/assets/go \
+    go "$@"
