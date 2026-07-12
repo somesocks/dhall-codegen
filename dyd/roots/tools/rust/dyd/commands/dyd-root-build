@@ -1,0 +1,175 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+configure_logging() {
+  case "${DYD_LOG_LEVEL:-info}" in
+    trace|debug) set -x ;;
+    *) ;;
+  esac
+}
+
+setup_globals() {
+  src_package=$DYD_STEM
+  dest_package=$DYD_BUILD
+
+  dest_assets=$dest_package/dyd/assets
+  dest_commands=$dest_package/dyd/commands
+  dest_traits=$dest_package/dyd/traits
+
+  mkdir -p "$dest_assets" "$dest_commands" "$dest_traits"
+}
+
+resolve_variants() {
+  version=${DYD_VERSION:-}
+  target_os=${DYD_OS:-}
+  target_arch=${DYD_ARCH:-}
+  rust_target=${DYD_TARGET:-}
+
+  if [ -f "$src_package/dyd/traits/version" ]; then
+    version=$(cat "$src_package/dyd/traits/version")
+  fi
+
+  if [ -f "$src_package/dyd/traits/os" ]; then
+    target_os=$(cat "$src_package/dyd/traits/os")
+  fi
+
+  if [ -f "$src_package/dyd/traits/arch" ]; then
+    target_arch=$(cat "$src_package/dyd/traits/arch")
+  fi
+
+  if [ -f "$src_package/dyd/traits/target" ]; then
+    rust_target=$(cat "$src_package/dyd/traits/target")
+  fi
+
+  if [ -z "$version" ]; then
+    echo "unable to resolve rust version variant" >&2
+    exit 1
+  fi
+
+  if [ "$target_os" = "host" ] || [ -z "$target_os" ]; then
+    case "$(uname -s)" in
+      Linux) target_os=linux ;;
+      Darwin) target_os=darwin ;;
+      *)
+        echo "unsupported host os $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$target_arch" = "host" ] || [ -z "$target_arch" ]; then
+    case "$(uname -m)" in
+      x86_64|amd64) target_arch=amd64 ;;
+      arm64|aarch64) target_arch=arm64 ;;
+      *)
+        echo "unsupported host arch $(uname -m)" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  case "$target_os-$target_arch" in
+    linux-amd64) host_triple=x86_64-unknown-linux-gnu ;;
+    *)
+      echo "unsupported rust toolchain host os=$target_os arch=$target_arch" >&2
+      exit 1
+      ;;
+  esac
+
+  if [ -z "$rust_target" ]; then
+    rust_target=$host_triple
+  fi
+
+  case "$version:$host_triple:$rust_target" in
+    1.95.0:x86_64-unknown-linux-gnu:x86_64-unknown-linux-gnu) ;;
+    *)
+      echo "unsupported rust build version=$version host=$host_triple target=$rust_target" >&2
+      exit 1
+      ;;
+  esac
+}
+
+find_dist_dir() {
+  rust_bin_assets=$src_package/dyd/dependencies/rust-bin/dyd/assets
+  expected_dir=$rust_bin_assets/rust-$version-$host_triple
+
+  if [ -x "$expected_dir/install.sh" ]; then
+    printf '%s' "$expected_dir"
+    return 0
+  fi
+
+  if [ -x "$expected_dir/rust-$version-$host_triple/install.sh" ]; then
+    printf '%s' "$expected_dir/rust-$version-$host_triple"
+    return 0
+  fi
+
+  for candidate in "$rust_bin_assets"/*; do
+    if [ -x "$candidate/install.sh" ]; then
+      printf '%s' "$candidate"
+      return 0
+    fi
+
+    if [ -x "$candidate/rust-$version-$host_triple/install.sh" ]; then
+      printf '%s' "$candidate/rust-$version-$host_triple"
+      return 0
+    fi
+  done
+
+  echo "unable to find unpacked rust distribution under $rust_bin_assets" >&2
+  exit 1
+}
+
+write_tool_wrapper() {
+  command_name=$1
+
+  cat > "$dest_commands/$command_name" <<EOF
+#!/usr/bin/env sh
+set -eu
+
+stem=\$(CDPATH= cd -- "\$(dirname -- "\$0")/../.." && pwd)
+PATH=\$stem/dyd/assets/rust/bin:\$PATH
+
+exec "\$stem/dyd/assets/rust/bin/$command_name" "\$@"
+EOF
+  chmod +x "$dest_commands/$command_name"
+}
+
+write_cargo_runner() {
+  cat > "$dest_commands/dyd-stem-run" <<'EOF'
+#!/usr/bin/env sh
+set -eu
+
+stem=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+PATH=$stem/dyd/assets/rust/bin:$PATH
+
+exec "$stem/dyd/assets/rust/bin/cargo" "$@"
+EOF
+  chmod +x "$dest_commands/dyd-stem-run"
+}
+
+build_package() {
+  source=https://static.rust-lang.org/dist/rust-$version-$host_triple.tar.xz
+  dist_dir=$(find_dist_dir)
+  install_prefix=$dest_assets/rust
+
+  printf '%s' rust > "$dest_traits/name"
+  printf '%s' "$version" > "$dest_traits/version"
+  printf '%s' "$target_os" > "$dest_traits/os"
+  printf '%s' "$target_arch" > "$dest_traits/arch"
+  printf '%s' "$rust_target" > "$dest_traits/target"
+  printf '%s' "$source" > "$dest_traits/source"
+
+  "$dist_dir/install.sh" \
+    --prefix="$install_prefix" \
+    --disable-ldconfig
+
+  write_tool_wrapper cargo
+  write_tool_wrapper rustc
+  write_tool_wrapper rustdoc
+  write_cargo_runner
+}
+
+configure_logging
+setup_globals
+resolve_variants
+build_package
