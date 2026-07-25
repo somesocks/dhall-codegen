@@ -178,6 +178,12 @@ export const TimeTest1 =
 export type TTimeTest1 = z.infer<typeof TimeTest1>
 
 
+	/** time test 2 */
+export const TimeTest2 =
+	z.date().describe("calendar date");
+export type TTimeTest2 = z.infer<typeof TimeTest2>
+
+
 export const Person =
 	z.object({
 		age :

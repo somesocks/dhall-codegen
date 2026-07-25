@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
-from datetime import datetime
+from datetime import date, datetime
 from typing import Annotated, Any, Literal, Protocol, TypeAlias
 
 from pydantic import BaseModel, TypeAdapter
@@ -101,6 +101,9 @@ TimeTest0: TypeAlias = datetime
 
 # time test 1
 TimeTest1: TypeAlias = datetime
+
+# time test 2
+TimeTest2: TypeAlias = date
 
 class Person(BaseModel):
     age : int

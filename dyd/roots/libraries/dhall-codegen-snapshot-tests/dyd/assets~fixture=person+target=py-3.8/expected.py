@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from pydantic import BaseModel, Field, TypeAdapter
 from typing import (
     Any, Optional, Union, List, Set, Dict, Tuple, Callable, Literal
@@ -33,7 +33,7 @@ class Person(BaseModel):
     binary_data : str
     birth_date : str
     created_at : str
-    date_of_birth : datetime
+    date_of_birth : date
     destination_ip : str
     friends : List[Person]
     id : str

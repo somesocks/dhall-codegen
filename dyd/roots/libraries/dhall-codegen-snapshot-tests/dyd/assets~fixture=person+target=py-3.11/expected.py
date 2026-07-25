@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
-from datetime import datetime
+from datetime import date, datetime
 from typing import Annotated, Any, Literal, Protocol, TypeAlias
 
 from pydantic import BaseModel, TypeAdapter
@@ -20,7 +20,7 @@ class Person(BaseModel):
     binary_data : str
     birth_date : str
     created_at : str
-    date_of_birth : datetime
+    date_of_birth : date
     destination_ip : str
     friends : list[Person]
     id : str

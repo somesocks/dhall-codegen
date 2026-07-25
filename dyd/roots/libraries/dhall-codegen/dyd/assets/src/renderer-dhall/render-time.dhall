@@ -18,6 +18,10 @@ let renderPrefix = ./render-prefix.dhall
 
 let renderDescription = ./render-description.dhall
 
+let renderTimeVariant
+    : s.time.variants → Text
+    = λ(variant : s.time.variants) → merge { none = "Time", date = "Date" } variant
+
 let renderTime
     : Schema.time.node.Type → RenderFragment
     = λ(node : Schema.time.node.Type) →
@@ -26,7 +30,7 @@ let renderTime
 
         let header = ""
 
-        let type = Some "${p0}Time"
+        let type = Some "${p0}${renderTimeVariant node.props.variant}"
 
         let description = renderDescription node.meta.description ctx
 

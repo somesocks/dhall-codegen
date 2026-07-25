@@ -119,6 +119,10 @@ export type TTimeTest0 = z.infer<typeof TimeTest0>
 export const TimeTest1 = z.date().describe("comment");
 export type TTimeTest1 = z.infer<typeof TimeTest1>
 
+ /** time test 2 */
+export const TimeTest2 = z.date().describe("calendar date");
+export type TTimeTest2 = z.infer<typeof TimeTest2>
+
 
 export const Person = z.object({ age : z.number().int().nonnegative(), deceased : z.boolean(), name : z.string(), });
 export type TPerson = z.infer<typeof Person>

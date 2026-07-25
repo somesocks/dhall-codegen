@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from pydantic import BaseModel, Field, TypeAdapter
 from typing import (
     Any, Optional, Union, List, Set, Dict, Tuple, Callable, Literal
@@ -114,6 +114,9 @@ TimeTest0: TypeAlias = datetime
 
 # time test 1
 TimeTest1: TypeAlias = datetime
+
+# time test 2
+TimeTest2: TypeAlias = date
 
 class Person(BaseModel):
     age : int

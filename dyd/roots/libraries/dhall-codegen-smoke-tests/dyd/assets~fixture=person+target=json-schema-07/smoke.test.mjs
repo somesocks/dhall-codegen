@@ -17,14 +17,14 @@ const validPerson = {
   binary_data: "+/8=",
   birth_date: "1815-12-10",
   created_at: "2026-07-25T14:30:00.123+02:00",
-  date_of_birth: "1815-12-10T00:00:00Z",
+  date_of_birth: "1815-12-10",
   friends: [
     {
       appointment_time: "09:00:00Z",
       binary_data: "+/8",
       birth_date: "1906-12-09",
       created_at: "1906-12-09T00:00:00Z",
-      date_of_birth: "1906-12-09T00:00:00Z",
+      date_of_birth: "1906-12-09",
       friends: [],
       id: "123e4567-e89b-42d3-a456-426614174001",
       name: "Grace Hopper",
@@ -58,6 +58,11 @@ for (const created_at of [
 
 for (const birth_date of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) {
   assert.equal(validatePerson({ ...validPerson, birth_date }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+}
+
+for (const date_of_birth of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) {
+  assert.equal(validatePerson({ ...validPerson, date_of_birth }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
 }
 

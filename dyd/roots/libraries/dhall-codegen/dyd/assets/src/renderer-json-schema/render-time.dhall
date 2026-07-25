@@ -18,6 +18,18 @@ let renderPrefix = ./render-prefix.dhall
 
 let renderDescription2 = ./render-description-2.dhall
 
+let renderTimeFormat
+    : s.time.variants → RenderContext → Text
+    = λ(variant : s.time.variants) →
+      λ(ctx : RenderContext) →
+        let p0 = renderPrefix ctx
+
+        in  merge
+              { none = "${p0}\"format\" : \"date-time\""
+              , date = "${p0}\"format\" : \"date\""
+              }
+              variant
+
 let renderTime
     : Schema.time.node.Type → RenderFragment
     = λ(node : Schema.time.node.Type) →
@@ -34,7 +46,7 @@ let renderTime
 
         let description = renderDescription2 node.meta.description ctx1
 
-        let format = Some "${p1}\"format\" : \"date-time\""
+        let format = Some (renderTimeFormat node.props.variant ctx1)
 
         let body = [ type, description, format ]
 

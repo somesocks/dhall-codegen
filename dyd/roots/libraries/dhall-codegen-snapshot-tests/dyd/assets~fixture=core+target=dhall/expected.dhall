@@ -111,6 +111,10 @@ let TimeTest1 =
   {- comment -}
   Time
 
+let TimeTest2 =
+  {- calendar date -}
+  Date
+
 let Person =
   {
     age :
@@ -630,6 +634,7 @@ in {
   TextTest14,
   TimeTest0,
   TimeTest1,
+  TimeTest2,
   Person,
   People,
   OptionalTest0,

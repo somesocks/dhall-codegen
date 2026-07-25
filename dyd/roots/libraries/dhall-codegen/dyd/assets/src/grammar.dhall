@@ -79,7 +79,7 @@ let textMeta = nodeMeta
 let textNode =
       { Type = { props : textProps.Type, meta : textMeta.Type }, default = {=} }
 
-let timeVariants = < none >
+let timeVariants = < none | date >
 
 let timeProps =
       { Type = { variant : timeVariants }, default.variant = timeVariants.none }

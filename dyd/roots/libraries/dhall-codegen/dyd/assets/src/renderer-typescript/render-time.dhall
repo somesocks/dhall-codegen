@@ -21,7 +21,9 @@ let renderTimeVariant
     = \(time : TimeMode) ->
       \(variant : s.time.variants) ->
         merge
-          { none = merge { LEGACY = "Date", TEMPORAL = "Temporal.Instant" } time }
+          { none = merge { LEGACY = "Date", TEMPORAL = "Temporal.Instant" } time
+          , date = merge { LEGACY = "Date", TEMPORAL = "Temporal.PlainDate" } time
+          }
           variant
 
 let renderTime

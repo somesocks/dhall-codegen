@@ -205,13 +205,23 @@ let PhoneNumber =
 
 #### Time
 
-Represents a timestamp.
+Represents a temporal value.
+
+Variants:
+
+- `none` (default) - a timestamp
+- `date` - a calendar date
 
 ```dhall
 let CreatedAt =
       s.time.from
         s.time.props::{=}
         s.time.meta::{ description = Some "ISO-8601 date-time" }
+
+let BirthDate =
+      s.time.from
+        (s.time.props::{ variant = s.time.variants.date })
+        s.time.meta::{ description = Some "calendar date" }
 ```
 
 #### Reference

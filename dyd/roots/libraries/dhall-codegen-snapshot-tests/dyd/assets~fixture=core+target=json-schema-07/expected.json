@@ -154,6 +154,12 @@
 				"description" : "comment",
 				"format" : "date-time"
 			},
+		"TimeTest2":
+			{
+				"type" : "string",
+				"description" : "calendar date",
+				"format" : "date"
+			},
 		"Person":
 			{
 				"type" : "object",

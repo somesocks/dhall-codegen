@@ -36,7 +36,7 @@
 						{
 							"type" : "string",
 							"description" : "date of birth",
-							"format" : "date-time"
+							"format" : "date"
 						},
 					"destination_ip" :
 						{

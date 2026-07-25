@@ -85,6 +85,9 @@ export type TimeTest0 = Date;
  /** time test 1 */
 export type TimeTest1 = /** comment */ Date;
 
+ /** time test 2 */
+export type TimeTest2 = /** calendar date */ Date;
+
 export type Person = { age : number; deceased : boolean; name : string; };
 
 export type People = Array< /** reference to person type */ Person >;

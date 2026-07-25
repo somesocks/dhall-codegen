@@ -168,6 +168,12 @@ export type TTimeTest1 =
 	/** comment */
 	Date;
 
+
+/** time test 2 */
+export type TTimeTest2 =
+	/** calendar date */
+	Date;
+
 export type TPerson =
 	{
 		age :

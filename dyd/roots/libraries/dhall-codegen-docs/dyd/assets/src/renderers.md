@@ -83,7 +83,7 @@ TS.options.Type =
 
 - `indent` and `break` control formatting.
 - `prefix` is prepended to exported root type names.
-- `time = TS.time.LEGACY` (the default) renders time values as `Date`; `time = TS.time.TEMPORAL` renders them as `Temporal.Instant`.
+- `time = TS.time.LEGACY` (the default) renders time values as `Date`; `time = TS.time.TEMPORAL` renders timestamps as `Temporal.Instant` and calendar dates as `Temporal.PlainDate`.
 - Temporal mode emits no imports. Supply a `Temporal` binding through `Document.headers` when the generated code needs one.
 
 ### Output Shape
@@ -190,7 +190,7 @@ See [Transformers](./transformers.md) for details.
 ### Output Shape
 
 - Draft 2020-12 uses `$defs`; draft-07 uses `definitions`.
-- `time` renders as a string with `format: "date-time"`.
+- `time.none` renders as a string with `format: "date-time"`; `time.date` uses `format: "date"`.
 - Text variants such as email, URL, `base64`, `base64url`, `e164`, `ipv4`, `ipv6`, `uuid`, `isoDate`, `isoDateTime`, `isoDuration`, and `isoTime` render as strings; Base64 variants emit content-encoding metadata and assertion patterns, E.164 emits an assertion pattern, and the ISO variants use `date`, `date-time`, `duration`, and `time`.
 - Descriptions render as JSON Schema `description` fields.
 

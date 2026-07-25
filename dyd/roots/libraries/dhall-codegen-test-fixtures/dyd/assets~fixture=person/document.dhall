@@ -37,7 +37,7 @@ let Person =
                   s.text.meta::{ description = Some "ISO 8601 duration" }
             , date_of_birth =
                 s.time.from
-                  s.time.props::{=}
+                  s.time.props::{ variant = s.time.variants.date }
                   s.time.meta::{ description = Some "date of birth" }
             , id =
                 s.text.from

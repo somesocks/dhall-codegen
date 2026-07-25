@@ -12,6 +12,10 @@ let RenderFragment = common.RenderFragment
 
 let renderDescription = ./render-description.dhall
 
+let renderTimeVariant
+    : s.time.variants -> Text
+    = \(variant : s.time.variants) -> merge { none = "time.Time", date = "time.Time" } variant
+
 let renderTime
     : s.time.node.Type -> RenderFragment
     = \(node : s.time.node.Type) ->
@@ -19,7 +23,7 @@ let renderTime
         let description =
               (renderDescription node.meta.description ctx).expression
 
-        let definition = "time.Time"
+        let definition = renderTimeVariant node.props.variant
 
         let expression = description ++ definition
 

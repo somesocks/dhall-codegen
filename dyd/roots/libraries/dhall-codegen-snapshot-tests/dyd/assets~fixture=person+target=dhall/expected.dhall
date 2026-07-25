@@ -17,7 +17,7 @@ let Person =
       Text,
     date_of_birth :
       {- date of birth -}
-      Time,
+      Date,
     destination_ip :
       {- IPv6 address -}
       Text,

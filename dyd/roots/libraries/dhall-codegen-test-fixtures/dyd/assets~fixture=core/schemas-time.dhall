@@ -13,7 +13,12 @@ let testSchema2 =
         s.time.props::{=}
         s.time.meta::{ description = Some "comment" }
 
-let schemas = [ testSchema1, testSchema2 ]
+let testSchema3 =
+      s.time.from
+        s.time.props::{ variant = s.time.variants.date }
+        s.time.meta::{ description = Some "calendar date" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3 ]
 
 let mapSchema =
       \(index : Natural) ->
