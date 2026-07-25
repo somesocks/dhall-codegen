@@ -99,6 +99,12 @@
 				"description" : "RFC 3339 time",
 				"format": "time"
 			},
+		"TextTest8":
+			{
+				"type": "string",
+				"description" : "ISO 8601 duration",
+				"format": "duration"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

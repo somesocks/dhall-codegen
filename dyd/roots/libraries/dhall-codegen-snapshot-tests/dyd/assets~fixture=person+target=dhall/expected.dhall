@@ -24,6 +24,9 @@ let Person =
     name :
       {- full name -}
       Text,
+    retention_period :
+      {- ISO 8601 duration -}
+      Text,
     contact_email : Optional 
       {- contact email (we might not have this) -}
       Text

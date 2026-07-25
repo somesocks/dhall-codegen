@@ -24,6 +24,9 @@ export type TPerson =
 		name :
 			/** full name */
 			string;
+		retention_period :
+			/** ISO 8601 duration */
+			string;
 		contact_email ?:
 			/** contact email (we might not have this) */
 			string;
@@ -45,6 +48,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			).describe("friends"),
 		name :
 			z.string().describe("full name"),
+		retention_period :
+			z.string().duration().describe("ISO 8601 duration"),
 		contact_email :
 			z.string().email().describe("contact email (we might not have this)").optional(),
 	}));

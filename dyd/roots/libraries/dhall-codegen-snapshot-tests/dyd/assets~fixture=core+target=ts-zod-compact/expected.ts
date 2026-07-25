@@ -83,6 +83,10 @@ export type TTextTest6 = z.infer<typeof TextTest6>
 export const TextTest7 = z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time");
 export type TTextTest7 = z.infer<typeof TextTest7>
 
+ /** text test 8 */
+export const TextTest8 = z.string().duration().describe("ISO 8601 duration");
+export type TTextTest8 = z.infer<typeof TextTest8>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>

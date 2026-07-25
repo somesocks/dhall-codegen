@@ -20,6 +20,9 @@ export type Person =
 		name :
 			/** full name */
 			string;
+		retention_period :
+			/** ISO 8601 duration */
+			string;
 		contact_email ?:
 			/** contact email (we might not have this) */
 			string;

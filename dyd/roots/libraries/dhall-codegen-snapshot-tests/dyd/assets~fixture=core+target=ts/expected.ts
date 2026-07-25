@@ -116,6 +116,12 @@ export type TextTest7 =
 	string;
 
 
+/** text test 8 */
+export type TextTest8 =
+	/** ISO 8601 duration */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;

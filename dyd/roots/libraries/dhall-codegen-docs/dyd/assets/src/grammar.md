@@ -131,6 +131,7 @@ Variants:
 - `url`
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
+- `isoDuration` - a full ISO 8601 duration, including calendar units such as `P1Y2M`
 - `isoTime` - an RFC 3339 time string with a required timezone
 - `literal : Text`
 
@@ -158,6 +159,11 @@ let BirthDate =
 let AppointmentTime =
       s.text.from
         (s.text.props::{ variant = s.text.variants.isoTime })
+        s.text.meta::{=}
+
+let RetentionPeriod =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.isoDuration })
         s.text.meta::{=}
 ```
 

@@ -13,9 +13,11 @@ const ada: Person = {
       date_of_birth: new Date("1906-12-09T00:00:00Z"),
       friends: [],
       name: "Grace Hopper",
+      retention_period: "P2W",
     },
   ],
   name: "Ada Lovelace",
+  retention_period: "P1Y2M3DT4H5M6S",
 };
 
 const email: string | undefined = ada.contact_email;

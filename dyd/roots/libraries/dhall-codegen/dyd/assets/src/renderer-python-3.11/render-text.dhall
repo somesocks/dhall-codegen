@@ -23,6 +23,7 @@ let renderTextVariant
           , url = "str"
           , isoDate = "str"
           , isoDateTime = "str"
+          , isoDuration = "str"
           , isoTime = "str"
           , literal = \(x : Text) -> "Literal['${x}']"
           }

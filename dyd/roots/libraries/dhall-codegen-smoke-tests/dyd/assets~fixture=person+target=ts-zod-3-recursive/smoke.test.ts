@@ -14,9 +14,11 @@ const ada: TPerson = {
       date_of_birth: new Date("1906-12-09T00:00:00Z"),
       friends: [],
       name: "Grace Hopper",
+      retention_period: "P2W",
     },
   ],
   name: "Ada Lovelace",
+  retention_period: "P1Y2M3DT4H5M6S",
 };
 
 const parsed: TPerson = Person.parse(ada);
@@ -53,5 +55,11 @@ for (const birth_date of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) {
 for (const appointment_time of ["14:30:00", "143000Z", "24:00:00Z"]) {
   if (Person.safeParse({ ...ada, appointment_time }).success) {
     throw new Error(`expected invalid appointment_time to fail validation: ${appointment_time}`);
+  }
+}
+
+for (const retention_period of ["P", "P1Y2MT", "1Y2M"]) {
+  if (Person.safeParse({ ...ada, retention_period }).success) {
+    throw new Error(`expected invalid retention_period to fail validation: ${retention_period}`);
   }
 }

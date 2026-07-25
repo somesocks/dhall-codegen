@@ -12,8 +12,9 @@ func TestPersonJSONRoundTrip(t *testing.T) {
 		AppointmentTime: "14:30:00.123+02:00",
 		BirthDate:    "1815-12-10",
 		DateOfBirth:  time.Date(1815, time.December, 10, 0, 0, 0, 0, time.UTC),
-		Friends:      []Person{{AppointmentTime: "09:00:00Z", BirthDate: "1906-12-09", Name: "Grace", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
+		Friends:      []Person{{AppointmentTime: "09:00:00Z", BirthDate: "1906-12-09", Name: "Grace", RetentionPeriod: "P2W", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
 		Name:         "Ada Lovelace",
+		RetentionPeriod: "P1Y2M3DT4H5M6S",
 		ContactEmail: &email,
 	}
 

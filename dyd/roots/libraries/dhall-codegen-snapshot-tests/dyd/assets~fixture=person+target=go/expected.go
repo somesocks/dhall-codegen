@@ -9,5 +9,6 @@ type Person struct {
 	DateOfBirth time.Time `json:"date_of_birth"`
 	Friends []Person `json:"friends"`
 	Name string `json:"name"`
+	RetentionPeriod string `json:"retention_period"`
 	ContactEmail *string `json:"contact_email,omitempty"`
 }

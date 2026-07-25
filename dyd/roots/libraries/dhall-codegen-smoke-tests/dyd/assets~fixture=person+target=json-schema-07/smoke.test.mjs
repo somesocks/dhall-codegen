@@ -25,9 +25,11 @@ const validPerson = {
       date_of_birth: "1906-12-09T00:00:00Z",
       friends: [],
       name: "Grace Hopper",
+      retention_period: "P2W",
     },
   ],
   name: "Ada Lovelace",
+  retention_period: "P1Y2M3DT4H5M6S",
   contact_email: "ada@example.com",
 };
 
@@ -49,6 +51,11 @@ for (const birth_date of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) {
 
 for (const appointment_time of ["14:30:00", "143000Z", "24:00:00Z"]) {
   assert.equal(validatePerson({ ...validPerson, appointment_time }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+}
+
+for (const retention_period of ["P", "P1Y2MT", "1Y2M"]) {
+  assert.equal(validatePerson({ ...validPerson, retention_period }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
 }
 

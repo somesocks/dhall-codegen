@@ -76,6 +76,10 @@ let TextTest7 =
   {- RFC 3339 time -}
   Text
 
+let TextTest8 =
+  {- ISO 8601 duration -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -593,6 +597,7 @@ in {
   TextTest5,
   TextTest6,
   TextTest7,
+  TextTest8,
   TimeTest0,
   TimeTest1,
   Person,

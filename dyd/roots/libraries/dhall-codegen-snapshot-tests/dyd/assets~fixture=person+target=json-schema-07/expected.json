@@ -45,6 +45,12 @@
 							"type": "string",
 							"description" : "full name"
 						},
+					"retention_period" :
+						{
+							"type": "string",
+							"description" : "ISO 8601 duration",
+							"format": "duration"
+						},
 					"contact_email" :
 						{
 							"type": "string",
@@ -58,7 +64,8 @@
 					"created_at",
 					"date_of_birth",
 					"friends",
-					"name"
+					"name",
+					"retention_period"
 				],
 				"additionalProperties" : false
 			}

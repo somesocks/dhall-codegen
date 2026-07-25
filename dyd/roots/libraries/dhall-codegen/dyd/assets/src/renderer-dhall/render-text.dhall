@@ -31,6 +31,7 @@ let renderTextType
                 , url = "${p0}Text"
                 , isoDate = "${p0}Text"
                 , isoDateTime = "${p0}Text"
+                , isoDuration = "${p0}Text"
                 , isoTime = "${p0}Text"
                 , literal = λ(x : Text) → "${p0}Text"
                 }

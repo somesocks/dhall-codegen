@@ -124,6 +124,12 @@ export const TextTest7 =
 export type TTextTest7 = z.infer<typeof TextTest7>
 
 
+	/** text test 8 */
+export const TextTest8 =
+	z.string().duration().describe("ISO 8601 duration");
+export type TTextTest8 = z.infer<typeof TextTest8>
+
+
 	/** time test 0 */
 export const TimeTest0 =
 	z.date();

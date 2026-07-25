@@ -9,6 +9,7 @@ grace = Person(
     date_of_birth=datetime(1906, 12, 9, tzinfo=timezone.utc),
     friends=[],
     name="Grace Hopper",
+    retention_period="P2W",
     contact_email=None,
     created_at="1906-12-09T00:00:00Z",
 )
@@ -19,6 +20,7 @@ ada = Person(
     date_of_birth=datetime(1815, 12, 10, tzinfo=timezone.utc),
     friends=[grace],
     name="Ada Lovelace",
+    retention_period="P1Y2M3DT4H5M6S",
     contact_email="ada@example.com",
     created_at="1815-12-10T00:00:00Z",
 )
@@ -31,3 +33,4 @@ assert dumped["contact_email"] == "ada@example.com"
 assert dumped["created_at"] == "1815-12-10T00:00:00Z"
 assert dumped["birth_date"] == "1815-12-10"
 assert dumped["appointment_time"] == "14:30:00.123+02:00"
+assert dumped["retention_period"] == "P1Y2M3DT4H5M6S"
