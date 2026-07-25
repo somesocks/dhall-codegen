@@ -15,6 +15,10 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.isoTime }
                   s.text.meta::{ description = Some "RFC 3339 time" }
+            , binary_data =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.base64 }
+                  s.text.meta::{ description = Some "RFC 4648 Base64" }
             , birth_date =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.isoDate }
@@ -43,6 +47,10 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.ipv4 }
                   s.text.meta::{ description = Some "IPv4 address" }
+            , token =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.base64url }
+                  s.text.meta::{ description = Some "RFC 4648 Base64url" }
             , destination_ip =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.ipv6 }

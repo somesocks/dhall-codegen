@@ -92,6 +92,14 @@ let TextTest11 =
   {- IPv6 address -}
   Text
 
+let TextTest12 =
+  {- RFC 4648 Base64 -}
+  Text
+
+let TextTest13 =
+  {- RFC 4648 Base64url -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -613,6 +621,8 @@ in {
   TextTest9,
   TextTest10,
   TextTest11,
+  TextTest12,
+  TextTest13,
   TimeTest0,
   TimeTest1,
   Person,

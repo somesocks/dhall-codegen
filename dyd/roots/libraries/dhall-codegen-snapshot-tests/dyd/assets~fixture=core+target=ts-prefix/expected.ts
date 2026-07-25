@@ -140,6 +140,18 @@ export type TTextTest11 =
 	string;
 
 
+/** text test 12 */
+export type TTextTest12 =
+	/** RFC 4648 Base64 */
+	string;
+
+
+/** text test 13 */
+export type TTextTest13 =
+	/** RFC 4648 Base64url */
+	string;
+
+
 /** time test 0 */
 export type TTimeTest0 =
 	Date;

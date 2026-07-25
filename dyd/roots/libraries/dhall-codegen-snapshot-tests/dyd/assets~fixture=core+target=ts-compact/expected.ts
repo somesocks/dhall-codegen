@@ -70,6 +70,12 @@ export type TextTest10 = /** IPv4 address */ string;
  /** text test 11 */
 export type TextTest11 = /** IPv6 address */ string;
 
+ /** text test 12 */
+export type TextTest12 = /** RFC 4648 Base64 */ string;
+
+ /** text test 13 */
+export type TextTest13 = /** RFC 4648 Base64url */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

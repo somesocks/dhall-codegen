@@ -6,6 +6,9 @@ let Person =
     appointment_time :
       {- RFC 3339 time -}
       Text,
+    binary_data :
+      {- RFC 4648 Base64 -}
+      Text,
     birth_date :
       {- ISO 8601 calendar date -}
       Text,
@@ -35,6 +38,9 @@ let Person =
       Text,
     source_ip :
       {- IPv4 address -}
+      Text,
+    token :
+      {- RFC 4648 Base64url -}
       Text,
     contact_email : Optional 
       {- contact email (we might not have this) -}

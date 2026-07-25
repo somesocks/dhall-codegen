@@ -74,6 +74,12 @@ type TextTest10 string
 // text test 11
 type TextTest11 string
 
+// text test 12
+type TextTest12 string
+
+// text test 13
+type TextTest13 string
+
 // time test 0
 type TimeTest0 time.Time
 

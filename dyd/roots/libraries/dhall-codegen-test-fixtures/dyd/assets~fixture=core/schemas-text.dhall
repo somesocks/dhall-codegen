@@ -67,8 +67,18 @@ let testSchema12 =
         s.text.props::{ variant = s.text.variants.ipv6 }
         s.text.meta::{ description = Some "IPv6 address" }
 
+let testSchema13 =
+      s.text.from
+        s.text.props::{ variant = s.text.variants.base64 }
+        s.text.meta::{ description = Some "RFC 4648 Base64" }
+
+let testSchema14 =
+      s.text.from
+        s.text.props::{ variant = s.text.variants.base64url }
+        s.text.meta::{ description = Some "RFC 4648 Base64url" }
+
 let schemas =
-      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11, testSchema12 ]
+      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11, testSchema12, testSchema13, testSchema14 ]
 
 let mapSchema =
       \(index : Natural) ->

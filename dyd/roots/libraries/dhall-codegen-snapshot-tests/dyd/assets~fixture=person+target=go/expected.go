@@ -4,6 +4,7 @@ import "time"
 
 type Person struct {
 	AppointmentTime string `json:"appointment_time"`
+	BinaryData string `json:"binary_data"`
 	BirthDate string `json:"birth_date"`
 	CreatedAt string `json:"created_at"`
 	DateOfBirth time.Time `json:"date_of_birth"`
@@ -13,5 +14,6 @@ type Person struct {
 	Name string `json:"name"`
 	RetentionPeriod string `json:"retention_period"`
 	SourceIp string `json:"source_ip"`
+	Token string `json:"token"`
 	ContactEmail *string `json:"contact_email,omitempty"`
 }

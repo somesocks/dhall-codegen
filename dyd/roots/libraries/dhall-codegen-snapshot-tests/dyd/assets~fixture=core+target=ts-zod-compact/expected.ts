@@ -99,6 +99,14 @@ export type TTextTest10 = z.infer<typeof TextTest10>
 export const TextTest11 = z.string().ip({ version: "v6" }).describe("IPv6 address");
 export type TTextTest11 = z.infer<typeof TextTest11>
 
+ /** text test 12 */
+export const TextTest12 = z.string().regex(/^(?:[A-Za-z0-9+\u002F]{4})*(?:[A-Za-z0-9+\u002F]{2}(?:==)?|[A-Za-z0-9+\u002F]{3}=?)?$/).describe("RFC 4648 Base64");
+export type TTextTest12 = z.infer<typeof TextTest12>
+
+ /** text test 13 */
+export const TextTest13 = z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$/).describe("RFC 4648 Base64url");
+export type TTextTest13 = z.infer<typeof TextTest13>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>

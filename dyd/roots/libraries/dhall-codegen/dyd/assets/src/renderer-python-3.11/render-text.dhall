@@ -21,6 +21,8 @@ let renderTextVariant
           { none = "str"
           , email = "str"
           , url = "str"
+          , base64 = "str"
+          , base64url = "str"
           , ipv4 = "str"
           , ipv6 = "str"
           , isoDate = "str"

@@ -3,6 +3,9 @@ export type Person =
 		appointment_time :
 			/** RFC 3339 time */
 			string;
+		binary_data :
+			/** RFC 4648 Base64 */
+			string;
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;
@@ -31,6 +34,9 @@ export type Person =
 			string;
 		source_ip :
 			/** IPv4 address */
+			string;
+		token :
+			/** RFC 4648 Base64url */
 			string;
 		contact_email ?:
 			/** contact email (we might not have this) */

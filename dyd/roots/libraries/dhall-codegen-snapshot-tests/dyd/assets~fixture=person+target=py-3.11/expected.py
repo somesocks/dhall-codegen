@@ -17,6 +17,7 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 class Person(BaseModel):
     appointment_time : str
+    binary_data : str
     birth_date : str
     created_at : str
     date_of_birth : datetime
@@ -26,4 +27,5 @@ class Person(BaseModel):
     name : str
     retention_period : str
     source_ip : str
+    token : str
     contact_email : (str) | None

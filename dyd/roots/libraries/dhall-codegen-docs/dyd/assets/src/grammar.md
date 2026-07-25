@@ -129,6 +129,8 @@ Variants:
 - `none` (default)
 - `email`
 - `url`
+- `base64` - an RFC 4648 Base64 string with optional padding
+- `base64url` - an RFC 4648 URL-safe Base64 string with optional padding
 - `ipv4` - an IPv4 address
 - `ipv6` - an IPv6 address
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
@@ -182,6 +184,16 @@ let SourceIp =
 let DestinationIp =
       s.text.from
         (s.text.props::{ variant = s.text.variants.ipv6 })
+        s.text.meta::{=}
+
+let BinaryData =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.base64 })
+        s.text.meta::{=}
+
+let Token =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.base64url })
         s.text.meta::{=}
 ```
 

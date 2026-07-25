@@ -19,12 +19,14 @@ const validatePerson = ajv.compile({
 
 const validPerson = {
   appointment_time: "14:30:00.123+02:00",
+  binary_data: "+/8=",
   birth_date: "1815-12-10",
   created_at: "2026-07-25T14:30:00.123+02:00",
   date_of_birth: "1815-12-10T00:00:00Z",
   friends: [
     {
       appointment_time: "09:00:00Z",
+      binary_data: "+/8",
       birth_date: "1906-12-09",
       created_at: "1906-12-09T00:00:00Z",
       date_of_birth: "1906-12-09T00:00:00Z",
@@ -34,6 +36,7 @@ const validPerson = {
       retention_period: "P2W",
       source_ip: "198.51.100.2",
       destination_ip: "2001:db8::2",
+      token: "-_8",
     },
   ],
   id: "123e4567-e89b-42d3-a456-426614174000",
@@ -41,6 +44,7 @@ const validPerson = {
   retention_period: "P1Y2M3DT4H5M6S",
   source_ip: "192.0.2.1",
   destination_ip: "2001:db8::1",
+  token: "-_8=",
   contact_email: "ada@example.com",
 };
 
@@ -83,6 +87,16 @@ for (const source_ip of ["999.0.0.1", "192.0.2", "2001:db8::1"]) {
 for (const destination_ip of ["2001:db8:::1", "192.0.2.1", "2001:db8"]) {
   assert.equal(validatePerson({ ...validPerson, destination_ip }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+}
+
+for (const binary_data of ["YQ=", "Y", "YQ==\n"]) {
+  assert.equal(validatePerson({ ...validPerson, binary_data }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
+}
+
+for (const token of ["+/8=", "YQ=", "Y"]) {
+  assert.equal(validatePerson({ ...validPerson, token }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
 }
 
 const missingRequiredName = { ...validPerson };

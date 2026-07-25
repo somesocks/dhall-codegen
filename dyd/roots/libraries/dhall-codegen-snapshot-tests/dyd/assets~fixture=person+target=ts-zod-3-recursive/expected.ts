@@ -7,6 +7,9 @@ export type TPerson =
 		appointment_time :
 			/** RFC 3339 time */
 			string;
+		binary_data :
+			/** RFC 4648 Base64 */
+			string;
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;
@@ -36,6 +39,9 @@ export type TPerson =
 		source_ip :
 			/** IPv4 address */
 			string;
+		token :
+			/** RFC 4648 Base64url */
+			string;
 		contact_email ?:
 			/** contact email (we might not have this) */
 			string;
@@ -45,6 +51,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 	z.object({
 		appointment_time :
 			z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time"),
+		binary_data :
+			z.string().regex(/^(?:[A-Za-z0-9+\u002F]{4})*(?:[A-Za-z0-9+\u002F]{2}(?:==)?|[A-Za-z0-9+\u002F]{3}=?)?$/).describe("RFC 4648 Base64"),
 		birth_date :
 			z.string().date().describe("ISO 8601 calendar date"),
 		created_at :
@@ -65,6 +73,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().duration().describe("ISO 8601 duration"),
 		source_ip :
 			z.string().ip({ version: "v4" }).describe("IPv4 address"),
+		token :
+			z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$/).describe("RFC 4648 Base64url"),
 		contact_email :
 			z.string().email().describe("contact email (we might not have this)").optional(),
 	}));
