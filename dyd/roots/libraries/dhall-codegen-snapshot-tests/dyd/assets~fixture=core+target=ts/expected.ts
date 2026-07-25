@@ -128,6 +128,12 @@ export type TextTest9 =
 	string;
 
 
+/** text test 10 */
+export type TextTest10 =
+	/** IPv4 address */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;

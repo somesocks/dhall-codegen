@@ -64,6 +64,9 @@ export type TextTest8 = /** ISO 8601 duration */ string;
  /** text test 9 */
 export type TextTest9 = /** RFC 4122 UUID */ string;
 
+ /** text test 10 */
+export type TextTest10 = /** IPv4 address */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

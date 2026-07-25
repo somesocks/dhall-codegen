@@ -84,6 +84,10 @@ let TextTest9 =
   {- RFC 4122 UUID -}
   Text
 
+let TextTest10 =
+  {- IPv4 address -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -603,6 +607,7 @@ in {
   TextTest7,
   TextTest8,
   TextTest9,
+  TextTest10,
   TimeTest0,
   TimeTest1,
   Person,

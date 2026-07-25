@@ -30,6 +30,9 @@ export type TPerson =
 		retention_period :
 			/** ISO 8601 duration */
 			string;
+		source_ip :
+			/** IPv4 address */
+			string;
 		contact_email ?:
 			/** contact email (we might not have this) */
 			string;
@@ -55,6 +58,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().describe("full name"),
 		retention_period :
 			z.string().duration().describe("ISO 8601 duration"),
+		source_ip :
+			z.string().ip({ version: "v4" }).describe("IPv4 address"),
 		contact_email :
 			z.string().email().describe("contact email (we might not have this)").optional(),
 	}));

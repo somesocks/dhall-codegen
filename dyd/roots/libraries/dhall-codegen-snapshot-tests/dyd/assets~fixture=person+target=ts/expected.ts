@@ -26,6 +26,9 @@ export type Person =
 		retention_period :
 			/** ISO 8601 duration */
 			string;
+		source_ip :
+			/** IPv4 address */
+			string;
 		contact_email ?:
 			/** contact email (we might not have this) */
 			string;

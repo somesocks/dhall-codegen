@@ -91,6 +91,10 @@ export type TTextTest8 = z.infer<typeof TextTest8>
 export const TextTest9 = z.string().uuid().describe("RFC 4122 UUID");
 export type TTextTest9 = z.infer<typeof TextTest9>
 
+ /** text test 10 */
+export const TextTest10 = z.string().ip({ version: "v4" }).describe("IPv4 address");
+export type TTextTest10 = z.infer<typeof TextTest10>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>

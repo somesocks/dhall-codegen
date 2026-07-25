@@ -11,5 +11,6 @@ type Person struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 	RetentionPeriod string `json:"retention_period"`
+	SourceIp string `json:"source_ip"`
 	ContactEmail *string `json:"contact_email,omitempty"`
 }

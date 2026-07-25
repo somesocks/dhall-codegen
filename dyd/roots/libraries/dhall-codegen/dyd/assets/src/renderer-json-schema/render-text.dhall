@@ -29,6 +29,7 @@ let renderTextType
                 { none = "${p0}\"type\": \"string\""
                 , email = "${p0}\"type\": \"string\""
                 , url = "${p0}\"type\": \"string\""
+                , ipv4 = "${p0}\"type\": \"string\""
                 , isoDate = "${p0}\"type\": \"string\""
                 , isoDateTime = "${p0}\"type\": \"string\""
                 , isoDuration = "${p0}\"type\": \"string\""
@@ -51,6 +52,7 @@ let renderTextFormat
                 { none = None Text
                 , email = Some "${p0}\"format\": \"email\""
                 , url = Some "${p0}\"format\": \"uri\""
+                , ipv4 = Some "${p0}\"format\": \"ipv4\""
                 , isoDate = Some "${p0}\"format\": \"date\""
                 , isoDateTime = Some "${p0}\"format\": \"date-time\""
                 , isoDuration = Some "${p0}\"format\": \"duration\""

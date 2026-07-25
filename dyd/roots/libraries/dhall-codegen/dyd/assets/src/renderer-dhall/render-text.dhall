@@ -29,6 +29,7 @@ let renderTextType
                 { none = "${p0}Text"
                 , email = "${p0}Text"
                 , url = "${p0}Text"
+                , ipv4 = "${p0}Text"
                 , isoDate = "${p0}Text"
                 , isoDateTime = "${p0}Text"
                 , isoDuration = "${p0}Text"

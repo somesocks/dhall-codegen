@@ -56,6 +56,12 @@
 							"description" : "ISO 8601 duration",
 							"format": "duration"
 						},
+					"source_ip" :
+						{
+							"type": "string",
+							"description" : "IPv4 address",
+							"format": "ipv4"
+						},
 					"contact_email" :
 						{
 							"type": "string",
@@ -71,7 +77,8 @@
 					"friends",
 					"id",
 					"name",
-					"retention_period"
+					"retention_period",
+					"source_ip"
 				],
 				"additionalProperties" : false
 			}

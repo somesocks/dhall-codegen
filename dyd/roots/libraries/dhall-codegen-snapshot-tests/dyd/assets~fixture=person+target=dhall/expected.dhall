@@ -30,6 +30,9 @@ let Person =
     retention_period :
       {- ISO 8601 duration -}
       Text,
+    source_ip :
+      {- IPv4 address -}
+      Text,
     contact_email : Optional 
       {- contact email (we might not have this) -}
       Text

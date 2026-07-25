@@ -110,6 +110,12 @@
 				"description" : "RFC 4122 UUID",
 				"format": "uuid"
 			},
+		"TextTest10":
+			{
+				"type": "string",
+				"description" : "IPv4 address",
+				"format": "ipv4"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

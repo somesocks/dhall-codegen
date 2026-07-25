@@ -68,6 +68,9 @@ type TextTest8 string
 // text test 9
 type TextTest9 string
 
+// text test 10
+type TextTest10 string
+
 // time test 0
 type TimeTest0 time.Time
 

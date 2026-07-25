@@ -37,4 +37,5 @@ class Person(BaseModel):
     id : str
     name : str
     retention_period : str
+    source_ip : str
     contact_email : Optional[str]

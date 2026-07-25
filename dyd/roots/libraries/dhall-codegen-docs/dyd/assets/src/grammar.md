@@ -129,6 +129,7 @@ Variants:
 - `none` (default)
 - `email`
 - `url`
+- `ipv4` - an IPv4 address
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
 - `isoDuration` - a full ISO 8601 duration, including calendar units such as `P1Y2M`
@@ -170,6 +171,11 @@ let RetentionPeriod =
 let Id =
       s.text.from
         (s.text.props::{ variant = s.text.variants.uuid })
+        s.text.meta::{=}
+
+let SourceIp =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.ipv4 })
         s.text.meta::{=}
 ```
 

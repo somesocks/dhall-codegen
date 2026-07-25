@@ -39,6 +39,10 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.uuid }
                   s.text.meta::{ description = Some "RFC 4122 UUID" }
+            , source_ip =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.ipv4 }
+                  s.text.meta::{ description = Some "IPv4 address" }
             , friends =
                 s.list.from
                   s.list.props::{ values = PersonReference }
