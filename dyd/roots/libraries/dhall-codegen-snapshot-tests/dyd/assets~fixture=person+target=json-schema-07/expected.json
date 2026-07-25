@@ -64,6 +64,12 @@
 							"type": "string",
 							"description" : "full name"
 						},
+					"phone_number" :
+						{
+							"type": "string",
+							"description" : "E.164 telephone number",
+							"pattern": "^[+][1-9][0-9]{0,14}$"
+						},
 					"retention_period" :
 						{
 							"type": "string",
@@ -100,6 +106,7 @@
 					"friends",
 					"id",
 					"name",
+					"phone_number",
 					"retention_period",
 					"source_ip",
 					"token"

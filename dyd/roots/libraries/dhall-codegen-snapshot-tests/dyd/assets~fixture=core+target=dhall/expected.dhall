@@ -100,6 +100,10 @@ let TextTest13 =
   {- RFC 4648 Base64url -}
   Text
 
+let TextTest14 =
+  {- E.164 telephone number -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -623,6 +627,7 @@ in {
   TextTest11,
   TextTest12,
   TextTest13,
+  TextTest14,
   TimeTest0,
   TimeTest1,
   Person,

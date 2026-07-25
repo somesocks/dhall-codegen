@@ -25,6 +25,7 @@ class Person(BaseModel):
     friends : list[Person]
     id : str
     name : str
+    phone_number : str
     retention_period : str
     source_ip : str
     token : str

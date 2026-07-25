@@ -137,6 +137,12 @@
 				"contentEncoding": "base64url",
 				"pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$"
 			},
+		"TextTest14":
+			{
+				"type": "string",
+				"description" : "E.164 telephone number",
+				"pattern": "^[+][1-9][0-9]{0,14}$"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

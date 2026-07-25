@@ -152,6 +152,12 @@ export type TTextTest13 =
 	string;
 
 
+/** text test 14 */
+export type TTextTest14 =
+	/** E.164 telephone number */
+	string;
+
+
 /** time test 0 */
 export type TTimeTest0 =
 	Date;

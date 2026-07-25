@@ -11,6 +11,7 @@ grace = Person(
     friends=[],
     id="123e4567-e89b-42d3-a456-426614174001",
     name="Grace Hopper",
+    phone_number="+442079460123",
     retention_period="P2W",
     source_ip="198.51.100.2",
     destination_ip="2001:db8::2",
@@ -27,6 +28,7 @@ ada = Person(
     friends=[grace],
     id="123e4567-e89b-42d3-a456-426614174000",
     name="Ada Lovelace",
+    phone_number="+14155552671",
     retention_period="P1Y2M3DT4H5M6S",
     source_ip="192.0.2.1",
     destination_ip="2001:db8::1",
@@ -45,6 +47,7 @@ assert dumped["birth_date"] == "1815-12-10"
 assert dumped["appointment_time"] == "14:30:00.123+02:00"
 assert dumped["retention_period"] == "P1Y2M3DT4H5M6S"
 assert dumped["id"] == "123e4567-e89b-42d3-a456-426614174000"
+assert dumped["phone_number"] == "+14155552671"
 assert dumped["source_ip"] == "192.0.2.1"
 assert dumped["destination_ip"] == "2001:db8::1"
 assert dumped["binary_data"] == "+/8="

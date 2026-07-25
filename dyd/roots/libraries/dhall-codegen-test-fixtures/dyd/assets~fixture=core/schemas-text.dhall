@@ -77,8 +77,13 @@ let testSchema14 =
         s.text.props::{ variant = s.text.variants.base64url }
         s.text.meta::{ description = Some "RFC 4648 Base64url" }
 
+let testSchema15 =
+      s.text.from
+        s.text.props::{ variant = s.text.variants.e164 }
+        s.text.meta::{ description = Some "E.164 telephone number" }
+
 let schemas =
-      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11, testSchema12, testSchema13, testSchema14 ]
+      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11, testSchema12, testSchema13, testSchema14, testSchema15 ]
 
 let mapSchema =
       \(index : Natural) ->

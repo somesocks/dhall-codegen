@@ -76,6 +76,9 @@ export type TextTest12 = /** RFC 4648 Base64 */ string;
  /** text test 13 */
 export type TextTest13 = /** RFC 4648 Base64url */ string;
 
+ /** text test 14 */
+export type TextTest14 = /** E.164 telephone number */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

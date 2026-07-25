@@ -131,6 +131,7 @@ Variants:
 - `url`
 - `base64` - an RFC 4648 Base64 string with optional padding
 - `base64url` - an RFC 4648 URL-safe Base64 string with optional padding
+- `e164` - an E.164 international telephone number
 - `ipv4` - an IPv4 address
 - `ipv6` - an IPv6 address
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
@@ -194,6 +195,11 @@ let BinaryData =
 let Token =
       s.text.from
         (s.text.props::{ variant = s.text.variants.base64url })
+        s.text.meta::{=}
+
+let PhoneNumber =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.e164 })
         s.text.meta::{=}
 ```
 

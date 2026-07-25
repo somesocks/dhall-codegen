@@ -33,6 +33,7 @@ const validPerson = {
       friends: [],
       id: "123e4567-e89b-42d3-a456-426614174001",
       name: "Grace Hopper",
+      phone_number: "+442079460123",
       retention_period: "P2W",
       source_ip: "198.51.100.2",
       destination_ip: "2001:db8::2",
@@ -41,6 +42,7 @@ const validPerson = {
   ],
   id: "123e4567-e89b-42d3-a456-426614174000",
   name: "Ada Lovelace",
+  phone_number: "+14155552671",
   retention_period: "P1Y2M3DT4H5M6S",
   source_ip: "192.0.2.1",
   destination_ip: "2001:db8::1",
@@ -96,6 +98,11 @@ for (const binary_data of ["YQ=", "Y", "YQ==\n"]) {
 
 for (const token of ["+/8=", "YQ=", "Y"]) {
   assert.equal(validatePerson({ ...validPerson, token }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
+}
+
+for (const phone_number of ["14155552671", "+0", "+1 4155552671", "+1234567890123456"]) {
+  assert.equal(validatePerson({ ...validPerson, phone_number }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
 }
 

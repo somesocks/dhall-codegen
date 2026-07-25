@@ -33,6 +33,9 @@ let Person =
     name :
       {- full name -}
       Text,
+    phone_number :
+      {- E.164 telephone number -}
+      Text,
     retention_period :
       {- ISO 8601 duration -}
       Text,

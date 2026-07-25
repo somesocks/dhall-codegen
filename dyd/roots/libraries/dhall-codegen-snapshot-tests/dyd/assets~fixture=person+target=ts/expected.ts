@@ -29,6 +29,9 @@ export type Person =
 		name :
 			/** full name */
 			string;
+		phone_number :
+			/** E.164 telephone number */
+			string;
 		retention_period :
 			/** ISO 8601 duration */
 			string;

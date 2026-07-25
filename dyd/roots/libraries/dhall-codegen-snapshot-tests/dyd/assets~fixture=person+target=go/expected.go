@@ -12,6 +12,7 @@ type Person struct {
 	Friends []Person `json:"friends"`
 	Id string `json:"id"`
 	Name string `json:"name"`
+	PhoneNumber string `json:"phone_number"`
 	RetentionPeriod string `json:"retention_period"`
 	SourceIp string `json:"source_ip"`
 	Token string `json:"token"`

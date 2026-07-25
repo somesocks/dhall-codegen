@@ -31,6 +31,7 @@ let renderTextType
                 , url = "${p0}\"type\": \"string\""
                 , base64 = "${p0}\"type\": \"string\""
                 , base64url = "${p0}\"type\": \"string\""
+                , e164 = "${p0}\"type\": \"string\""
                 , ipv4 = "${p0}\"type\": \"string\""
                 , ipv6 = "${p0}\"type\": \"string\""
                 , isoDate = "${p0}\"type\": \"string\""
@@ -57,6 +58,7 @@ let renderTextFormat
                 , url = Some "${p0}\"format\": \"uri\""
                 , base64 = None Text
                 , base64url = None Text
+                , e164 = None Text
                 , ipv4 = Some "${p0}\"format\": \"ipv4\""
                 , ipv6 = Some "${p0}\"format\": \"ipv6\""
                 , isoDate = Some "${p0}\"format\": \"date\""
@@ -83,6 +85,7 @@ let renderTextContentEncoding
                 , url = None Text
                 , base64 = Some "${p0}\"contentEncoding\": \"base64\""
                 , base64url = Some "${p0}\"contentEncoding\": \"base64url\""
+                , e164 = None Text
                 , ipv4 = None Text
                 , ipv6 = None Text
                 , isoDate = None Text
@@ -109,6 +112,7 @@ let renderTextPattern
                 , url = None Text
                 , base64 = Some "${p0}\"pattern\": \"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}(?:==)?|[A-Za-z0-9+/]{3}=?)?$\""
                 , base64url = Some "${p0}\"pattern\": \"^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$\""
+                , e164 = Some "${p0}\"pattern\": \"^[+][1-9][0-9]{0,14}$\""
                 , ipv4 = None Text
                 , ipv6 = None Text
                 , isoDate = None Text

@@ -33,6 +33,9 @@ export type TPerson =
 		name :
 			/** full name */
 			string;
+		phone_number :
+			/** E.164 telephone number */
+			string;
 		retention_period :
 			/** ISO 8601 duration */
 			string;
@@ -69,6 +72,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().uuid().describe("RFC 4122 UUID"),
 		name :
 			z.string().describe("full name"),
+		phone_number :
+			z.string().regex(/^[+][1-9][0-9]{0,14}$/).describe("E.164 telephone number"),
 		retention_period :
 			z.string().duration().describe("ISO 8601 duration"),
 		source_ip :

@@ -152,6 +152,12 @@ export type TextTest13 =
 	string;
 
 
+/** text test 14 */
+export type TextTest14 =
+	/** E.164 telephone number */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;

@@ -43,6 +43,10 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.uuid }
                   s.text.meta::{ description = Some "RFC 4122 UUID" }
+            , phone_number =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.e164 }
+                  s.text.meta::{ description = Some "E.164 telephone number" }
             , source_ip =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.ipv4 }

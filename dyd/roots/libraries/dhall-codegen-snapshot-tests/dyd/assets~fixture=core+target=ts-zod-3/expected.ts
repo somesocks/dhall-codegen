@@ -160,6 +160,12 @@ export const TextTest13 =
 export type TTextTest13 = z.infer<typeof TextTest13>
 
 
+	/** text test 14 */
+export const TextTest14 =
+	z.string().regex(/^[+][1-9][0-9]{0,14}$/).describe("E.164 telephone number");
+export type TTextTest14 = z.infer<typeof TextTest14>
+
+
 	/** time test 0 */
 export const TimeTest0 =
 	z.date();

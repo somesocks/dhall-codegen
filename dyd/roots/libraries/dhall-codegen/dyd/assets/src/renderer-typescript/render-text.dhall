@@ -23,6 +23,7 @@ let renderTextVariant
           , url = "string"
           , base64 = "string"
           , base64url = "string"
+          , e164 = "string"
           , ipv4 = "string"
           , ipv6 = "string"
           , isoDate = "string"
