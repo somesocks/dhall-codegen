@@ -52,6 +52,9 @@ export type TextTest4 = /** text literal */ "foo";
  /** text test 5 */
 export type TextTest5 = /** RFC 3339 date-time */ string;
 
+ /** text test 6 */
+export type TextTest6 = /** ISO 8601 calendar date */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

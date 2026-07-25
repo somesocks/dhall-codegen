@@ -112,6 +112,12 @@ export const TextTest5 =
 export type TTextTest5 = z.infer<typeof TextTest5>
 
 
+	/** text test 6 */
+export const TextTest6 =
+	z.iso.date().describe("ISO 8601 calendar date");
+export type TTextTest6 = z.infer<typeof TextTest6>
+
+
 	/** time test 0 */
 export const TimeTest0 =
 	z.date();

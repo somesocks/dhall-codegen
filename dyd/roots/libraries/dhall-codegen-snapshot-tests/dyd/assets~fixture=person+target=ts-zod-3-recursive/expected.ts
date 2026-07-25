@@ -4,6 +4,9 @@ import { z } from 'zod';
 
 export type TPerson =
 	{
+		birth_date :
+			/** ISO 8601 calendar date */
+			string;
 		created_at :
 			/** RFC 3339 date-time */
 			string;
@@ -25,6 +28,8 @@ export type TPerson =
 
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({
+		birth_date :
+			z.string().date().describe("ISO 8601 calendar date"),
 		created_at :
 			z.string().datetime({ offset: true }).describe("RFC 3339 date-time"),
 		date_of_birth :

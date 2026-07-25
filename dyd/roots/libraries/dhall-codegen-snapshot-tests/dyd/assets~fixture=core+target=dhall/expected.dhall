@@ -68,6 +68,10 @@ let TextTest5 =
   {- RFC 3339 date-time -}
   Text
 
+let TextTest6 =
+  {- ISO 8601 calendar date -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -583,6 +587,7 @@ in {
   TextTest3,
   TextTest4,
   TextTest5,
+  TextTest6,
   TimeTest0,
   TimeTest1,
   Person,

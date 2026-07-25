@@ -9,8 +9,9 @@ import (
 func TestPersonJSONRoundTrip(t *testing.T) {
 	email := "ada@example.com"
 	p := Person{
+		BirthDate:    "1815-12-10",
 		DateOfBirth:  time.Date(1815, time.December, 10, 0, 0, 0, 0, time.UTC),
-		Friends:      []Person{{Name: "Grace", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
+		Friends:      []Person{{BirthDate: "1906-12-09", Name: "Grace", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
 		Name:         "Ada Lovelace",
 		ContactEmail: &email,
 	}

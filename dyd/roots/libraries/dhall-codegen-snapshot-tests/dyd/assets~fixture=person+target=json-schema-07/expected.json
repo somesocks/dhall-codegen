@@ -7,6 +7,12 @@
 			{
 				"type" : "object",
 				"properties" : {
+					"birth_date" :
+						{
+							"type": "string",
+							"description" : "ISO 8601 calendar date",
+							"format": "date"
+						},
 					"created_at" :
 						{
 							"type": "string",
@@ -41,6 +47,7 @@
 						}
 				},
 				"required" : [
+					"birth_date",
 					"created_at",
 					"date_of_birth",
 					"friends",

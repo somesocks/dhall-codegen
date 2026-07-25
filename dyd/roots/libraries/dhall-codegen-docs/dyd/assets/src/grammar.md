@@ -129,6 +129,7 @@ Variants:
 - `none` (default)
 - `email`
 - `url`
+- `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
 - `literal : Text`
 
@@ -146,6 +147,11 @@ let Mode =
 let CreatedAt =
       s.text.from
         (s.text.props::{ variant = s.text.variants.isoDateTime })
+        s.text.meta::{=}
+
+let BirthDate =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.isoDate })
         s.text.meta::{=}
 ```
 

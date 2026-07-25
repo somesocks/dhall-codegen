@@ -104,6 +104,12 @@ export type TextTest5 =
 	string;
 
 
+/** text test 6 */
+export type TextTest6 =
+	/** ISO 8601 calendar date */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;

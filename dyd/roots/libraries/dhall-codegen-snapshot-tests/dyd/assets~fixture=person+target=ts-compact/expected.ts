@@ -1,1 +1,1 @@
-export type Person = { created_at : /** RFC 3339 date-time */ string; date_of_birth : /** date of birth */ Date; friends : /** friends */ Array< Person >; name : /** full name */ string; contact_email ?: /** contact email (we might not have this) */ string; };
+export type Person = { birth_date : /** ISO 8601 calendar date */ string; created_at : /** RFC 3339 date-time */ string; date_of_birth : /** date of birth */ Date; friends : /** friends */ Array< Person >; name : /** full name */ string; contact_email ?: /** contact email (we might not have this) */ string; };
