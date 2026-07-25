@@ -21,6 +21,9 @@ let Person =
         List
           Person
       ),
+    id :
+      {- RFC 4122 UUID -}
+      Text,
     name :
       {- full name -}
       Text,

@@ -25,6 +25,7 @@ let renderZod3TextVariant
           , isoDateTime = "z.string().datetime({ offset: true })"
           , isoDuration = "z.string().duration()"
           , isoTime = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/)"
+          , uuid = "z.string().uuid()"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }
           variant
@@ -40,6 +41,7 @@ let renderZod4TextVariant
           , isoDateTime = "z.iso.datetime({ offset: true })"
           , isoDuration = "z.iso.duration()"
           , isoTime = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/)"
+          , uuid = "z.uuid()"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }
           variant

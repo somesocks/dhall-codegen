@@ -91,6 +91,9 @@ TextTest7: TypeAlias = str
 # text test 8
 TextTest8: TypeAlias = str
 
+# text test 9
+TextTest9: TypeAlias = str
+
 # time test 0
 TimeTest0: TypeAlias = datetime
 

@@ -21,6 +21,9 @@ export type TPerson =
 			Array<
 				TPerson
 			>;
+		id :
+			/** RFC 4122 UUID */
+			string;
 		name :
 			/** full name */
 			string;
@@ -46,6 +49,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.array(
 				Person
 			).describe("friends"),
+		id :
+			z.string().uuid().describe("RFC 4122 UUID"),
 		name :
 			z.string().describe("full name"),
 		retention_period :

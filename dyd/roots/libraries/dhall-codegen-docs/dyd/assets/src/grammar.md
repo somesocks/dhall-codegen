@@ -133,6 +133,7 @@ Variants:
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
 - `isoDuration` - a full ISO 8601 duration, including calendar units such as `P1Y2M`
 - `isoTime` - an RFC 3339 time string with a required timezone
+- `uuid` - an RFC 4122 UUID string
 - `literal : Text`
 
 ```dhall
@@ -164,6 +165,11 @@ let AppointmentTime =
 let RetentionPeriod =
       s.text.from
         (s.text.props::{ variant = s.text.variants.isoDuration })
+        s.text.meta::{=}
+
+let Id =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.uuid })
         s.text.meta::{=}
 ```
 

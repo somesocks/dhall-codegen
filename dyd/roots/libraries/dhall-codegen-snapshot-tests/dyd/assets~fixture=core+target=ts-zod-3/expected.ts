@@ -130,6 +130,12 @@ export const TextTest8 =
 export type TTextTest8 = z.infer<typeof TextTest8>
 
 
+	/** text test 9 */
+export const TextTest9 =
+	z.string().uuid().describe("RFC 4122 UUID");
+export type TTextTest9 = z.infer<typeof TextTest9>
+
+
 	/** time test 0 */
 export const TimeTest0 =
 	z.date();

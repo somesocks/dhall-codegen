@@ -61,6 +61,9 @@ export type TextTest7 = /** RFC 3339 time */ string;
  /** text test 8 */
 export type TextTest8 = /** ISO 8601 duration */ string;
 
+ /** text test 9 */
+export type TextTest9 = /** RFC 4122 UUID */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

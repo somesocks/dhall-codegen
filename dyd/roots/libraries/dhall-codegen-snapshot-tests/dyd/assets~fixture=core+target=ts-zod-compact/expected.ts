@@ -87,6 +87,10 @@ export type TTextTest7 = z.infer<typeof TextTest7>
 export const TextTest8 = z.string().duration().describe("ISO 8601 duration");
 export type TTextTest8 = z.infer<typeof TextTest8>
 
+ /** text test 9 */
+export const TextTest9 = z.string().uuid().describe("RFC 4122 UUID");
+export type TTextTest9 = z.infer<typeof TextTest9>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>

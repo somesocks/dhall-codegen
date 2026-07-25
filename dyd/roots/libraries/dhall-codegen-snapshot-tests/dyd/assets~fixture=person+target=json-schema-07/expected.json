@@ -40,6 +40,12 @@
 								},
 							"description" : "friends"
 						},
+					"id" :
+						{
+							"type": "string",
+							"description" : "RFC 4122 UUID",
+							"format": "uuid"
+						},
 					"name" :
 						{
 							"type": "string",
@@ -64,6 +70,7 @@
 					"created_at",
 					"date_of_birth",
 					"friends",
+					"id",
 					"name",
 					"retention_period"
 				],

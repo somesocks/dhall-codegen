@@ -33,6 +33,7 @@ let renderTextType
                 , isoDateTime = "${p0}\"type\": \"string\""
                 , isoDuration = "${p0}\"type\": \"string\""
                 , isoTime = "${p0}\"type\": \"string\""
+                , uuid = "${p0}\"type\": \"string\""
                 , literal = λ(x : Text) → "${p0}\"const\": \"${x}\""
                 }
                 variant
@@ -54,6 +55,7 @@ let renderTextFormat
                 , isoDateTime = Some "${p0}\"format\": \"date-time\""
                 , isoDuration = Some "${p0}\"format\": \"duration\""
                 , isoTime = Some "${p0}\"format\": \"time\""
+                , uuid = Some "${p0}\"format\": \"uuid\""
                 , literal = λ(x : Text) → None Text
                 }
                 variant

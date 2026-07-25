@@ -122,6 +122,12 @@ export type TextTest8 =
 	string;
 
 
+/** text test 9 */
+export type TextTest9 =
+	/** RFC 4122 UUID */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;

@@ -35,6 +35,10 @@ let Person =
                 s.time.from
                   s.time.props::{=}
                   s.time.meta::{ description = Some "date of birth" }
+            , id =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.uuid }
+                  s.text.meta::{ description = Some "RFC 4122 UUID" }
             , friends =
                 s.list.from
                   s.list.props::{ values = PersonReference }

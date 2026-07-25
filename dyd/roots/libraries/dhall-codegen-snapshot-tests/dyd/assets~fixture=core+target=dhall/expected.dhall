@@ -80,6 +80,10 @@ let TextTest8 =
   {- ISO 8601 duration -}
   Text
 
+let TextTest9 =
+  {- RFC 4122 UUID -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -598,6 +602,7 @@ in {
   TextTest6,
   TextTest7,
   TextTest8,
+  TextTest9,
   TimeTest0,
   TimeTest1,
   Person,

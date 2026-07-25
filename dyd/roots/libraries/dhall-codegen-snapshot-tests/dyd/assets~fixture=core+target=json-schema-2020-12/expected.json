@@ -104,6 +104,12 @@
 				"description" : "ISO 8601 duration",
 				"format": "duration"
 			},
+		"TextTest9":
+			{
+				"type": "string",
+				"description" : "RFC 4122 UUID",
+				"format": "uuid"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

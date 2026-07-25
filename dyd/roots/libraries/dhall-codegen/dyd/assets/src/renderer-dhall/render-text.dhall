@@ -33,6 +33,7 @@ let renderTextType
                 , isoDateTime = "${p0}Text"
                 , isoDuration = "${p0}Text"
                 , isoTime = "${p0}Text"
+                , uuid = "${p0}Text"
                 , literal = λ(x : Text) → "${p0}Text"
                 }
                 variant

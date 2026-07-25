@@ -17,6 +17,9 @@ export type Person =
 			Array<
 				Person
 			>;
+		id :
+			/** RFC 4122 UUID */
+			string;
 		name :
 			/** full name */
 			string;

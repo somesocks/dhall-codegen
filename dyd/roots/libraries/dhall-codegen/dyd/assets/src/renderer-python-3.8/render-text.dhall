@@ -25,6 +25,7 @@ let renderTextVariant
           , isoDateTime = "str"
           , isoDuration = "str"
           , isoTime = "str"
+          , uuid = "str"
           , literal = \(x : Text) -> "Literal['${x}']"
           }
           variant

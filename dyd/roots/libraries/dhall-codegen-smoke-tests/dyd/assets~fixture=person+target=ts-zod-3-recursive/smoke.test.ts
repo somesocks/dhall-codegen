@@ -13,10 +13,12 @@ const ada: TPerson = {
       created_at: "1906-12-09T00:00:00Z",
       date_of_birth: new Date("1906-12-09T00:00:00Z"),
       friends: [],
+      id: "123e4567-e89b-42d3-a456-426614174001",
       name: "Grace Hopper",
       retention_period: "P2W",
     },
   ],
+  id: "123e4567-e89b-42d3-a456-426614174000",
   name: "Ada Lovelace",
   retention_period: "P1Y2M3DT4H5M6S",
 };
@@ -61,5 +63,11 @@ for (const appointment_time of ["14:30:00", "143000Z", "24:00:00Z"]) {
 for (const retention_period of ["P", "P1Y2MT", "1Y2M"]) {
   if (Person.safeParse({ ...ada, retention_period }).success) {
     throw new Error(`expected invalid retention_period to fail validation: ${retention_period}`);
+  }
+}
+
+for (const id of ["not-a-uuid", "123e4567e89b42d3a456426614174000", "123e4567-e89b-42d3-a456-42661417400"]) {
+  if (Person.safeParse({ ...ada, id }).success) {
+    throw new Error(`expected invalid id to fail validation: ${id}`);
   }
 }

@@ -21,6 +21,7 @@ class Person(BaseModel):
     created_at : str
     date_of_birth : datetime
     friends : list[Person]
+    id : str
     name : str
     retention_period : str
     contact_email : (str) | None
