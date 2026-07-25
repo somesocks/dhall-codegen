@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Person struct {
-	AppointmentTime string `json:"appointment_time"`
+	AppointmentTime time.Time `json:"appointment_time"`
 	BinaryData string `json:"binary_data"`
 	BirthDate string `json:"birth_date"`
 	CreatedAt string `json:"created_at"`

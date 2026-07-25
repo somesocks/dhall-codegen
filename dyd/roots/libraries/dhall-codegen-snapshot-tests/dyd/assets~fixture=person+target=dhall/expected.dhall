@@ -5,7 +5,7 @@ let Person =
   {
     appointment_time :
       {- ISO 8601 local time -}
-      Text,
+      Time,
     binary_data :
       {- RFC 4648 Base64 -}
       Text,

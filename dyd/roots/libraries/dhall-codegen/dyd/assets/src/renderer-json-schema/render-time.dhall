@@ -19,14 +19,28 @@ let renderPrefix = ./render-prefix.dhall
 let renderDescription2 = ./render-description-2.dhall
 
 let renderTimeFormat
-    : s.time.variants → RenderContext → Text
+    : s.time.variants → RenderContext → Optional Text
     = λ(variant : s.time.variants) →
       λ(ctx : RenderContext) →
         let p0 = renderPrefix ctx
 
         in  merge
-              { none = "${p0}\"format\" : \"date-time\""
-              , date = "${p0}\"format\" : \"date\""
+              { none = Some "${p0}\"format\" : \"date-time\""
+              , date = Some "${p0}\"format\" : \"date\""
+              , time = None Text
+              }
+              variant
+
+let renderTimePattern
+    : s.time.variants → RenderContext → Optional Text
+    = λ(variant : s.time.variants) →
+      λ(ctx : RenderContext) →
+        let p0 = renderPrefix ctx
+
+        in  merge
+              { none = None Text
+              , date = None Text
+              , time = Some "${p0}\"pattern\" : \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
               }
               variant
 
@@ -46,9 +60,11 @@ let renderTime
 
         let description = renderDescription2 node.meta.description ctx1
 
-        let format = Some (renderTimeFormat node.props.variant ctx1)
+        let format = renderTimeFormat node.props.variant ctx1
 
-        let body = [ type, description, format ]
+        let pattern = renderTimePattern node.props.variant ctx1
+
+        let body = [ type, description, format, pattern ]
 
         let body = List/unpackOptionals Text body
 

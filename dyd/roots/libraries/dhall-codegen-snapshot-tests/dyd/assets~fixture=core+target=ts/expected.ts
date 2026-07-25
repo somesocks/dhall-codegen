@@ -174,6 +174,12 @@ export type TimeTest2 =
 	/** calendar date */
 	Date;
 
+
+/** time test 3 */
+export type TimeTest3 =
+	/** local time */
+	string;
+
 export type Person =
 	{
 		age :

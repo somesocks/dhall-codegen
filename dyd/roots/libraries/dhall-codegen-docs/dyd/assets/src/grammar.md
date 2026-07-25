@@ -211,6 +211,7 @@ Variants:
 
 - `none` (default) - a timestamp
 - `date` - a calendar date
+- `time` - a local clock time
 
 ```dhall
 let CreatedAt =
@@ -222,6 +223,11 @@ let BirthDate =
       s.time.from
         (s.time.props::{ variant = s.time.variants.date })
         s.time.meta::{ description = Some "calendar date" }
+
+let AppointmentTime =
+      s.time.from
+        (s.time.props::{ variant = s.time.variants.time })
+        s.time.meta::{ description = Some "local time" }
 ```
 
 #### Reference

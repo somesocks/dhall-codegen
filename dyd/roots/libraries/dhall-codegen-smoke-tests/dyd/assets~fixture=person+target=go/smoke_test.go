@@ -9,11 +9,11 @@ import (
 func TestPersonJSONRoundTrip(t *testing.T) {
 	email := "ada@example.com"
 	p := Person{
-		AppointmentTime: "14:30:00.123",
+		AppointmentTime: time.Date(2000, time.January, 1, 14, 30, 0, 123000000, time.UTC),
 		BinaryData:    "+/8=",
 		BirthDate:    "1815-12-10",
 		DateOfBirth:  time.Date(1815, time.December, 10, 0, 0, 0, 0, time.UTC),
-		Friends:      []Person{{AppointmentTime: "09:00:00", BinaryData: "+/8", BirthDate: "1906-12-09", DestinationIp: "2001:db8::2", Id: "123e4567-e89b-42d3-a456-426614174001", Name: "Grace", PhoneNumber: "+442079460123", RetentionPeriod: "P2W", SourceIp: "198.51.100.2", Token: "-_8", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
+		Friends:      []Person{{AppointmentTime: time.Date(2000, time.January, 1, 9, 0, 0, 0, time.UTC), BinaryData: "+/8", BirthDate: "1906-12-09", DestinationIp: "2001:db8::2", Id: "123e4567-e89b-42d3-a456-426614174001", Name: "Grace", PhoneNumber: "+442079460123", RetentionPeriod: "P2W", SourceIp: "198.51.100.2", Token: "-_8", DateOfBirth: time.Date(1906, time.December, 9, 0, 0, 0, 0, time.UTC)}},
 		Id:           "123e4567-e89b-42d3-a456-426614174000",
 		Name:         "Ada Lovelace",
 		PhoneNumber:  "+14155552671",

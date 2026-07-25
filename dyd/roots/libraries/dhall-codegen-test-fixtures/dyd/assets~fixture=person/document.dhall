@@ -12,9 +12,9 @@ let Person =
         s.record.props::{
         , required = toMap
             { appointment_time =
-                s.text.from
-                  s.text.props::{ variant = s.text.variants.isoTime }
-                  s.text.meta::{ description = Some "ISO 8601 local time" }
+                s.time.from
+                  s.time.props::{ variant = s.time.variants.time }
+                  s.time.meta::{ description = Some "ISO 8601 local time" }
             , binary_data =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.base64 }

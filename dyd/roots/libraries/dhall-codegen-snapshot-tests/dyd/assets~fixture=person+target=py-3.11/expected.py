@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
-from datetime import date, datetime
+from datetime import date, datetime, time
 from typing import Annotated, Any, Literal, Protocol, TypeAlias
 
 from pydantic import BaseModel, TypeAdapter
@@ -16,7 +16,7 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 
 class Person(BaseModel):
-    appointment_time : str
+    appointment_time : time
     binary_data : str
     birth_date : str
     created_at : str

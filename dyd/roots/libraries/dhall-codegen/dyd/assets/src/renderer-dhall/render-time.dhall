@@ -20,7 +20,7 @@ let renderDescription = ./render-description.dhall
 
 let renderTimeVariant
     : s.time.variants → Text
-    = λ(variant : s.time.variants) → merge { none = "Time", date = "Date" } variant
+    = λ(variant : s.time.variants) → merge { none = "Time", date = "Date", time = "Time" } variant
 
 let renderTime
     : Schema.time.node.Type → RenderFragment

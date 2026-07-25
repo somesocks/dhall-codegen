@@ -115,6 +115,10 @@ let TimeTest2 =
   {- calendar date -}
   Date
 
+let TimeTest3 =
+  {- local time -}
+  Time
+
 let Person =
   {
     age :
@@ -635,6 +639,7 @@ in {
   TimeTest0,
   TimeTest1,
   TimeTest2,
+  TimeTest3,
   Person,
   People,
   OptionalTest0,

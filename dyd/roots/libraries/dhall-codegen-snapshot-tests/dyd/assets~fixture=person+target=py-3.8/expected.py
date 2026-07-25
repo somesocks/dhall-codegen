@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, time
 from pydantic import BaseModel, Field, TypeAdapter
 from typing import (
     Any, Optional, Union, List, Set, Dict, Tuple, Callable, Literal
@@ -29,7 +29,7 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 
 class Person(BaseModel):
-    appointment_time : str
+    appointment_time : time
     binary_data : str
     birth_date : str
     created_at : str

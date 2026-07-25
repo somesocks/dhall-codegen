@@ -1,10 +1,10 @@
-from datetime import date
+from datetime import date, time
 
 from out import Person
 
 
 grace = Person(
-    appointment_time="09:00:00",
+    appointment_time=time(9, 0),
     binary_data="+/8",
     birth_date="1906-12-09",
     date_of_birth=date(1906, 12, 9),
@@ -21,7 +21,7 @@ grace = Person(
 )
 
 ada = Person(
-    appointment_time="14:30:00.123",
+    appointment_time=time(14, 30, 0, 123000),
     binary_data="+/8=",
     birth_date="1815-12-10",
     date_of_birth=date(1815, 12, 10),
@@ -45,7 +45,7 @@ assert dumped["contact_email"] == "ada@example.com"
 assert dumped["date_of_birth"] == date(1815, 12, 10)
 assert dumped["created_at"] == "1815-12-10T00:00:00Z"
 assert dumped["birth_date"] == "1815-12-10"
-assert dumped["appointment_time"] == "14:30:00.123"
+assert dumped["appointment_time"] == time(14, 30, 0, 123000)
 assert dumped["retention_period"] == "P1Y2M3DT4H5M6S"
 assert dumped["id"] == "123e4567-e89b-42d3-a456-426614174000"
 assert dumped["phone_number"] == "+14155552671"

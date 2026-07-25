@@ -74,7 +74,7 @@ let imports =
       ''
       from __future__ import annotations
 
-      from datetime import date, datetime
+      from datetime import date, datetime, time
       from pydantic import BaseModel, Field, TypeAdapter
       from typing import (
           Any, Optional, Union, List, Set, Dict, Tuple, Callable, Literal

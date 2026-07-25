@@ -18,13 +18,21 @@ let renderZod3TimeVariant
     : s.time.variants -> Text
     = \(variant : s.time.variants) ->
         merge
-          { none = "z.date()", date = "z.date()" }
+          { none = "z.date()"
+          , date = "z.date()"
+          , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+          }
           variant
 
 let renderZod4TimeVariant
     : s.time.variants -> Text
     = \(variant : s.time.variants) ->
-        merge { none = "z.date()", date = "z.date()" } variant
+        merge
+          { none = "z.date()"
+          , date = "z.date()"
+          , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+          }
+          variant
 
 let renderTime
     : s.time.node.Type -> RenderFragment

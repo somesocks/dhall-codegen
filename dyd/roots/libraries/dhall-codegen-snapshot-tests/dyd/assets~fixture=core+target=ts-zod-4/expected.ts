@@ -184,6 +184,12 @@ export const TimeTest2 =
 export type TTimeTest2 = z.infer<typeof TimeTest2>
 
 
+	/** time test 3 */
+export const TimeTest3 =
+	z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\s\S])/).describe("local time");
+export type TTimeTest3 = z.infer<typeof TimeTest3>
+
+
 export const Person =
 	z.object({
 		age :

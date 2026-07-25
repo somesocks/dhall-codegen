@@ -88,6 +88,9 @@ export type TimeTest1 = /** comment */ Temporal.Instant;
  /** time test 2 */
 export type TimeTest2 = /** calendar date */ Temporal.PlainDate;
 
+ /** time test 3 */
+export type TimeTest3 = /** local time */ Temporal.PlainTime;
+
 export type Person = { age : number; deceased : boolean; name : string; };
 
 export type People = Array< /** reference to person type */ Person >;

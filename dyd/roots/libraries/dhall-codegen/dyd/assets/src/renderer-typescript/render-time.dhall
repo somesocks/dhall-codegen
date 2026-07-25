@@ -23,6 +23,7 @@ let renderTimeVariant
         merge
           { none = merge { LEGACY = "Date", TEMPORAL = "Temporal.Instant" } time
           , date = merge { LEGACY = "Date", TEMPORAL = "Temporal.PlainDate" } time
+          , time = merge { LEGACY = "string", TEMPORAL = "Temporal.PlainTime" } time
           }
           variant
 
