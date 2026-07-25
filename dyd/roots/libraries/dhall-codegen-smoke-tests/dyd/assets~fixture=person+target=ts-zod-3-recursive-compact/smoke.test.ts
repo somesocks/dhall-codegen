@@ -2,11 +2,13 @@ import { Person } from "./out";
 import type { TPerson } from "./out";
 
 const ada: TPerson = {
+  appointment_time: "14:30:00.123+02:00",
   birth_date: "1815-12-10",
   created_at: "2026-07-25T14:30:00.123+02:00",
   date_of_birth: new Date("1815-12-10T00:00:00Z"),
   friends: [
     {
+      appointment_time: "09:00:00Z",
       birth_date: "1906-12-09",
       created_at: "1906-12-09T00:00:00Z",
       date_of_birth: new Date("1906-12-09T00:00:00Z"),
@@ -45,5 +47,11 @@ for (const created_at of [
 for (const birth_date of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) {
   if (Person.safeParse({ ...ada, birth_date }).success) {
     throw new Error(`expected invalid birth_date to fail validation: ${birth_date}`);
+  }
+}
+
+for (const appointment_time of ["14:30:00", "143000Z", "24:00:00Z"]) {
+  if (Person.safeParse({ ...ada, appointment_time }).success) {
+    throw new Error(`expected invalid appointment_time to fail validation: ${appointment_time}`);
   }
 }

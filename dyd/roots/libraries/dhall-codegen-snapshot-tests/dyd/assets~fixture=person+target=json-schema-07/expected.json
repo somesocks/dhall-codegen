@@ -7,6 +7,12 @@
 			{
 				"type" : "object",
 				"properties" : {
+					"appointment_time" :
+						{
+							"type": "string",
+							"description" : "RFC 3339 time",
+							"format": "time"
+						},
 					"birth_date" :
 						{
 							"type": "string",
@@ -47,6 +53,7 @@
 						}
 				},
 				"required" : [
+					"appointment_time",
 					"birth_date",
 					"created_at",
 					"date_of_birth",

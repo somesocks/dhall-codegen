@@ -42,8 +42,13 @@ let testSchema7 =
         s.text.props::{ variant = s.text.variants.isoDate }
         s.text.meta::{ description = Some "ISO 8601 calendar date" }
 
+let testSchema8 =
+      s.text.from
+        s.text.props::{ variant = s.text.variants.isoTime }
+        s.text.meta::{ description = Some "RFC 3339 time" }
+
 let schemas =
-      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7 ]
+      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8 ]
 
 let mapSchema =
       \(index : Natural) ->

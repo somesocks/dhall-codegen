@@ -118,6 +118,12 @@ export const TextTest6 =
 export type TTextTest6 = z.infer<typeof TextTest6>
 
 
+	/** text test 7 */
+export const TextTest7 =
+	z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time");
+export type TTextTest7 = z.infer<typeof TextTest7>
+
+
 	/** time test 0 */
 export const TimeTest0 =
 	z.date();

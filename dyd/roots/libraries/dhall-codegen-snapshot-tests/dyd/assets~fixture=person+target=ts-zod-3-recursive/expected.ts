@@ -4,6 +4,9 @@ import { z } from 'zod';
 
 export type TPerson =
 	{
+		appointment_time :
+			/** RFC 3339 time */
+			string;
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;
@@ -28,6 +31,8 @@ export type TPerson =
 
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({
+		appointment_time :
+			z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time"),
 		birth_date :
 			z.string().date().describe("ISO 8601 calendar date"),
 		created_at :

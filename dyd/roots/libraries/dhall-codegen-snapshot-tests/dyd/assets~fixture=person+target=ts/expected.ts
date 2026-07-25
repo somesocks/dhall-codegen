@@ -1,5 +1,8 @@
 export type Person =
 	{
+		appointment_time :
+			/** RFC 3339 time */
+			string;
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;

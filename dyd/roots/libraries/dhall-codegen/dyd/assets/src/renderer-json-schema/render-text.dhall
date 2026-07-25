@@ -31,6 +31,7 @@ let renderTextType
                 , url = "${p0}\"type\": \"string\""
                 , isoDate = "${p0}\"type\": \"string\""
                 , isoDateTime = "${p0}\"type\": \"string\""
+                , isoTime = "${p0}\"type\": \"string\""
                 , literal = λ(x : Text) → "${p0}\"const\": \"${x}\""
                 }
                 variant
@@ -50,6 +51,7 @@ let renderTextFormat
                 , url = Some "${p0}\"format\": \"uri\""
                 , isoDate = Some "${p0}\"format\": \"date\""
                 , isoDateTime = Some "${p0}\"format\": \"date-time\""
+                , isoTime = Some "${p0}\"format\": \"time\""
                 , literal = λ(x : Text) → None Text
                 }
                 variant

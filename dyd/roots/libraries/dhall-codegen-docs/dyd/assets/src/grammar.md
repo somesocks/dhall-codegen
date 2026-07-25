@@ -131,6 +131,7 @@ Variants:
 - `url`
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
+- `isoTime` - an RFC 3339 time string with a required timezone
 - `literal : Text`
 
 ```dhall
@@ -152,6 +153,11 @@ let CreatedAt =
 let BirthDate =
       s.text.from
         (s.text.props::{ variant = s.text.variants.isoDate })
+        s.text.meta::{=}
+
+let AppointmentTime =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.isoTime })
         s.text.meta::{=}
 ```
 

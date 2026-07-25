@@ -59,6 +59,9 @@ type TextTest5 string
 // text test 6
 type TextTest6 string
 
+// text test 7
+type TextTest7 string
+
 // time test 0
 type TimeTest0 time.Time
 

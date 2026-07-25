@@ -4,6 +4,7 @@ from out import Person
 
 
 grace = Person(
+    appointment_time="09:00:00Z",
     birth_date="1906-12-09",
     date_of_birth=datetime(1906, 12, 9, tzinfo=timezone.utc),
     friends=[],
@@ -13,6 +14,7 @@ grace = Person(
 )
 
 ada = Person(
+    appointment_time="14:30:00.123+02:00",
     birth_date="1815-12-10",
     date_of_birth=datetime(1815, 12, 10, tzinfo=timezone.utc),
     friends=[grace],
@@ -28,3 +30,4 @@ assert dumped["friends"][0]["name"] == "Grace Hopper"
 assert dumped["contact_email"] == "ada@example.com"
 assert dumped["created_at"] == "1815-12-10T00:00:00Z"
 assert dumped["birth_date"] == "1815-12-10"
+assert dumped["appointment_time"] == "14:30:00.123+02:00"

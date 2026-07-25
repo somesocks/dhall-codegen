@@ -110,6 +110,12 @@ export type TextTest6 =
 	string;
 
 
+/** text test 7 */
+export type TextTest7 =
+	/** RFC 3339 time */
+	string;
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;
