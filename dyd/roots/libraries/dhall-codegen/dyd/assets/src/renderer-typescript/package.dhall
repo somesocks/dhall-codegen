@@ -36,6 +36,8 @@ let RenderFragment = common.RenderFragment
 
 let RenderOptions = common.RenderOptions
 
+let TimeMode = common.TimeMode
+
 let TextNode = common.TextNode
 
 let RenderContext = common.RenderContext
@@ -103,7 +105,7 @@ let renderDocument
 
 let options =
       { Type = RenderOptions
-      , default = { indent = "\t", break = "\n", prefix = "" }
+      , default = { indent = "\t", break = "\n", prefix = "", time = TimeMode.LEGACY }
       }
 
-in  { render = renderDocument, options }
+in  { render = renderDocument, options, time = TimeMode }

@@ -4,7 +4,9 @@ let Schema = Grammar.Schema
 
 let s = Schema
 
-let RenderOptions = { indent : Text, break : Text, prefix : Text }
+let TimeMode = < LEGACY | TEMPORAL >
+
+let RenderOptions = { indent : Text, break : Text, prefix : Text, time : TimeMode }
 
 let RenderContext =
       { index : Natural, depth : Natural, options : RenderOptions }
@@ -15,4 +17,4 @@ let RenderFragment
     : Type
     = RenderContext -> TextNode
 
-in  { RenderContext, RenderOptions, TextNode, RenderFragment }
+in  { TimeMode, RenderContext, RenderOptions, TextNode, RenderFragment }

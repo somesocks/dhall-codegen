@@ -77,11 +77,14 @@ TS.options.Type =
   { indent : Text
   , break : Text
   , prefix : Text
+  , time : < LEGACY | TEMPORAL >
   }
 ```
 
 - `indent` and `break` control formatting.
 - `prefix` is prepended to exported root type names.
+- `time = TS.time.LEGACY` (the default) renders time values as `Date`; `time = TS.time.TEMPORAL` renders them as `Temporal.Instant`.
+- Temporal mode emits no imports. Supply a `Temporal` binding through `Document.headers` when the generated code needs one.
 
 ### Output Shape
 

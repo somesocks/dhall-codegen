@@ -139,6 +139,7 @@ let renderDocument
                       , indent = options.indent
                       , break = options.break
                       , prefix = "T"
+                      , time = renderTypes.time.LEGACY
                       }
                       d
                 , ZOD_4 = ""
@@ -148,6 +149,7 @@ let renderDocument
                       , indent = options.indent
                       , break = options.break
                       , prefix = "T"
+                      , time = renderTypes.time.LEGACY
                       }
                       d
                 }
