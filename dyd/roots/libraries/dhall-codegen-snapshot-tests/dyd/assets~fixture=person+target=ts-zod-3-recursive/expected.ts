@@ -16,6 +16,9 @@ export type TPerson =
 		date_of_birth :
 			/** date of birth */
 			Date;
+		destination_ip :
+			/** IPv6 address */
+			string;
 		friends :
 			/** friends */
 			Array<
@@ -48,6 +51,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().datetime({ offset: true }).describe("RFC 3339 date-time"),
 		date_of_birth :
 			z.date().describe("date of birth"),
+		destination_ip :
+			z.string().ip({ version: "v6" }).describe("IPv6 address"),
 		friends :
 			z.array(
 				Person

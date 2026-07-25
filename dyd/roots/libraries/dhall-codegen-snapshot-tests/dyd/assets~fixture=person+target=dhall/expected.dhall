@@ -15,6 +15,9 @@ let Person =
     date_of_birth :
       {- date of birth -}
       Time,
+    destination_ip :
+      {- IPv6 address -}
+      Text,
     friends :
       (
         {- friends -}

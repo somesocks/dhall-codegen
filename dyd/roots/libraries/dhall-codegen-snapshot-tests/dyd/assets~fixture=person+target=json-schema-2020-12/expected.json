@@ -30,6 +30,12 @@
 							"description" : "date of birth",
 							"format" : "date-time"
 						},
+					"destination_ip" :
+						{
+							"type": "string",
+							"description" : "IPv6 address",
+							"format": "ipv6"
+						},
 					"friends" :
 						{
 							"type" : "array",
@@ -74,6 +80,7 @@
 					"birth_date",
 					"created_at",
 					"date_of_birth",
+					"destination_ip",
 					"friends",
 					"id",
 					"name",

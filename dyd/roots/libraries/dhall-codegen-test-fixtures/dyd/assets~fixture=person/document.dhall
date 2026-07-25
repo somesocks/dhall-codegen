@@ -43,6 +43,10 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.ipv4 }
                   s.text.meta::{ description = Some "IPv4 address" }
+            , destination_ip =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.ipv6 }
+                  s.text.meta::{ description = Some "IPv6 address" }
             , friends =
                 s.list.from
                   s.list.props::{ values = PersonReference }

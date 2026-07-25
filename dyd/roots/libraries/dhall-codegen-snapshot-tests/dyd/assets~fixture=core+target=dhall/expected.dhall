@@ -88,6 +88,10 @@ let TextTest10 =
   {- IPv4 address -}
   Text
 
+let TextTest11 =
+  {- IPv6 address -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -608,6 +612,7 @@ in {
   TextTest8,
   TextTest9,
   TextTest10,
+  TextTest11,
   TimeTest0,
   TimeTest1,
   Person,

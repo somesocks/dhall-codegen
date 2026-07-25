@@ -20,6 +20,7 @@ class Person(BaseModel):
     birth_date : str
     created_at : str
     date_of_birth : datetime
+    destination_ip : str
     friends : list[Person]
     id : str
     name : str

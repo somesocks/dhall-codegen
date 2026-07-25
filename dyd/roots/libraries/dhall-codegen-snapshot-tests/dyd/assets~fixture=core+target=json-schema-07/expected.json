@@ -117,6 +117,12 @@
 				"description" : "IPv4 address",
 				"format": "ipv4"
 			},
+		"TextTest11":
+			{
+				"type": "string",
+				"description" : "IPv6 address",
+				"format": "ipv6"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

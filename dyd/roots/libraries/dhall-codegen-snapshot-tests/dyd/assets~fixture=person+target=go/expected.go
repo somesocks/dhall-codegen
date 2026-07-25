@@ -7,6 +7,7 @@ type Person struct {
 	BirthDate string `json:"birth_date"`
 	CreatedAt string `json:"created_at"`
 	DateOfBirth time.Time `json:"date_of_birth"`
+	DestinationIp string `json:"destination_ip"`
 	Friends []Person `json:"friends"`
 	Id string `json:"id"`
 	Name string `json:"name"`

@@ -62,8 +62,13 @@ let testSchema11 =
         s.text.props::{ variant = s.text.variants.ipv4 }
         s.text.meta::{ description = Some "IPv4 address" }
 
+let testSchema12 =
+      s.text.from
+        s.text.props::{ variant = s.text.variants.ipv6 }
+        s.text.meta::{ description = Some "IPv6 address" }
+
 let schemas =
-      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11 ]
+      [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8, testSchema9, testSchema10, testSchema11, testSchema12 ]
 
 let mapSchema =
       \(index : Natural) ->

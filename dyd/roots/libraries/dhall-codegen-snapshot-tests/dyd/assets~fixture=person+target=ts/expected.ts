@@ -12,6 +12,9 @@ export type Person =
 		date_of_birth :
 			/** date of birth */
 			Date;
+		destination_ip :
+			/** IPv6 address */
+			string;
 		friends :
 			/** friends */
 			Array<

@@ -22,6 +22,7 @@ let renderTextVariant
           , email = "str"
           , url = "str"
           , ipv4 = "str"
+          , ipv6 = "str"
           , isoDate = "str"
           , isoDateTime = "str"
           , isoDuration = "str"

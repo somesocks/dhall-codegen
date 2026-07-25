@@ -67,6 +67,9 @@ export type TextTest9 = /** RFC 4122 UUID */ string;
  /** text test 10 */
 export type TextTest10 = /** IPv4 address */ string;
 
+ /** text test 11 */
+export type TextTest11 = /** IPv6 address */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

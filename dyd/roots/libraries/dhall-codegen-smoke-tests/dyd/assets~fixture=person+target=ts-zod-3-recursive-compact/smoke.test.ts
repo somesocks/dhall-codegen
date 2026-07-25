@@ -17,12 +17,14 @@ const ada: TPerson = {
       name: "Grace Hopper",
       retention_period: "P2W",
       source_ip: "198.51.100.2",
+      destination_ip: "2001:db8::2",
     },
   ],
   id: "123e4567-e89b-42d3-a456-426614174000",
   name: "Ada Lovelace",
   retention_period: "P1Y2M3DT4H5M6S",
   source_ip: "192.0.2.1",
+  destination_ip: "2001:db8::1",
 };
 
 const parsed: TPerson = Person.parse(ada);
@@ -77,5 +79,11 @@ for (const id of ["not-a-uuid", "123e4567e89b42d3a456426614174000", "123e4567-e8
 for (const source_ip of ["999.0.0.1", "192.0.2", "2001:db8::1"]) {
   if (Person.safeParse({ ...ada, source_ip }).success) {
     throw new Error(`expected invalid source_ip to fail validation: ${source_ip}`);
+  }
+}
+
+for (const destination_ip of ["2001:db8:::1", "192.0.2.1", "2001:db8"]) {
+  if (Person.safeParse({ ...ada, destination_ip }).success) {
+    throw new Error(`expected invalid destination_ip to fail validation: ${destination_ip}`);
   }
 }

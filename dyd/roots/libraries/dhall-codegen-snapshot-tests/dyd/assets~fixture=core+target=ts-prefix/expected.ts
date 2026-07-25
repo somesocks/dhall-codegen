@@ -134,6 +134,12 @@ export type TTextTest10 =
 	string;
 
 
+/** text test 11 */
+export type TTextTest11 =
+	/** IPv6 address */
+	string;
+
+
 /** time test 0 */
 export type TTimeTest0 =
 	Date;

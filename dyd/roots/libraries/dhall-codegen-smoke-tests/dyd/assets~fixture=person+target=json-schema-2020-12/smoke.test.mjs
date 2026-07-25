@@ -33,12 +33,14 @@ const validPerson = {
       name: "Grace Hopper",
       retention_period: "P2W",
       source_ip: "198.51.100.2",
+      destination_ip: "2001:db8::2",
     },
   ],
   id: "123e4567-e89b-42d3-a456-426614174000",
   name: "Ada Lovelace",
   retention_period: "P1Y2M3DT4H5M6S",
   source_ip: "192.0.2.1",
+  destination_ip: "2001:db8::1",
   contact_email: "ada@example.com",
 };
 
@@ -75,6 +77,11 @@ for (const id of ["not-a-uuid", "123e4567e89b42d3a456426614174000", "123e4567-e8
 
 for (const source_ip of ["999.0.0.1", "192.0.2", "2001:db8::1"]) {
   assert.equal(validatePerson({ ...validPerson, source_ip }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+}
+
+for (const destination_ip of ["2001:db8:::1", "192.0.2.1", "2001:db8"]) {
+  assert.equal(validatePerson({ ...validPerson, destination_ip }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
 }
 

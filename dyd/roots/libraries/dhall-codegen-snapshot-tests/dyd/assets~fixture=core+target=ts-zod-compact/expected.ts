@@ -95,6 +95,10 @@ export type TTextTest9 = z.infer<typeof TextTest9>
 export const TextTest10 = z.string().ip({ version: "v4" }).describe("IPv4 address");
 export type TTextTest10 = z.infer<typeof TextTest10>
 
+ /** text test 11 */
+export const TextTest11 = z.string().ip({ version: "v6" }).describe("IPv6 address");
+export type TTextTest11 = z.infer<typeof TextTest11>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>
