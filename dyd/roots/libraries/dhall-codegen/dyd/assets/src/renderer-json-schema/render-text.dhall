@@ -29,6 +29,7 @@ let renderTextType
                 { none = "${p0}\"type\": \"string\""
                 , email = "${p0}\"type\": \"string\""
                 , url = "${p0}\"type\": \"string\""
+                , isoDateTime = "${p0}\"type\": \"string\""
                 , literal = λ(x : Text) → "${p0}\"const\": \"${x}\""
                 }
                 variant
@@ -46,6 +47,7 @@ let renderTextFormat
                 { none = None Text
                 , email = Some "${p0}\"format\": \"email\""
                 , url = Some "${p0}\"format\": \"uri\""
+                , isoDateTime = Some "${p0}\"format\": \"date-time\""
                 , literal = λ(x : Text) → None Text
                 }
                 variant

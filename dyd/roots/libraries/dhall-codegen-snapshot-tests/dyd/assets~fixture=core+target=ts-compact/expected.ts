@@ -49,6 +49,9 @@ export type TextTest3 = /** url */ string;
  /** text test 4 */
 export type TextTest4 = /** text literal */ "foo";
 
+ /** text test 5 */
+export type TextTest5 = /** RFC 3339 date-time */ string;
+
  /** time test 0 */
 export type TimeTest0 = Date;
 

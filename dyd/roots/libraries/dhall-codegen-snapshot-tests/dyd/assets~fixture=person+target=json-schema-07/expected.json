@@ -7,6 +7,12 @@
 			{
 				"type" : "object",
 				"properties" : {
+					"created_at" :
+						{
+							"type": "string",
+							"description" : "RFC 3339 date-time",
+							"format": "date-time"
+						},
 					"date_of_birth" :
 						{
 							"type" : "string",
@@ -35,6 +41,7 @@
 						}
 				},
 				"required" : [
+					"created_at",
 					"date_of_birth",
 					"friends",
 					"name"

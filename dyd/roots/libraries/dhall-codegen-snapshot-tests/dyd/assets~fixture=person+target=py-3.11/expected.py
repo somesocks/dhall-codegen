@@ -16,6 +16,7 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 
 class Person(BaseModel):
+    created_at : str
     date_of_birth : datetime
     friends : list[Person]
     name : str

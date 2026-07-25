@@ -13,9 +13,11 @@ assert.equal(ajv.validateSchema(schema), true, ajv.errorsText(ajv.errors));
 const validatePerson = ajv.compile(schema);
 
 const validPerson = {
+  created_at: "2026-07-25T14:30:00.123+02:00",
   date_of_birth: "1815-12-10T00:00:00Z",
   friends: [
     {
+      created_at: "1906-12-09T00:00:00Z",
       date_of_birth: "1906-12-09T00:00:00Z",
       friends: [],
       name: "Grace Hopper",
@@ -26,6 +28,15 @@ const validPerson = {
 };
 
 assert.equal(validatePerson(validPerson), true, ajv.errorsText(validatePerson.errors));
+
+for (const created_at of [
+  "2026-07-25",
+  "2026-07-25T14:30:00",
+  "20260725T143000Z",
+]) {
+  assert.equal(validatePerson({ ...validPerson, created_at }), false);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+}
 
 const missingRequiredName = { ...validPerson };
 delete missingRequiredName.name;

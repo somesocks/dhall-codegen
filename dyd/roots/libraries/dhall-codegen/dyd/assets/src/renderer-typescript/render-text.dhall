@@ -21,6 +21,7 @@ let renderTextVariant
           { none = "string"
           , email = "string"
           , url = "string"
+          , isoDateTime = "string"
           , literal = \(x : Text) -> "\"${x}\""
           }
           variant

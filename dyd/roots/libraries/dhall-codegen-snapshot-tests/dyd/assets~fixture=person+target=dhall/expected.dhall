@@ -3,6 +3,9 @@ let Any : Type = ∀(R : Type) → (∀(A : Type) → A → R) → R
 
 let Person =
   {
+    created_at :
+      {- RFC 3339 date-time -}
+      Text,
     date_of_birth :
       {- date of birth -}
       Time,

@@ -11,7 +11,11 @@ let Person =
       s.record.from
         s.record.props::{
         , required = toMap
-            { name =
+            { created_at =
+                s.text.from
+                  s.text.props::{ variant = s.text.variants.isoDateTime }
+                  s.text.meta::{ description = Some "RFC 3339 date-time" }
+            , name =
                 s.text.from
                   s.text.props::{=}
                   s.text.meta::{ description = Some "full name" }

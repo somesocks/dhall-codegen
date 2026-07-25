@@ -71,6 +71,10 @@ export type TTextTest3 = z.infer<typeof TextTest3>
 export const TextTest4 = z.literal("foo").describe("text literal");
 export type TTextTest4 = z.infer<typeof TextTest4>
 
+ /** text test 5 */
+export const TextTest5 = z.string().datetime({ offset: true }).describe("RFC 3339 date-time");
+export type TTextTest5 = z.infer<typeof TextTest5>
+
  /** time test 0 */
 export const TimeTest0 = z.date();
 export type TTimeTest0 = z.infer<typeof TimeTest0>

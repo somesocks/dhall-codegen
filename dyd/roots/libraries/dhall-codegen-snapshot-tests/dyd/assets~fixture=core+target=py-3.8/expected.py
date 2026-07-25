@@ -79,6 +79,9 @@ TextTest3: TypeAlias = str
 # text test 4
 TextTest4: TypeAlias = Literal['foo']
 
+# text test 5
+TextTest5: TypeAlias = str
+
 # time test 0
 TimeTest0: TypeAlias = datetime
 

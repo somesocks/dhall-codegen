@@ -29,6 +29,7 @@ let renderTextType
                 { none = "${p0}Text"
                 , email = "${p0}Text"
                 , url = "${p0}Text"
+                , isoDateTime = "${p0}Text"
                 , literal = λ(x : Text) → "${p0}Text"
                 }
                 variant

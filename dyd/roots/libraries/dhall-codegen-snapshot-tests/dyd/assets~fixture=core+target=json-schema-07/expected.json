@@ -81,6 +81,12 @@
 				"const": "foo",
 				"description" : "text literal"
 			},
+		"TextTest5":
+			{
+				"type": "string",
+				"description" : "RFC 3339 date-time",
+				"format": "date-time"
+			},
 		"TimeTest0":
 			{
 				"type" : "string",

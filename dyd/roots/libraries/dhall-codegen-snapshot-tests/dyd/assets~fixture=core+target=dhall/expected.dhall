@@ -64,6 +64,10 @@ let TextTest4 =
   {- text literal -}
   Text
 
+let TextTest5 =
+  {- RFC 3339 date-time -}
+  Text
+
 let TimeTest0 =
   Time
 
@@ -578,6 +582,7 @@ in {
   TextTest2,
   TextTest3,
   TextTest4,
+  TextTest5,
   TimeTest0,
   TimeTest1,
   Person,

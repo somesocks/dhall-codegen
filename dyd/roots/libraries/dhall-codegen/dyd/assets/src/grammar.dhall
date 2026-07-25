@@ -69,7 +69,7 @@ let numberNode =
       , default = {=}
       }
 
-let textVariants = < none | email | url | literal : Text >
+let textVariants = < none | email | url | isoDateTime | literal : Text >
 
 let textProps =
       { Type = { variant : textVariants }, default.variant = textVariants.none }

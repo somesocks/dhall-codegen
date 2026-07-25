@@ -129,6 +129,7 @@ Variants:
 - `none` (default)
 - `email`
 - `url`
+- `isoDateTime` - an RFC 3339 date-time string with a required timezone
 - `literal : Text`
 
 ```dhall
@@ -140,6 +141,11 @@ let Email =
 let Mode =
       s.text.from
         (s.text.props::{ variant = s.text.variants.literal "prod" })
+        s.text.meta::{=}
+
+let CreatedAt =
+      s.text.from
+        (s.text.props::{ variant = s.text.variants.isoDateTime })
         s.text.meta::{=}
 ```
 

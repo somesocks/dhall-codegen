@@ -21,6 +21,7 @@ let renderZod3TextVariant
           { none = "z.string()"
           , email = "z.string().email()"
           , url = "z.string().url()"
+          , isoDateTime = "z.string().datetime({ offset: true })"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }
           variant
@@ -32,6 +33,7 @@ let renderZod4TextVariant
           { none = "z.string()"
           , email = "z.email()"
           , url = "z.url()"
+          , isoDateTime = "z.iso.datetime({ offset: true })"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }
           variant

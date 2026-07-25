@@ -1,5 +1,8 @@
 export type Person =
 	{
+		created_at :
+			/** RFC 3339 date-time */
+			string;
 		date_of_birth :
 			/** date of birth */
 			Date;

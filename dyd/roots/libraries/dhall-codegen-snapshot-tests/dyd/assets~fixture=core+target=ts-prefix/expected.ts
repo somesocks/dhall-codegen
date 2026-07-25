@@ -98,6 +98,12 @@ export type TTextTest4 =
 	"foo";
 
 
+/** text test 5 */
+export type TTextTest5 =
+	/** RFC 3339 date-time */
+	string;
+
+
 /** time test 0 */
 export type TTimeTest0 =
 	Date;
