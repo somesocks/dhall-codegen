@@ -212,6 +212,7 @@ Variants:
 - `none` (default) - a timestamp
 - `date` - a calendar date
 - `time` - a local clock time
+- `duration` - a full ISO 8601 duration, including calendar units
 
 ```dhall
 let CreatedAt =
@@ -228,6 +229,11 @@ let AppointmentTime =
       s.time.from
         (s.time.props::{ variant = s.time.variants.time })
         s.time.meta::{ description = Some "local time" }
+
+let RetentionPeriod =
+      s.time.from
+        (s.time.props::{ variant = s.time.variants.duration })
+        s.time.meta::{ description = Some "ISO 8601 duration" }
 ```
 
 #### Reference

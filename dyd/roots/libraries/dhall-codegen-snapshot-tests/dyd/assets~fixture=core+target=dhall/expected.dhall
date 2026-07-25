@@ -119,6 +119,10 @@ let TimeTest3 =
   {- local time -}
   Time
 
+let TimeTest4 =
+  {- ISO 8601 duration -}
+  Text
+
 let Person =
   {
     age :
@@ -640,6 +644,7 @@ in {
   TimeTest1,
   TimeTest2,
   TimeTest3,
+  TimeTest4,
   Person,
   People,
   OptionalTest0,

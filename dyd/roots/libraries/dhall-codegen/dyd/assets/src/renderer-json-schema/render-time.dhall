@@ -28,6 +28,7 @@ let renderTimeFormat
               { none = Some "${p0}\"format\" : \"date-time\""
               , date = Some "${p0}\"format\" : \"date\""
               , time = None Text
+              , duration = Some "${p0}\"format\" : \"duration\""
               }
               variant
 
@@ -41,6 +42,7 @@ let renderTimePattern
               { none = None Text
               , date = None Text
               , time = Some "${p0}\"pattern\" : \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
+              , duration = None Text
               }
               variant
 

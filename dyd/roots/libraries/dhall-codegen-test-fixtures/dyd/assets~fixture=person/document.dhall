@@ -32,9 +32,9 @@ let Person =
                   s.text.props::{=}
                   s.text.meta::{ description = Some "full name" }
             , retention_period =
-                s.text.from
-                  s.text.props::{ variant = s.text.variants.isoDuration }
-                  s.text.meta::{ description = Some "ISO 8601 duration" }
+                s.time.from
+                  s.time.props::{ variant = s.time.variants.duration }
+                  s.time.meta::{ description = Some "ISO 8601 duration" }
             , date_of_birth =
                 s.time.from
                   s.time.props::{ variant = s.time.variants.date }

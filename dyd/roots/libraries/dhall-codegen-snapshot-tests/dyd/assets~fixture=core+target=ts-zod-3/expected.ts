@@ -190,6 +190,12 @@ export const TimeTest3 =
 export type TTimeTest3 = z.infer<typeof TimeTest3>
 
 
+	/** time test 4 */
+export const TimeTest4 =
+	z.string().duration().describe("ISO 8601 duration");
+export type TTimeTest4 = z.infer<typeof TimeTest4>
+
+
 export const Person =
 	z.object({
 		age :

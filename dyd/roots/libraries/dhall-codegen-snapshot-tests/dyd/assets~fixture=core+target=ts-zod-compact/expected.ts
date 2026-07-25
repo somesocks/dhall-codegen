@@ -127,6 +127,10 @@ export type TTimeTest2 = z.infer<typeof TimeTest2>
 export const TimeTest3 = z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\s\S])/).describe("local time");
 export type TTimeTest3 = z.infer<typeof TimeTest3>
 
+ /** time test 4 */
+export const TimeTest4 = z.string().duration().describe("ISO 8601 duration");
+export type TTimeTest4 = z.infer<typeof TimeTest4>
+
 
 export const Person = z.object({ age : z.number().int().nonnegative(), deceased : z.boolean(), name : z.string(), });
 export type TPerson = z.infer<typeof Person>

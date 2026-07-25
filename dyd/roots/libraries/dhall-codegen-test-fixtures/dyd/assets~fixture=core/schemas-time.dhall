@@ -23,7 +23,12 @@ let testSchema4 =
         s.time.props::{ variant = s.time.variants.time }
         s.time.meta::{ description = Some "local time" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
+let testSchema5 =
+      s.time.from
+        s.time.props::{ variant = s.time.variants.duration }
+        s.time.meta::{ description = Some "ISO 8601 duration" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5 ]
 
 let mapSchema =
       \(index : Natural) ->

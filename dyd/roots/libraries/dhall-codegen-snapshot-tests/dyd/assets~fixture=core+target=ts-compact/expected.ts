@@ -91,6 +91,9 @@ export type TimeTest2 = /** calendar date */ Date;
  /** time test 3 */
 export type TimeTest3 = /** local time */ string;
 
+ /** time test 4 */
+export type TimeTest4 = /** ISO 8601 duration */ string;
+
 export type Person = { age : number; deceased : boolean; name : string; };
 
 export type People = Array< /** reference to person type */ Person >;

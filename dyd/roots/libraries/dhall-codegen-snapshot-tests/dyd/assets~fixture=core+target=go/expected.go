@@ -95,6 +95,9 @@ type TimeTest2 time.Time
 // time test 3
 type TimeTest3 time.Time
 
+// time test 4
+type TimeTest4 string
+
 type Person struct {
 	Age int `json:"age"`
 	Deceased bool `json:"deceased"`

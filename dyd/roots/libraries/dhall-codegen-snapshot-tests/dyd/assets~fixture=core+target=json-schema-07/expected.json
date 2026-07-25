@@ -166,6 +166,12 @@
 				"description" : "local time",
 				"pattern" : "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])"
 			},
+		"TimeTest4":
+			{
+				"type" : "string",
+				"description" : "ISO 8601 duration",
+				"format" : "duration"
+			},
 		"Person":
 			{
 				"type" : "object",

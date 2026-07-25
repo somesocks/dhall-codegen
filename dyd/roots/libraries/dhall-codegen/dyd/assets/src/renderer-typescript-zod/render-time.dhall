@@ -18,20 +18,22 @@ let renderZod3TimeVariant
     : s.time.variants -> Text
     = \(variant : s.time.variants) ->
         merge
-          { none = "z.date()"
-          , date = "z.date()"
-          , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
-          }
+           { none = "z.date()"
+           , date = "z.date()"
+           , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+           , duration = "z.string().duration()"
+           }
           variant
 
 let renderZod4TimeVariant
     : s.time.variants -> Text
     = \(variant : s.time.variants) ->
         merge
-          { none = "z.date()"
-          , date = "z.date()"
-          , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
-          }
+           { none = "z.date()"
+           , date = "z.date()"
+           , time = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+           , duration = "z.iso.duration()"
+           }
           variant
 
 let renderTime

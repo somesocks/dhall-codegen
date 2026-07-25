@@ -121,6 +121,9 @@ TimeTest2: TypeAlias = date
 # time test 3
 TimeTest3: TypeAlias = time
 
+# time test 4
+TimeTest4: TypeAlias = str
+
 class Person(BaseModel):
     age : int
     deceased : bool

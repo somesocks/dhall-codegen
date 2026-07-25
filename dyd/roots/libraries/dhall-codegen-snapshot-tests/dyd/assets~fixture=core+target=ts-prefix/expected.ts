@@ -180,6 +180,12 @@ export type TTimeTest3 =
 	/** local time */
 	string;
 
+
+/** time test 4 */
+export type TTimeTest4 =
+	/** ISO 8601 duration */
+	string;
+
 export type TPerson =
 	{
 		age :
