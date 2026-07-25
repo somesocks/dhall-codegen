@@ -191,7 +191,7 @@ See [Transformers](./transformers.md) for details.
 
 - Draft 2020-12 uses `$defs`; draft-07 uses `definitions`.
 - `time.none` renders as a string with `format: "date-time"`; `time.date` uses `format: "date"`.
-- Text variants such as email, URL, `base64`, `base64url`, `e164`, `ipv4`, `ipv6`, `uuid`, `isoDate`, `isoDateTime`, `isoDuration`, and `isoTime` render as strings; Base64 variants emit content-encoding metadata and assertion patterns, E.164 emits an assertion pattern, and the ISO variants use `date`, `date-time`, `duration`, and `time`.
+- Text variants such as email, URL, `base64`, `base64url`, `e164`, `ipv4`, `ipv6`, `uuid`, `isoDate`, `isoDateTime`, `isoDuration`, and `isoTime` render as strings; Base64 variants emit content-encoding metadata and assertion patterns, E.164 and `isoTime` emit assertion patterns, and `isoDate`, `isoDateTime`, and `isoDuration` use `date`, `date-time`, and `duration` formats.
 - Descriptions render as JSON Schema `description` fields.
 
 The renderer includes a placeholder `$id`. Treat it as an example and replace it as needed.

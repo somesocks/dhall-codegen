@@ -1,14 +1,14 @@
 import type { Person } from "./out";
 
 const ada: Person = {
-  appointment_time: "14:30:00.123+02:00",
+  appointment_time: "14:30:00.123",
   binary_data: "+/8=",
   birth_date: "1815-12-10",
   created_at: "1815-12-10T00:00:00Z",
   date_of_birth: new Date("1815-12-10T00:00:00Z"),
   friends: [
     {
-      appointment_time: "09:00:00Z",
+      appointment_time: "09:00:00",
       binary_data: "+/8",
       birth_date: "1906-12-09",
       created_at: "1906-12-09T00:00:00Z",

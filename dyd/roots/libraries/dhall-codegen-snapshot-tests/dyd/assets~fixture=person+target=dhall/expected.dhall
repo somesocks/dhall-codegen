@@ -4,7 +4,7 @@ let Any : Type = ∀(R : Type) → (∀(A : Type) → A → R) → R
 let Person =
   {
     appointment_time :
-      {- RFC 3339 time -}
+      {- ISO 8601 local time -}
       Text,
     binary_data :
       {- RFC 4648 Base64 -}

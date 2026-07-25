@@ -56,7 +56,7 @@ export type TextTest5 = /** RFC 3339 date-time */ string;
 export type TextTest6 = /** ISO 8601 calendar date */ string;
 
  /** text test 7 */
-export type TextTest7 = /** RFC 3339 time */ string;
+export type TextTest7 = /** ISO 8601 local time */ string;
 
  /** text test 8 */
 export type TextTest8 = /** ISO 8601 duration */ string;

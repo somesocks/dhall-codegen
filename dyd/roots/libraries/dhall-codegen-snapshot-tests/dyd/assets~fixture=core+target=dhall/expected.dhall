@@ -73,7 +73,7 @@ let TextTest6 =
   Text
 
 let TextTest7 =
-  {- RFC 3339 time -}
+  {- ISO 8601 local time -}
   Text
 
 let TextTest8 =

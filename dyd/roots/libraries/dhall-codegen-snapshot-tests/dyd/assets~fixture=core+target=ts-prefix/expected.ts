@@ -112,7 +112,7 @@ export type TTextTest6 =
 
 /** text test 7 */
 export type TTextTest7 =
-	/** RFC 3339 time */
+	/** ISO 8601 local time */
 	string;
 
 

@@ -1,7 +1,7 @@
 export type Person =
 	{
 		appointment_time :
-			/** RFC 3339 time */
+			/** ISO 8601 local time */
 			string;
 		binary_data :
 			/** RFC 4648 Base64 */

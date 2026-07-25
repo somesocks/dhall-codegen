@@ -13,14 +13,14 @@ assert.equal(ajv.validateSchema(schema), true, ajv.errorsText(ajv.errors));
 const validatePerson = ajv.compile(schema);
 
 const validPerson = {
-  appointment_time: "14:30:00.123+02:00",
+  appointment_time: "14:30:00.123",
   binary_data: "+/8=",
   birth_date: "1815-12-10",
   created_at: "2026-07-25T14:30:00.123+02:00",
   date_of_birth: "1815-12-10",
   friends: [
     {
-      appointment_time: "09:00:00Z",
+      appointment_time: "09:00:00",
       binary_data: "+/8",
       birth_date: "1906-12-09",
       created_at: "1906-12-09T00:00:00Z",
@@ -66,9 +66,9 @@ for (const date_of_birth of ["1815-12-10T00:00:00Z", "18151210", "1815-13-10"]) 
   assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
 }
 
-for (const appointment_time of ["14:30:00", "143000Z", "24:00:00Z"]) {
+for (const appointment_time of ["14:30:00Z", "14:30:00+02:00", "143000", "24:00:00", "14:30:00\n"]) {
   assert.equal(validatePerson({ ...validPerson, appointment_time }), false);
-  assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);
+  assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
 }
 
 for (const retention_period of ["P", "P1Y2MT", "1Y2M"]) {

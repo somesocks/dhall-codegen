@@ -137,7 +137,7 @@ Variants:
 - `isoDate` - an ISO 8601 calendar date (`YYYY-MM-DD`)
 - `isoDateTime` - an RFC 3339 date-time string with a required timezone
 - `isoDuration` - a full ISO 8601 duration, including calendar units such as `P1Y2M`
-- `isoTime` - an RFC 3339 time string with a required timezone
+- `isoTime` - an ISO 8601 local time (`HH:MM:SS` with optional fractional seconds)
 - `uuid` - an RFC 4122 UUID string
 - `literal : Text`
 

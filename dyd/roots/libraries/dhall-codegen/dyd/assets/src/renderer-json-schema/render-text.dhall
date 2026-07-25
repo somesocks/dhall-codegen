@@ -64,7 +64,7 @@ let renderTextFormat
                 , isoDate = Some "${p0}\"format\": \"date\""
                 , isoDateTime = Some "${p0}\"format\": \"date-time\""
                 , isoDuration = Some "${p0}\"format\": \"duration\""
-                , isoTime = Some "${p0}\"format\": \"time\""
+                , isoTime = None Text
                 , uuid = Some "${p0}\"format\": \"uuid\""
                 , literal = λ(x : Text) → None Text
                 }
@@ -118,7 +118,7 @@ let renderTextPattern
                 , isoDate = None Text
                 , isoDateTime = None Text
                 , isoDuration = None Text
-                , isoTime = None Text
+                , isoTime = Some "${p0}\"pattern\": \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
                 , uuid = None Text
                 , literal = λ(x : Text) → None Text
                 }

@@ -120,7 +120,7 @@ export type TTextTest6 = z.infer<typeof TextTest6>
 
 	/** text test 7 */
 export const TextTest7 =
-	z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time");
+	z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\s\S])/).describe("ISO 8601 local time");
 export type TTextTest7 = z.infer<typeof TextTest7>
 
 

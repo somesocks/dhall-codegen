@@ -14,7 +14,7 @@ let Person =
             { appointment_time =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.isoTime }
-                  s.text.meta::{ description = Some "RFC 3339 time" }
+                  s.text.meta::{ description = Some "ISO 8601 local time" }
             , binary_data =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.base64 }

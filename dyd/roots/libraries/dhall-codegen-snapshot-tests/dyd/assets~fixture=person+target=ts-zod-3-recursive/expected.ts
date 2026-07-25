@@ -5,7 +5,7 @@ import { z } from 'zod';
 export type TPerson =
 	{
 		appointment_time :
-			/** RFC 3339 time */
+			/** ISO 8601 local time */
 			string;
 		binary_data :
 			/** RFC 4648 Base64 */
@@ -53,7 +53,7 @@ export type TPerson =
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({
 		appointment_time :
-			z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$/).describe("RFC 3339 time"),
+			z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\s\S])/).describe("ISO 8601 local time"),
 		binary_data :
 			z.string().regex(/^(?:[A-Za-z0-9+\u002F]{4})*(?:[A-Za-z0-9+\u002F]{2}(?:==)?|[A-Za-z0-9+\u002F]{3}=?)?$/).describe("RFC 4648 Base64"),
 		birth_date :
