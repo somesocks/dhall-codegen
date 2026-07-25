@@ -50,6 +50,8 @@ dhall text --file ./ts-output.dhall --output ./generated.ts
 
 Most renderers run the [lift transformer](./transformers.md) before rendering. This turns nested records into named root definitions so targets can emit stable type names instead of deeply nested inline shapes. The JSON Schema renderer also runs a JSON-Schema-specific lowering transform before lifting.
 
+The [JSON-wire transformer](./transformers.md) is different: it is not called automatically by a renderer. It derives a JSON-compatible wire document for codecs or other consumers, which can retain the original domain document alongside the wire document.
+
 ## Common Conventions
 
 - Root schema names come from `root.meta.name` and become generated type or binding names.

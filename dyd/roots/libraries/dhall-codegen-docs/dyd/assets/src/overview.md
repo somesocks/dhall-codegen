@@ -39,6 +39,17 @@ This package provides a core grammar for the codegen schema language plus a set 
 - JSON Schema (draft-07 and 2020-12)
 - Dhall itself
 
+## Transformers
+
+Transformers are pure Dhall functions that take a `Document.Type` and return a derived `Document.Type`. They do not mutate the domain document. They are useful when a target representation needs a normalized or lower-level shape before it is rendered or consumed by a codec.
+
+The provided transformers are:
+
+- **lift**: extracts nested records into named root definitions.
+- **json-schema lowering**: lowers constructs that JSON Schema cannot represent faithfully.
+- **json-wire**: derives JSON-compatible wire schemas while retaining the separate domain schema.
+
+See [Transformers](transformers.md) for transformation rules and APIs.
 
 ## Quick Start
 

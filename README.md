@@ -10,6 +10,12 @@ Supported language renderers include:
 - JSON Schema
 - Dhall
 
+## Transformers
+
+`dhall-codegen` also provides pure Dhall transformers that derive a new schema document from a domain document. Use them to normalize nested definitions, prepare JSON Schema inputs, or derive JSON-compatible wire schemas for codecs while retaining the original domain schema.
+
+See the [transformer documentation](https://somesocks.github.io/dhall-codegen/transformers.html) for the available transformers and their APIs.
+
 ## Documentation
 
 - Documentation: <https://somesocks.github.io/dhall-codegen/>

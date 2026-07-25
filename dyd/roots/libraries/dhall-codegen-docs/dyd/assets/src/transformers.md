@@ -100,3 +100,35 @@ Function
 The JSON Schema renderer calls this transformer automatically **before** applying the lift transformer.
 
 If you are only rendering to TypeScript/Python/Dhall, you typically do **not** need this transform.
+
+## Transformer: json-wire
+
+**Path:** `dhall-codegen/transformer-json-wire/package.dhall`
+
+The JSON-wire transformer derives a JSON-compatible wire `Document.Type` from a domain document. It is generic and does not render source text or produce JSON Schema. The domain document and derived wire document are intended to coexist: a future codec can use the domain schema for its public model and the wire schema for JSON serialization.
+
+Use it directly when a consumer needs the derived wire document:
+
+```dhall
+let JsonWire = ./dhall-codegen/transformer-json-wire/package.dhall
+
+let wireDocument = JsonWire.transform myDomainDocument
+
+in  wireDocument
+```
+
+It preserves document fields, root metadata, node metadata, references, and compatible node properties. It recursively preserves `optional`, `list`, `tuple`, `record`, `oneOf`, and `allOf` nodes.
+
+### Wire lowering rules
+
+| Domain schema | Wire schema |
+| --- | --- |
+| `time.none` | `text.isoDateTime` |
+| `time.date` | `text.isoDate` |
+| `time.time` | `text.isoTime` |
+| `time.duration` | `text.isoDuration` |
+| `set<T>` | `list<T>` |
+| `map<K, V>` | `list<{ key : K, value : V }>` |
+| `function` | `{ kind = "function", input = (..tuple..), output = (..tuple..) }` |
+
+The transformer recursively applies the same rules to children. Its function descriptor matches the existing JSON-compatible descriptor shape, while preserving metadata from the original function node on the derived record.
