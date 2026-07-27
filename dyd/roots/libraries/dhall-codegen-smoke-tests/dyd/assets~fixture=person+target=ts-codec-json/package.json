@@ -1,0 +1,8 @@
+{
+  "name": "dhall-codegen-smoke-ts-codec-json-person",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

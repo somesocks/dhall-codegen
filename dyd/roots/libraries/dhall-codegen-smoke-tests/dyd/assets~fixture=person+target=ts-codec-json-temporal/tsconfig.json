@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "strict": true,
+    "target": "ES2022"
+  },
+  "include": [
+    "out.ts",
+    "smoke.test.ts"
+  ]
+}

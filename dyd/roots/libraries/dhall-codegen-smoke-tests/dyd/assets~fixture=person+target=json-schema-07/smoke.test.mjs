@@ -16,6 +16,10 @@ const validPerson = {
   appointment_time: "14:30:00.123",
   binary_data: "+/8=",
   birth_date: "1815-12-10",
+  contact: {
+    email: "ada@example.com",
+    phone_number: "+14155552671",
+  },
   created_at: "2026-07-25T14:30:00.123+02:00",
   date_of_birth: "1815-12-10",
   friends: [
@@ -23,12 +27,14 @@ const validPerson = {
       appointment_time: "09:00:00",
       binary_data: "+/8",
       birth_date: "1906-12-09",
+      contact: {
+        phone_number: "+442079460123",
+      },
       created_at: "1906-12-09T00:00:00Z",
       date_of_birth: "1906-12-09",
       friends: [],
       id: "123e4567-e89b-42d3-a456-426614174001",
       name: "Grace Hopper",
-      phone_number: "+442079460123",
       retention_period: "P2W",
       source_ip: "198.51.100.2",
       destination_ip: "2001:db8::2",
@@ -37,12 +43,10 @@ const validPerson = {
   ],
   id: "123e4567-e89b-42d3-a456-426614174000",
   name: "Ada Lovelace",
-  phone_number: "+14155552671",
   retention_period: "P1Y2M3DT4H5M6S",
   source_ip: "192.0.2.1",
   destination_ip: "2001:db8::1",
   token: "-_8=",
-  contact_email: "ada@example.com",
 };
 
 assert.equal(validatePerson(validPerson), true, ajv.errorsText(validatePerson.errors));
@@ -102,7 +106,7 @@ for (const token of ["+/8=", "YQ=", "Y"]) {
 }
 
 for (const phone_number of ["14155552671", "+0", "+1 4155552671", "+1234567890123456"]) {
-  assert.equal(validatePerson({ ...validPerson, phone_number }), false);
+  assert.equal(validatePerson({ ...validPerson, contact: { ...validPerson.contact, phone_number } }), false);
   assert.equal(validatePerson.errors.some((error) => error.keyword === "pattern"), true);
 }
 
@@ -120,7 +124,7 @@ assert.equal(
 
 const invalidFriend = {
   ...validPerson,
-  friends: [{ ...validPerson.friends[0], contact_email: "not an email" }],
+  friends: [{ ...validPerson.friends[0], contact: { ...validPerson.friends[0].contact, email: "not an email" } }],
 };
 assert.equal(validatePerson(invalidFriend), false);
 assert.equal(validatePerson.errors.some((error) => error.keyword === "format"), true);

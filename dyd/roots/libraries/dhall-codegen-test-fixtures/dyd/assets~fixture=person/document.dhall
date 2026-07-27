@@ -43,10 +43,23 @@ let Person =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.uuid }
                   s.text.meta::{ description = Some "RFC 4122 UUID" }
-            , phone_number =
-                s.text.from
-                  s.text.props::{ variant = s.text.variants.e164 }
-                  s.text.meta::{ description = Some "E.164 telephone number" }
+            , contact =
+                s.record.from
+                  s.record.props::{
+                  , required = toMap
+                      { phone_number =
+                          s.text.from
+                            s.text.props::{ variant = s.text.variants.e164 }
+                            s.text.meta::{ description = Some "E.164 telephone number" }
+                      }
+                  , optional = toMap
+                      { email =
+                          s.text.from
+                            s.text.props::{ variant = s.text.variants.email }
+                            s.text.meta::{ description = Some "contact email" }
+                      }
+                  }
+                  s.record.meta::{ description = Some "contact details" }
             , source_ip =
                 s.text.from
                   s.text.props::{ variant = s.text.variants.ipv4 }
@@ -64,12 +77,7 @@ let Person =
                   s.list.props::{ values = PersonReference }
                   s.list.meta::{ description = Some "friends" }
             }
-        , optional = toMap
-            { contact_email =
-                s.text.from
-                  s.text.props::{ variant = s.text.variants.email }
-                  s.text.meta::{ description = Some "contact email (we might not have this)" }
-            }
+        , optional = [] : List { mapKey : Text, mapValue : s.type }
         }
         s.record.meta::{=}
 

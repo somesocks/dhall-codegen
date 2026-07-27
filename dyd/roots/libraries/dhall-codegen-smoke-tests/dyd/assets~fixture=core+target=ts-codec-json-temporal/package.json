@@ -1,0 +1,9 @@
+{
+  "name": "dhall-codegen-smoke-ts-codec-json-temporal-core",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@js-temporal/polyfill": "0.5.1",
+    "typescript": "5.9.3"
+  }
+}

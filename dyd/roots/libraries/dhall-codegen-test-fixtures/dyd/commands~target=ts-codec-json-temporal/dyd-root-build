@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+src_package=$DYD_STEM
+src_assets=$src_package/dyd/assets
+src_dependencies=$src_package/dyd/dependencies
+
+dest_package=$DYD_BUILD
+dest_assets=$dest_package/dyd/assets
+dest_traits=$dest_package/dyd/traits
+work_dir=$dest_package/render-work
+
+fixture=$(cat "$src_package/dyd/traits/fixture")
+target=$(cat "$src_package/dyd/traits/target")
+
+mkdir -p "$dest_assets" "$dest_traits" "$work_dir"
+cp -r "$src_assets/." "$work_dir/"
+chmod -R +w "$work_dir"
+ln -s "$src_dependencies/dhall-codegen/dyd/assets" "$work_dir/dhall-codegen"
+
+if [ "$fixture" = core ]; then
+  cat > "$work_dir/render.dhall" <<'EOF'
+let Grammar = ./dhall-codegen/grammar.dhall
+
+let Document = Grammar.Document
+
+let codec = ./dhall-codegen/codec-typescript-json/package.dhall
+
+let document =
+      Document::{
+      , headers = [ "import { Temporal } from \"@js-temporal/polyfill\";" ]
+      , schemas = ./schemas-time.dhall
+      }
+
+let output =
+      codec.render
+        codec.options::{ time = codec.time.TEMPORAL }
+        document
+
+in  output
+EOF
+else
+  cat > "$work_dir/render.dhall" <<'EOF'
+let codec = ./dhall-codegen/codec-typescript-json/package.dhall
+
+let document = ./document.dhall
+
+let document =
+      document
+    // { headers = [ "import { Temporal } from \"@js-temporal/polyfill\";" ] # document.headers }
+
+let output =
+      codec.render
+        codec.options::{ time = codec.time.TEMPORAL }
+        document
+
+in  output
+EOF
+fi
+
+dhall text --file "$work_dir/render.dhall" --output "$dest_assets/out.ts"
+rm -rf "$work_dir"
+
+printf '%s' dhall-codegen-test-fixtures > "$dest_traits/name"
+printf '%s' "$fixture" > "$dest_traits/fixture"
+printf '%s' "$target" > "$dest_traits/target"
