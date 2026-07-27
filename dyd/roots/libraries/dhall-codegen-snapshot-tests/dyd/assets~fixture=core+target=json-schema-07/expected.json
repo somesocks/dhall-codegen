@@ -588,6 +588,96 @@
 				],
 				"description" : "named references"
 			},
+		"OneOfTest4Option0":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" :
+						{
+							"type": "number"
+						},
+					"foo" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OneOfTest4Option1":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OneOfTest4":
+			{
+				"oneOf" : [
+					{
+						"$ref": "#/definitions/OneOfTest4Option0"
+					},
+					{
+						"$ref": "#/definitions/OneOfTest4Option1"
+					}
+				],
+				"description" : "extended record before base record"
+			},
+		"OneOfTest5Option0":
+			{
+				"type" : "object",
+				"properties" : {
+					"foo" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OneOfTest5Option1":
+			{
+				"type" : "object",
+				"properties" : {
+					"bar" :
+						{
+							"type": "number"
+						},
+					"foo" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"bar",
+					"foo"
+				],
+				"additionalProperties" : false
+			},
+		"OneOfTest5":
+			{
+				"oneOf" : [
+					{
+						"$ref": "#/definitions/OneOfTest5Option0"
+					},
+					{
+						"$ref": "#/definitions/OneOfTest5Option1"
+					}
+				],
+				"description" : "base record before extended record"
+			},
 		"AllOfTest0Option0":
 			{
 				"type" : "object",

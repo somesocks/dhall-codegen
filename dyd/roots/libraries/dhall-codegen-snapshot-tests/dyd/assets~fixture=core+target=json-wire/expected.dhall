@@ -365,6 +365,52 @@ let OneOfTest3 =
       Bar
   >
 
+let OneOfTest4Option0 =
+  {
+    bar :
+      Double,
+    foo :
+      Text
+  }
+
+let OneOfTest4Option1 =
+  {
+    foo :
+      Text
+  }
+
+let OneOfTest4 =
+    {- extended record before base record -}
+  <
+    ExtendedRecord :
+      OneOfTest4Option0 |
+    BaseRecord :
+      OneOfTest4Option1
+  >
+
+let OneOfTest5Option0 =
+  {
+    foo :
+      Text
+  }
+
+let OneOfTest5Option1 =
+  {
+    bar :
+      Double,
+    foo :
+      Text
+  }
+
+let OneOfTest5 =
+    {- base record before extended record -}
+  <
+    BaseRecord :
+      OneOfTest5Option0 |
+    ExtendedRecord :
+      OneOfTest5Option1
+  >
+
 let AllOfTest0Option0 =
   {
     bar :
@@ -843,6 +889,12 @@ in {
   OneOfTest2Option2,
   OneOfTest2,
   OneOfTest3,
+  OneOfTest4Option0,
+  OneOfTest4Option1,
+  OneOfTest4,
+  OneOfTest5Option0,
+  OneOfTest5Option1,
+  OneOfTest5,
   AllOfTest0Option0,
   AllOfTest0Option1,
   AllOfTest0,

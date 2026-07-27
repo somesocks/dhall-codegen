@@ -1,6 +1,17 @@
 
 let Any : Type = ∀(R : Type) → (∀(A : Type) → A → R) → R
 
+let PersonContact =
+  {
+    {- contact details -}
+    phone_number :
+      {- E.164 telephone number -}
+      Text,
+    email : Optional 
+      {- contact email -}
+      Text
+  }
+
 let Person =
   {
     appointment_time :
@@ -12,6 +23,8 @@ let Person =
     birth_date :
       {- ISO 8601 calendar date -}
       Text,
+    contact :
+      PersonContact,
     created_at :
       {- RFC 3339 date-time -}
       Text,
@@ -33,9 +46,6 @@ let Person =
     name :
       {- full name -}
       Text,
-    phone_number :
-      {- E.164 telephone number -}
-      Text,
     retention_period :
       {- ISO 8601 duration -}
       Text,
@@ -44,12 +54,10 @@ let Person =
       Text,
     token :
       {- RFC 4648 Base64url -}
-      Text,
-    contact_email : Optional 
-      {- contact email (we might not have this) -}
       Text
   }
 
 in {
+  PersonContact,
   Person
 }

@@ -231,6 +231,52 @@ type OneOfTest3 struct {
 	BarRef *Bar `json:"BarRef,omitempty"`
 }
 
+type OneOfTest4Option0 struct {
+	Bar float64 `json:"bar"`
+	Foo string `json:"foo"`
+}
+
+type OneOfTest4Option1 struct {
+	Foo string `json:"foo"`
+}
+
+// oneOf test 4
+type OneOfTest4Kind string
+
+const (
+	OneOfTest4KindExtendedRecord OneOfTest4Kind = "ExtendedRecord"
+	OneOfTest4KindBaseRecord OneOfTest4Kind = "BaseRecord"
+)
+
+type OneOfTest4 struct {
+	Kind OneOfTest4Kind `json:"kind"`
+	ExtendedRecord *OneOfTest4Option0 `json:"ExtendedRecord,omitempty"`
+	BaseRecord *OneOfTest4Option1 `json:"BaseRecord,omitempty"`
+}
+
+type OneOfTest5Option0 struct {
+	Foo string `json:"foo"`
+}
+
+type OneOfTest5Option1 struct {
+	Bar float64 `json:"bar"`
+	Foo string `json:"foo"`
+}
+
+// oneOf test 5
+type OneOfTest5Kind string
+
+const (
+	OneOfTest5KindBaseRecord OneOfTest5Kind = "BaseRecord"
+	OneOfTest5KindExtendedRecord OneOfTest5Kind = "ExtendedRecord"
+)
+
+type OneOfTest5 struct {
+	Kind OneOfTest5Kind `json:"kind"`
+	BaseRecord *OneOfTest5Option0 `json:"BaseRecord,omitempty"`
+	ExtendedRecord *OneOfTest5Option1 `json:"ExtendedRecord,omitempty"`
+}
+
 type AllOfTest0Option0 struct {
 	Bar float64 `json:"bar"`
 }

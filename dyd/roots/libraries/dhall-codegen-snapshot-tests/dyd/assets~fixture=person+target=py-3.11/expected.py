@@ -15,18 +15,21 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
+class PersonContact(BaseModel):# contact details
+    phone_number : str
+    email : (str) | None
+
 class Person(BaseModel):
     appointment_time : time
     binary_data : str
     birth_date : str
+    contact : PersonContact
     created_at : str
     date_of_birth : date
     destination_ip : str
     friends : list[Person]
     id : str
     name : str
-    phone_number : str
     retention_period : str
     source_ip : str
     token : str
-    contact_email : (str) | None

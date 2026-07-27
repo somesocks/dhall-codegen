@@ -78,7 +78,35 @@ let testSchema4 =
         }
         s.oneOf.meta::{ description = Some "named references" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
+let BaseRecord =
+      s.record.from
+        s.record.props::{
+        , required = toMap
+            { foo = s.text.from s.text.props::{=} s.text.meta::{=} }
+        }
+        s.record.meta::{ name = Some "BaseRecord" }
+
+let ExtendedRecord =
+      s.record.from
+        s.record.props::{
+        , required = toMap
+            { foo = s.text.from s.text.props::{=} s.text.meta::{=}
+            , bar = s.number.from s.number.props::{=} s.number.meta::{=}
+            }
+        }
+        s.record.meta::{ name = Some "ExtendedRecord" }
+
+let testSchema5 =
+      s.oneOf.from
+        s.oneOf.props::{ options = [ ExtendedRecord, BaseRecord ] }
+        s.oneOf.meta::{ description = Some "extended record before base record" }
+
+let testSchema6 =
+      s.oneOf.from
+        s.oneOf.props::{ options = [ BaseRecord, ExtendedRecord ] }
+        s.oneOf.meta::{ description = Some "base record before extended record" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
 
 let mapSchema =
       \(index : Natural) ->

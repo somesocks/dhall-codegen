@@ -191,6 +191,26 @@ OneOfTest2: TypeAlias = (str | int | OneOfTest2Option2)
 # oneOf test 3
 OneOfTest3: TypeAlias = (Foo | Bar)
 
+class OneOfTest4Option0(BaseModel):
+    bar : float
+    foo : str
+
+class OneOfTest4Option1(BaseModel):
+    foo : str
+
+# oneOf test 4
+OneOfTest4: TypeAlias = (OneOfTest4Option0 | OneOfTest4Option1)
+
+class OneOfTest5Option0(BaseModel):
+    foo : str
+
+class OneOfTest5Option1(BaseModel):
+    bar : float
+    foo : str
+
+# oneOf test 5
+OneOfTest5: TypeAlias = (OneOfTest5Option0 | OneOfTest5Option1)
+
 class AllOfTest0Option0(BaseModel):
     bar : float
 

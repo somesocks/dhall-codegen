@@ -410,6 +410,52 @@ export type TOneOfTest3 =
 		TBar
 	);
 
+export type TOneOfTest4Option0 =
+	{
+		bar :
+			number;
+		foo :
+			string;
+	};
+
+export type TOneOfTest4Option1 =
+	{
+		foo :
+			string;
+	};
+
+
+/** oneOf test 4 */
+export type TOneOfTest4 =
+	/** extended record before base record */
+	(
+		TOneOfTest4Option0 |
+		TOneOfTest4Option1
+	);
+
+export type TOneOfTest5Option0 =
+	{
+		foo :
+			string;
+	};
+
+export type TOneOfTest5Option1 =
+	{
+		bar :
+			number;
+		foo :
+			string;
+	};
+
+
+/** oneOf test 5 */
+export type TOneOfTest5 =
+	/** base record before extended record */
+	(
+		TOneOfTest5Option0 |
+		TOneOfTest5Option1
+	);
+
 export type TAllOfTest0Option0 =
 	{
 		bar :

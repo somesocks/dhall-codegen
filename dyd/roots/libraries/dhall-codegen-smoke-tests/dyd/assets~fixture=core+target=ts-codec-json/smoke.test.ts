@@ -73,6 +73,8 @@ import {
   decodeOneOfTest1,
   decodeOneOfTest2,
   decodeOneOfTest3,
+  decodeOneOfTest4,
+  decodeOneOfTest5,
   encodeOptionalTest0,
   encodeOptionalTest1,
   encodeOptionalTest2,
@@ -80,6 +82,8 @@ import {
   encodeOneOfTest1,
   encodeOneOfTest2,
   encodeOneOfTest3,
+  encodeOneOfTest4,
+  encodeOneOfTest5,
   decodeTextTest0,
   decodeTextTest2,
   decodeTextTest3,
@@ -422,3 +426,28 @@ if (decodeOneOfTest3(encodeOneOfTest3("foo")) !== "foo") {
   throw new Error("reference OneOf option did not round-trip");
 }
 expectCodecError(() => decodeOneOfTest0(-1));
+
+const overlappingRecord = { bar: 1, foo: "overlap" };
+const encodedExtendedFirst = encodeOneOfTest4(overlappingRecord);
+if (encodedExtendedFirst === null || typeof encodedExtendedFirst !== "object" || Array.isArray(encodedExtendedFirst)) {
+  throw new Error("extended-first OneOf did not encode as an object");
+}
+if (encodedExtendedFirst.bar !== 1 || encodedExtendedFirst.foo !== "overlap") {
+  throw new Error("extended-first OneOf dropped the extended field");
+}
+const decodedExtendedFirst = decodeOneOfTest4(encodedExtendedFirst);
+if (!("bar" in decodedExtendedFirst) || decodedExtendedFirst.bar !== 1) {
+  throw new Error("extended-first OneOf did not select the extended record");
+}
+
+const encodedBaseFirst = encodeOneOfTest5(overlappingRecord);
+if (encodedBaseFirst === null || typeof encodedBaseFirst !== "object" || Array.isArray(encodedBaseFirst)) {
+  throw new Error("base-first OneOf did not encode as an object");
+}
+if ("bar" in encodedBaseFirst || encodedBaseFirst.foo !== "overlap") {
+  throw new Error("base-first OneOf did not select the base record");
+}
+const decodedBaseFirst = decodeOneOfTest5(encodedBaseFirst);
+if ("bar" in decodedBaseFirst || decodedBaseFirst.foo !== "overlap") {
+  throw new Error("base-first OneOf did not preserve first-match behavior");
+}

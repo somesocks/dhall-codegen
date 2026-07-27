@@ -236,6 +236,30 @@ export const OneOfTest3 = z.union([ Foo, Bar ]).describe("named references");
 export type TOneOfTest3 = z.infer<typeof OneOfTest3>
 
 
+export const OneOfTest4Option0 = z.object({ bar : z.number(), foo : z.string(), });
+export type TOneOfTest4Option0 = z.infer<typeof OneOfTest4Option0>
+
+
+export const OneOfTest4Option1 = z.object({ foo : z.string(), });
+export type TOneOfTest4Option1 = z.infer<typeof OneOfTest4Option1>
+
+ /** oneOf test 4 */
+export const OneOfTest4 = z.union([ OneOfTest4Option0, OneOfTest4Option1 ]).describe("extended record before base record");
+export type TOneOfTest4 = z.infer<typeof OneOfTest4>
+
+
+export const OneOfTest5Option0 = z.object({ foo : z.string(), });
+export type TOneOfTest5Option0 = z.infer<typeof OneOfTest5Option0>
+
+
+export const OneOfTest5Option1 = z.object({ bar : z.number(), foo : z.string(), });
+export type TOneOfTest5Option1 = z.infer<typeof OneOfTest5Option1>
+
+ /** oneOf test 5 */
+export const OneOfTest5 = z.union([ OneOfTest5Option0, OneOfTest5Option1 ]).describe("base record before extended record");
+export type TOneOfTest5 = z.infer<typeof OneOfTest5>
+
+
 export const AllOfTest0Option0 = z.object({ bar : z.number(), });
 export type TAllOfTest0Option0 = z.infer<typeof AllOfTest0Option0>
 

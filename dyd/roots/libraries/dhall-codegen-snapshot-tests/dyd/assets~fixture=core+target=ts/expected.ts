@@ -410,6 +410,52 @@ export type OneOfTest3 =
 		Bar
 	);
 
+export type OneOfTest4Option0 =
+	{
+		bar :
+			number;
+		foo :
+			string;
+	};
+
+export type OneOfTest4Option1 =
+	{
+		foo :
+			string;
+	};
+
+
+/** oneOf test 4 */
+export type OneOfTest4 =
+	/** extended record before base record */
+	(
+		OneOfTest4Option0 |
+		OneOfTest4Option1
+	);
+
+export type OneOfTest5Option0 =
+	{
+		foo :
+			string;
+	};
+
+export type OneOfTest5Option1 =
+	{
+		bar :
+			number;
+		foo :
+			string;
+	};
+
+
+/** oneOf test 5 */
+export type OneOfTest5 =
+	/** base record before extended record */
+	(
+		OneOfTest5Option0 |
+		OneOfTest5Option1
+	);
+
 export type AllOfTest0Option0 =
 	{
 		bar :

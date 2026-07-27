@@ -2,6 +2,17 @@
 
 import { z } from 'zod';
 
+export type TPersonContact =
+	/** contact details */
+	{
+		phone_number :
+			/** E.164 telephone number */
+			string;
+		email ?:
+			/** contact email */
+			string;
+	};
+
 export type TPerson =
 	{
 		appointment_time :
@@ -13,6 +24,9 @@ export type TPerson =
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;
+		contact :
+			/** contact details */
+			TPersonContact;
 		created_at :
 			/** RFC 3339 date-time */
 			string;
@@ -33,9 +47,6 @@ export type TPerson =
 		name :
 			/** full name */
 			string;
-		phone_number :
-			/** E.164 telephone number */
-			string;
 		retention_period :
 			/** ISO 8601 duration */
 			string;
@@ -45,10 +56,16 @@ export type TPerson =
 		token :
 			/** RFC 4648 Base64url */
 			string;
-		contact_email ?:
-			/** contact email (we might not have this) */
-			string;
 	};
+
+export const PersonContact : z.ZodType<TPersonContact> = z.lazy(() => 
+	z.object({
+		phone_number :
+			z.string().regex(/^[+][1-9][0-9]{0,14}$/).describe("E.164 telephone number"),
+		email :
+			z.string().email().describe("contact email").optional(),
+	}).describe("contact details"));
+
 
 export const Person : z.ZodType<TPerson> = z.lazy(() => 
 	z.object({
@@ -58,6 +75,8 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().regex(/^(?:[A-Za-z0-9+\u002F]{4})*(?:[A-Za-z0-9+\u002F]{2}(?:==)?|[A-Za-z0-9+\u002F]{3}=?)?$/).describe("RFC 4648 Base64"),
 		birth_date :
 			z.string().date().describe("ISO 8601 calendar date"),
+		contact :
+			PersonContact,
 		created_at :
 			z.string().datetime({ offset: true }).describe("RFC 3339 date-time"),
 		date_of_birth :
@@ -72,14 +91,10 @@ export const Person : z.ZodType<TPerson> = z.lazy(() =>
 			z.string().uuid().describe("RFC 4122 UUID"),
 		name :
 			z.string().describe("full name"),
-		phone_number :
-			z.string().regex(/^[+][1-9][0-9]{0,14}$/).describe("E.164 telephone number"),
 		retention_period :
 			z.string().duration().describe("ISO 8601 duration"),
 		source_ip :
 			z.string().ip({ version: "v4" }).describe("IPv4 address"),
 		token :
 			z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$/).describe("RFC 4648 Base64url"),
-		contact_email :
-			z.string().email().describe("contact email (we might not have this)").optional(),
 	}));

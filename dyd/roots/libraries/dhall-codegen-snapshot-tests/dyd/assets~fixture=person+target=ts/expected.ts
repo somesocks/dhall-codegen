@@ -1,3 +1,14 @@
+export type PersonContact =
+	/** contact details */
+	{
+		phone_number :
+			/** E.164 telephone number */
+			string;
+		email ?:
+			/** contact email */
+			string;
+	};
+
 export type Person =
 	{
 		appointment_time :
@@ -9,6 +20,9 @@ export type Person =
 		birth_date :
 			/** ISO 8601 calendar date */
 			string;
+		contact :
+			/** contact details */
+			PersonContact;
 		created_at :
 			/** RFC 3339 date-time */
 			string;
@@ -29,9 +43,6 @@ export type Person =
 		name :
 			/** full name */
 			string;
-		phone_number :
-			/** E.164 telephone number */
-			string;
 		retention_period :
 			/** ISO 8601 duration */
 			string;
@@ -40,8 +51,5 @@ export type Person =
 			string;
 		token :
 			/** RFC 4648 Base64url */
-			string;
-		contact_email ?:
-			/** contact email (we might not have this) */
 			string;
 	};
