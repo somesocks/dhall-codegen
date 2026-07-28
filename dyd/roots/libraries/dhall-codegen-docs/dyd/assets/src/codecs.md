@@ -1,20 +1,10 @@
-# JSON Codecs
+# Codecs
 
 ## About
 
-JSON codecs generate type-directed conversion functions between generated domain values and standard JSON-value trees. They validate values while encoding and decoding; they do not serialize JSON text themselves.
+Codecs are renderers that generate both type/model definitions from schemas and helper functions to encode/decode the data models to/from a serialized format.
 
-All codecs use the lifted document, so nested records are emitted as named definitions. They generate static conversion code and do not embed runtime schema descriptors.
-
-## Shared Semantics
-
-- `OneOf` uses ordered first-match behavior for both encoding and decoding. The first option that validates successfully wins.
-- Record decoding requires declared required fields and ignores undeclared JSON object fields. This makes overlapping records deterministic: option order controls whether an earlier, less-specific record consumes extra fields.
-- `Any` validates a JSON tree without copying it.
-- `AllOf` and `Function` currently raise or return an unsupported-codec error.
-- Codec fixture and snapshot coverage currently includes the core and Person documents. Recursive and Stripe fixture variants are not yet enabled for codecs.
-
-## TypeScript
+## TypeScript - JSON
 
 **Path:** `dhall-codegen/codec-typescript-json/package.dhall`
 
@@ -24,16 +14,16 @@ let Codec = ./dhall-codegen/codec-typescript-json/package.dhall
 in  Codec.render Codec.options::{=} myDocument
 ```
 
-For every root `Person`, output exports:
+Given a root schema named `Person`, the codec generates:
 
 ```ts
 export function encodePerson(value: Person): JsonValue;
 export function decodePerson(input: unknown): Person;
 ```
 
-Invalid input throws `CodecError`, which includes an `encode` or `decode` operation and a JSON path. `JsonValue` is the generated recursive JSON union.
+Both functions throw `CodecError` when validation fails. The error identifies the failed operation (`encode` or `decode`) and the JSON path.
 
-The options match the TypeScript renderer:
+The TypeScript codec renderer uses the same options as the TypeScript renderer:
 
 ```dhall
 Codec.options.Type =
@@ -44,9 +34,9 @@ Codec.options.Type =
   }
 ```
 
-`time = Codec.time.TEMPORAL` requires a `Temporal` binding supplied through `Document.headers`, for example `import { Temporal } from "@js-temporal/polyfill";`.
+`time = Codec.time.TEMPORAL` generates code that uses `Temporal`. If the target environment does not provide `Temporal`, a polyfill import can be supplied through the document headers.
 
-## Go
+## Go - JSON
 
 **Path:** `dhall-codegen/codec-golang-json/package.dhall`
 
@@ -56,7 +46,7 @@ let Codec = ./dhall-codegen/codec-golang-json/package.dhall
 in  Codec.render Codec.options::{ package = Some "models" } myDocument
 ```
 
-For every root `Person`, output exports error-first functions:
+Given a root schema named `Person`, the codec generates:
 
 ```go
 func EncodePerson(value Person) (error, any)
@@ -65,11 +55,47 @@ func DecodePerson(input any) (error, Person)
 
 The JSON-value boundary uses standard Go values: `map[string]any`, `[]any`, strings, booleans, `nil`, `float64`, and `json.Number`. Encoded numeric values are `json.Number` to preserve integer precision.
 
-Go `OneOf` domain types are generated tagged wrappers. Encoding checks populated option fields in declaration order and emits the first matching field's JSON value; the wrapper `Kind` is never encoded. Decoding tries JSON options in declaration order, populates the selected field, and sets `Kind` as domain metadata.
+Go represents union types (`oneOf` schemas) as tagged union structs:
+
+```dhall
+let TextOrNatural =
+      s.oneOf.from
+        s.oneOf.props::{
+        , options =
+          [ s.text.from
+              s.text.props::{=}
+              s.text.meta::{ name = Some "Text" }
+          , s.number.from
+              s.number.props::{ variant = s.number.variants.natural }
+              s.number.meta::{ name = Some "Natural" }
+          ]
+        }
+        s.oneOf.meta::{=}
+
+let RootTextOrNatural =
+      s.root.from TextOrNatural (s.root.meta::{ name = "TextOrNatural" })
+```
+
+```go
+type TextOrNaturalKind string
+
+const (
+	TextOrNaturalKindText TextOrNaturalKind = "Text"
+	TextOrNaturalKindNatural TextOrNaturalKind = "Natural"
+)
+
+type TextOrNatural struct {
+	Kind    TextOrNaturalKind `json:"kind"`
+	Text    *string           `json:"Text,omitempty"`
+	Natural *int              `json:"Natural,omitempty"`
+}
+```
+
+Tagged union structs are synthetic Go representations. The codec does not emit them in encoded JSON or expect them while decoding JSON. For encoding, `Kind` selects the option field to encode. For decoding, the codec tries options in declaration order and selects the first that matches the JSON value.
 
 For interface-record schemas, the codec emits a private concrete implementation of the generated Go interface. Decoding returns that implementation; encoding accepts any value that implements the generated interface methods.
 
-## Python 3.11
+## Python 3.11 - JSON
 
 **Path:** `dhall-codegen/codec-python-json/package.dhall`
 
@@ -79,7 +105,7 @@ let Codec = ./dhall-codegen/codec-python-json/package.dhall
 in  Codec.render myDocument
 ```
 
-For every root `Person`, output exports:
+Given a root schema named `Person`, the codec generates:
 
 ```python
 def encode_Person(value: Person) -> Any: ...
