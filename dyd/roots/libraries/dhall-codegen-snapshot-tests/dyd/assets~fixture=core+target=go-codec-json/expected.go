@@ -3414,18 +3414,27 @@ func EncodeOneOfTest0(value OneOfTest0) (err error, result any) {
 
 func encodeOneOfTest0At(value OneOfTest0, path string) (err error, result any) {
 	{
-		if (OneOfTest0)(value).TextValue != nil {
+		switch (OneOfTest0)(value).Kind {
+		case OneOfTest0KindTextValue:
+			if (OneOfTest0)(value).TextValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil TextValue field")
+				return err, result
+			}
 			err, result = encodeText("none", *(OneOfTest0)(value).TextValue, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest0)(value).NaturalValue != nil {
+		case OneOfTest0KindNaturalValue:
+			if (OneOfTest0)(value).NaturalValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil NaturalValue field")
+				return err, result
+			}
 			err, result = encodeInteger(*(OneOfTest0)(value).NaturalValue, true, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}
@@ -3483,18 +3492,27 @@ func EncodeOneOfTest1(value OneOfTest1) (err error, result any) {
 
 func encodeOneOfTest1At(value OneOfTest1, path string) (err error, result any) {
 	{
-		if (OneOfTest1)(value).TextValue != nil {
+		switch (OneOfTest1)(value).Kind {
+		case OneOfTest1KindTextValue:
+			if (OneOfTest1)(value).TextValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil TextValue field")
+				return err, result
+			}
 			err, result = encodeText("none", *(OneOfTest1)(value).TextValue, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest1)(value).NaturalValue != nil {
+		case OneOfTest1KindNaturalValue:
+			if (OneOfTest1)(value).NaturalValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil NaturalValue field")
+				return err, result
+			}
 			err, result = encodeInteger(*(OneOfTest1)(value).NaturalValue, true, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}
@@ -3621,23 +3639,36 @@ func EncodeOneOfTest2(value OneOfTest2) (err error, result any) {
 
 func encodeOneOfTest2At(value OneOfTest2, path string) (err error, result any) {
 	{
-		if (OneOfTest2)(value).TextValue != nil {
+		switch (OneOfTest2)(value).Kind {
+		case OneOfTest2KindTextValue:
+			if (OneOfTest2)(value).TextValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil TextValue field")
+				return err, result
+			}
 			err, result = encodeText("none", *(OneOfTest2)(value).TextValue, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest2)(value).NaturalValue != nil {
+		case OneOfTest2KindNaturalValue:
+			if (OneOfTest2)(value).NaturalValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil NaturalValue field")
+				return err, result
+			}
 			err, result = encodeInteger(*(OneOfTest2)(value).NaturalValue, true, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest2)(value).Details != nil {
+		case OneOfTest2KindDetails:
+			if (OneOfTest2)(value).Details == nil {
+				err = codecError("encode", path, "malformed union struct: nil Details field")
+				return err, result
+			}
 			err, result = encodeOneOfTest2Option2At(*(OneOfTest2)(value).Details, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}
@@ -3708,18 +3739,27 @@ func EncodeOneOfTest3(value OneOfTest3) (err error, result any) {
 
 func encodeOneOfTest3At(value OneOfTest3, path string) (err error, result any) {
 	{
-		if (OneOfTest3)(value).FooRef != nil {
+		switch (OneOfTest3)(value).Kind {
+		case OneOfTest3KindFooRef:
+			if (OneOfTest3)(value).FooRef == nil {
+				err = codecError("encode", path, "malformed union struct: nil FooRef field")
+				return err, result
+			}
 			err, result = encodeFooAt(*(OneOfTest3)(value).FooRef, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest3)(value).BarRef != nil {
+		case OneOfTest3KindBarRef:
+			if (OneOfTest3)(value).BarRef == nil {
+				err = codecError("encode", path, "malformed union struct: nil BarRef field")
+				return err, result
+			}
 			err, result = encodeBarAt(*(OneOfTest3)(value).BarRef, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}
@@ -3895,18 +3935,27 @@ func EncodeOneOfTest4(value OneOfTest4) (err error, result any) {
 
 func encodeOneOfTest4At(value OneOfTest4, path string) (err error, result any) {
 	{
-		if (OneOfTest4)(value).ExtendedRecord != nil {
+		switch (OneOfTest4)(value).Kind {
+		case OneOfTest4KindExtendedRecord:
+			if (OneOfTest4)(value).ExtendedRecord == nil {
+				err = codecError("encode", path, "malformed union struct: nil ExtendedRecord field")
+				return err, result
+			}
 			err, result = encodeOneOfTest4Option0At(*(OneOfTest4)(value).ExtendedRecord, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest4)(value).BaseRecord != nil {
+		case OneOfTest4KindBaseRecord:
+			if (OneOfTest4)(value).BaseRecord == nil {
+				err = codecError("encode", path, "malformed union struct: nil BaseRecord field")
+				return err, result
+			}
 			err, result = encodeOneOfTest4Option1At(*(OneOfTest4)(value).BaseRecord, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}
@@ -4082,18 +4131,27 @@ func EncodeOneOfTest5(value OneOfTest5) (err error, result any) {
 
 func encodeOneOfTest5At(value OneOfTest5, path string) (err error, result any) {
 	{
-		if (OneOfTest5)(value).BaseRecord != nil {
+		switch (OneOfTest5)(value).Kind {
+		case OneOfTest5KindBaseRecord:
+			if (OneOfTest5)(value).BaseRecord == nil {
+				err = codecError("encode", path, "malformed union struct: nil BaseRecord field")
+				return err, result
+			}
 			err, result = encodeOneOfTest5Option0At(*(OneOfTest5)(value).BaseRecord, path)
 			if err != nil {
 				return err, result
 			}
-		} else if (OneOfTest5)(value).ExtendedRecord != nil {
+		case OneOfTest5KindExtendedRecord:
+			if (OneOfTest5)(value).ExtendedRecord == nil {
+				err = codecError("encode", path, "malformed union struct: nil ExtendedRecord field")
+				return err, result
+			}
 			err, result = encodeOneOfTest5Option1At(*(OneOfTest5)(value).ExtendedRecord, path)
 			if err != nil {
 				return err, result
 			}
-		} else {
-			err = codecError("encode", path, "no OneOf option matched")
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
 			return err, result
 		}
 	}

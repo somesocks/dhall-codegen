@@ -28,7 +28,7 @@ func TestJSONNumberRoundTrip(t *testing.T) {
 
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
-	err, encodedText := EncodeOneOfTest0(OneOfTest0{TextValue: &text})
+	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})
 	requireNoError(t, err)
 	if encodedText != text {
 		t.Fatalf("unexpected encoded text: %#v", encodedText)
@@ -53,14 +53,46 @@ func TestOneOfFirstMatch(t *testing.T) {
 	}
 }
 
-func TestOneOfEncodeUsesFirstPopulatedField(t *testing.T) {
+func TestOneOfEncodeUsesKind(t *testing.T) {
 	base := OneOfTest5Option0{Foo: "base"}
 	extended := OneOfTest5Option1{Foo: "extended", Bar: 1}
-	err, encoded := EncodeOneOfTest5(OneOfTest5{BaseRecord: &base, ExtendedRecord: &extended})
+	err, encoded := EncodeOneOfTest5(OneOfTest5{
+		Kind:           OneOfTest5KindExtendedRecord,
+		BaseRecord:     &base,
+		ExtendedRecord: &extended,
+	})
 	requireNoError(t, err)
 	object, ok := encoded.(map[string]any)
-	if !ok || object["foo"] != "base" {
-		t.Fatalf("first populated union field did not win: %#v", encoded)
+	if !ok || object["foo"] != "extended" || object["bar"] != json.Number("1") {
+		t.Fatalf("Kind did not select the union field: %#v", encoded)
+	}
+}
+
+func TestOneOfEncodeRequiresSelectedField(t *testing.T) {
+	base := OneOfTest5Option0{Foo: "base"}
+	err, _ := EncodeOneOfTest5(OneOfTest5{
+		Kind:       OneOfTest5KindExtendedRecord,
+		BaseRecord: &base,
+	})
+	if err == nil {
+		t.Fatal("expected missing selected union field to fail")
+	}
+	if err.Error() != "encode error at $: malformed union struct: nil ExtendedRecord field" {
+		t.Fatalf("unexpected missing selected union field error: %v", err)
+	}
+}
+
+func TestOneOfEncodeRejectsUnknownKind(t *testing.T) {
+	extended := OneOfTest5Option1{Foo: "extended", Bar: 1}
+	err, _ := EncodeOneOfTest5(OneOfTest5{
+		Kind:           OneOfTest5Kind("unknown"),
+		ExtendedRecord: &extended,
+	})
+	if err == nil {
+		t.Fatal("expected unknown union Kind to fail")
+	}
+	if err.Error() != "encode error at $: malformed union struct: Kind is missing or unknown" {
+		t.Fatalf("unexpected unknown union Kind error: %v", err)
 	}
 }
 

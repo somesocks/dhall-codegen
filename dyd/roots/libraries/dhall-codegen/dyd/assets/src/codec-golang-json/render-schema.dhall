@@ -553,12 +553,24 @@ let renderSchema
 
                         let fieldName = Text/snakeCase optionName
 
-                        let prefix = if Natural/isZero index then "if" else " else if"
+                        let kind =
+                              merge
+                                { None = quote optionName
+                                , Some = \(name : Text) -> ctx.options.prefix ++ name ++ "Kind${fieldName}"
+                                }
+                                ctx.rootType
 
-                        in  "${prefix} ${value}.${fieldName} != nil {\n"
+                        in  "case ${kind}:\n"
                           ++ indent "\t"
-                            (option.encode ((childContext ctx) // { label = ctx.label ++ "e${n}" }) "*${value}.${fieldName}" target path)
-                          ++ "\n}"
+                            ( "if ${value}.${fieldName} == nil {\n"
+                            ++ indent "\t"
+                              ( "err = codecError(\"encode\", ${path}, \"malformed union struct: nil ${fieldName} field\")\n"
+                              ++ "${ctx.onError}\n"
+                              )
+                            ++ "\n}\n"
+                            ++ option.encode ((childContext ctx) // { label = ctx.label ++ "e${n}" }) "*${value}.${fieldName}" target path
+                            )
+                          ++ "\n"
 
                 let renderDecodeOption =
                       \(index : Natural) ->
@@ -607,10 +619,14 @@ let renderSchema
 
                 in  if    encode
                     then  block
-                      ( Text/concat (List/mapWithIndex Fragment Text renderEncodeOption options)
-                      ++ " else {\n"
-                      ++ "\terr = codecError(\"encode\", ${path}, \"no OneOf option matched\")\n"
-                      ++ "\t${ctx.onError}\n"
+                      ( "switch ${value}.Kind {\n"
+                      ++ Text/concat (List/mapWithIndex Fragment Text renderEncodeOption options)
+                      ++ "default:\n"
+                      ++ indent "\t"
+                        ( "err = codecError(\"encode\", ${path}, \"malformed union struct: Kind is missing or unknown\")\n"
+                        ++ "${ctx.onError}\n"
+                        )
+                      ++ "\n"
                       ++ "}\n"
                       )
                     else  block
