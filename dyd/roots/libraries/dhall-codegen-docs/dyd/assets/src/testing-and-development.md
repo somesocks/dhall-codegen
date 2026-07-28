@@ -117,6 +117,7 @@ Snapshot comparisons live in `dyd/roots/libraries/dhall-codegen-snapshot-tests`.
 
 - `expected.<ext>` is the checked-in snapshot output.
 - `dyd-stem-run` compares generated output against the snapshot output with `diff`.
+- Codec targets snapshot their core and Person generated outputs, in addition to their runtime smoke tests.
 
 Smoke tests live in `dyd/roots/libraries/dhall-codegen-smoke-tests`. They consume generated fixture output and run target-specific toolchain checks, such as `go test` for generated Go code, `tsc --noEmit` for generated TypeScript types, compiled runtime validation for generated Zod schemas, real JSON Schema draft-07 and 2020-12 validation, and real Python 3.8 and 3.11 runtime validation for generated Python code.
 
@@ -126,7 +127,7 @@ TypeScript smoke test variants keep `package.json`, `package-lock.json`, `tsconf
 dryad root develop start dyd/roots/libraries/dhall-codegen-smoke-tests~fixture=person+target=<target> --scope=none --on-exit=save -- z-update-lockfile
 ```
 
-When a renderer, transformer, or grammar change intentionally changes generated output, update the matching snapshot output files and review the diffs.
+When a renderer, codec, transformer, or grammar change intentionally changes generated output, update the matching snapshot output files and review the diffs.
 
 ## Adding a Test Case
 
