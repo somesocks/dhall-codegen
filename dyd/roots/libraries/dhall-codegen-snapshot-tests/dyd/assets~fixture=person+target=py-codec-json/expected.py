@@ -221,7 +221,7 @@ def _decode_PersonContact_at(input: Any, path: str) -> PersonContact:
     if "phone_number" not in object:
         _fail("decode", _field(path, "phone_number"), "missing required field")
     result["phone_number"] = _text("decode", object["phone_number"], _field(path, "phone_number"), "e164")
-    if "email" in object:
+    if "email" in object and object["email"] is not None:
         result["email"] = _text("decode", object["email"], _field(path, "email"), "email")
     else:
         result["email"] = None

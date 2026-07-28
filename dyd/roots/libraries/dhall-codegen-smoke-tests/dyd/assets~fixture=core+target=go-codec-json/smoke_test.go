@@ -114,3 +114,28 @@ func TestInterfaceRecordCodecRoundTrip(t *testing.T) {
 		t.Fatalf("unexpected encoded interface record: %#v", encoded)
 	}
 }
+
+func TestOptionalRecordNullFields(t *testing.T) {
+	err, nested := DecodeRecordTest2(map[string]any{
+		"age":     json.Number("36"),
+		"contact": map[string]any{"email": nil, "phone": nil},
+		"deceased": false,
+		"name":    "Ada",
+	})
+	requireNoError(t, err)
+	if nested.Contact.Email != nil || nested.Contact.Phone != nil {
+		t.Fatalf("null nested optional fields were not absent: %#v", nested)
+	}
+
+	err, optional := DecodeRecordTest3(map[string]any{"name": "Ada", "age": nil, "deceased": nil})
+	requireNoError(t, err)
+	if optional.Age != nil || optional.Deceased != nil {
+		t.Fatalf("null optional fields were not absent: %#v", optional)
+	}
+
+	err, interfaceRecord := DecodeRecordTest4(map[string]any{"id": "person-1", "status": "active", "age": nil})
+	requireNoError(t, err)
+	if interfaceRecord.Age() != nil {
+		t.Fatalf("null interface optional field was not absent: %#v", interfaceRecord)
+	}
+}

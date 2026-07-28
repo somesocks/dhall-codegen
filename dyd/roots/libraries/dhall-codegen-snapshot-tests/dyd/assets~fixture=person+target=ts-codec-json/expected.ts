@@ -253,7 +253,7 @@ function decodePersonContactAt(input: unknown, path: string): PersonContact {
 	const object = asObject("decode", input, path);
 	const result: { [key: string]: unknown } = {};
 	result["phone_number"] = decodeText("e164", object["phone_number"], pathField(path, "phone_number"));
-	if (hasOwn(object, "email")) result["email"] = decodeText("email", object["email"], pathField(path, "email"));
+	if (hasOwn(object, "email") && object["email"] !== null) result["email"] = decodeText("email", object["email"], pathField(path, "email"));
 	return result as PersonContact;
 }
 

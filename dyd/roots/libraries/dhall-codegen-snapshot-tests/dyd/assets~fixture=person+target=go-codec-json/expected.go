@@ -251,7 +251,7 @@ func decodePersonContactAt(input any, path string) (err error, result PersonCont
 				return err, result
 			}
 		}
-		if rawValue, exists := object["email"]; exists {
+		if rawValue, exists := object["email"]; exists && rawValue != nil {
 			var decodedValue string
 			err, decodedValue = decodeText("email", rawValue, pathField(path, "email"))
 			if err != nil {

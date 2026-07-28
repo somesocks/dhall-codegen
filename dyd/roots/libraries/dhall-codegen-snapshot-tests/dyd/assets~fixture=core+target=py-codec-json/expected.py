@@ -1465,11 +1465,11 @@ def _encode_RecordTest2Contact_at(value: RecordTest2Contact, path: str) -> Any:
 def _decode_RecordTest2Contact_at(input: Any, path: str) -> RecordTest2Contact:
     object = _object("decode", input, path)
     result = {}
-    if "email" in object:
+    if "email" in object and object["email"] is not None:
         result["email"] = _text("decode", object["email"], _field(path, "email"), "none")
     else:
         result["email"] = None
-    if "phone" in object:
+    if "phone" in object and object["phone"] is not None:
         result["phone"] = _text("decode", object["phone"], _field(path, "phone"), "none")
     else:
         result["phone"] = None
@@ -1540,11 +1540,11 @@ def _decode_RecordTest3_at(input: Any, path: str) -> RecordTest3:
     if "name" not in object:
         _fail("decode", _field(path, "name"), "missing required field")
     result["name"] = _text("decode", object["name"], _field(path, "name"), "none")
-    if "age" in object:
+    if "age" in object and object["age"] is not None:
         result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
     else:
         result["age"] = None
-    if "deceased" in object:
+    if "deceased" in object and object["deceased"] is not None:
         if not isinstance(object["deceased"], bool):
             _fail("decode", _field(path, "deceased"), "expected boolean")
         result["deceased"] = object["deceased"]
@@ -1582,7 +1582,7 @@ def _decode_RecordTest4_at(input: Any, path: str) -> RecordTest4:
     if "status" not in object:
         _fail("decode", _field(path, "status"), "missing required field")
     result["status"] = _text("decode", object["status"], _field(path, "status"), "none")
-    if "age" in object:
+    if "age" in object and object["age"] is not None:
         result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
     else:
         result["age"] = None

@@ -335,6 +335,16 @@ if (nestedRecord.contact.email !== "ada@example.com" || nestedRecord.contact.pho
   throw new Error("nested optional record did not round-trip");
 }
 
+const nullNestedRecord = decodeRecordTest2({
+  age: 36,
+  contact: { email: null, phone: null },
+  deceased: false,
+  name: "Ada",
+});
+if (nullNestedRecord.contact.email !== undefined || nullNestedRecord.contact.phone !== undefined) {
+  throw new Error("null nested optional fields were not absent");
+}
+
 const omittedOptionalRecord = decodeRecordTest3(encodeRecordTest3({ name: "Ada" }));
 if (omittedOptionalRecord.age !== undefined || omittedOptionalRecord.deceased !== undefined) {
   throw new Error("omitted optional record fields changed");
@@ -343,10 +353,17 @@ const presentOptionalRecord = decodeRecordTest3(encodeRecordTest3({ age: 36, dec
 if (presentOptionalRecord.age !== 36 || presentOptionalRecord.deceased !== false) {
   throw new Error("present optional record fields changed");
 }
+const nullOptionalRecord = decodeRecordTest3({ age: null, deceased: null, name: "Ada" });
+if (nullOptionalRecord.age !== undefined || nullOptionalRecord.deceased !== undefined) {
+  throw new Error("null optional record fields were not absent");
+}
 
 const interfaceRecord = decodeRecordTest4(encodeRecordTest4({ id: "person-1", status: "active" }));
 if (interfaceRecord.id !== "person-1" || interfaceRecord.status !== "active" || interfaceRecord.age !== undefined) {
   throw new Error("interface record did not round-trip");
+}
+if (decodeRecordTest4({ id: "person-1", status: "active", age: null }).age !== undefined) {
+  throw new Error("null interface optional field was not absent");
 }
 
 const instant = new Date("2026-07-25T14:30:00.123Z");

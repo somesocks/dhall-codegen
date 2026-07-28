@@ -356,7 +356,7 @@ let renderSchema
                               ++ indent "\t"
                                 (field.mapValue.encode ctx1 "*${value}.${fieldName}" "encodedObject[${key}]" "pathField(${path}, ${key})")
                               ++ "\n}\n"
-                            else  "if rawValue, exists := object[${key}]; exists {\n"
+                            else  "if rawValue, exists := object[${key}]; exists && rawValue != nil {\n"
                               ++ indent "\t"
                                 ( "var decodedValue ${childType}\n"
                                 ++ field.mapValue.decode ctx1 "rawValue" "decodedValue" "pathField(${path}, ${key})"
@@ -503,7 +503,7 @@ let renderSchema
                                       ++ indent "\t"
                                         (field.mapValue.encode ctx1 "*${value}.${fieldName}()" "encodedObject[${key}]" "pathField(${path}, ${key})")
                                       ++ "\n}\n"
-                                    else  "if rawValue, exists := object[${key}]; exists {\n"
+                                    else  "if rawValue, exists := object[${key}]; exists && rawValue != nil {\n"
                                       ++ indent "\t"
                                         ( "var decodedValue ${fieldType}\n"
                                         ++ field.mapValue.decode ctx1 "rawValue" "decodedValue" "pathField(${path}, ${key})"

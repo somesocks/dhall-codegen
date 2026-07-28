@@ -85,7 +85,7 @@ let renderSchema : s.typeF Fragment -> Fragment =
                         in  if    encode
                             then  "${ctx.indent}if ${value}.${field.mapKey} is not None:\n"
                               ++ field.mapValue.encode (ctx // { indent = ctx.indent ++ "    " }) "${value}.${field.mapKey}" "${target}[${key}]" fieldPath
-                            else  "${ctx.indent}if ${key} in object:\n"
+                            else  "${ctx.indent}if ${key} in object and object[${key}] is not None:\n"
                               ++ field.mapValue.decode (ctx // { indent = ctx.indent ++ "    " }) "object[${key}]" "${target}[${key}]" fieldPath
                               ++ "${ctx.indent}else:\n${ctx.indent}    ${target}[${key}] = None\n"
 

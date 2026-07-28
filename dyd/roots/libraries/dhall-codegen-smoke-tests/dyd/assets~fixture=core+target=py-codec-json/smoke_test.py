@@ -104,6 +104,14 @@ nested_record = out.RecordTest2(
 decoded_nested_record = round_trip(out.encode_RecordTest2, out.decode_RecordTest2, nested_record)
 assert decoded_nested_record.contact.email == "ada@example.com"
 assert decoded_nested_record.contact.phone is None
+null_nested_record = out.decode_RecordTest2({
+    "age": 36,
+    "contact": {"email": None, "phone": None},
+    "deceased": False,
+    "name": "Ada",
+})
+assert null_nested_record.contact.email is None
+assert null_nested_record.contact.phone is None
 
 optional_record = out.RecordTest3(name="Ada", age=None, deceased=None)
 decoded_optional_record = round_trip(out.encode_RecordTest3, out.decode_RecordTest3, optional_record)
@@ -111,12 +119,16 @@ assert decoded_optional_record.age is None
 assert decoded_optional_record.deceased is None
 present_optional_record = out.RecordTest3(name="Grace", age=85, deceased=True)
 assert round_trip(out.encode_RecordTest3, out.decode_RecordTest3, present_optional_record).age == 85
+null_optional_record = out.decode_RecordTest3({"name": "Ada", "age": None, "deceased": None})
+assert null_optional_record.age is None
+assert null_optional_record.deceased is None
 
 interface_record = out.decode_RecordTest4({"id": "person-1", "status": "active", "age": 36})
 assert interface_record.id == "person-1"
 assert interface_record.status == "active"
 assert interface_record.age == 36
 assert out.encode_RecordTest4(interface_record) == {"id": "person-1", "status": "active", "age": 36}
+assert out.decode_RecordTest4({"id": "person-1", "status": "active", "age": None}).age is None
 expect_codec_error(lambda: out.decode_RecordTest4({"id": "person-1"}))
 
 instant = datetime(2026, 7, 25, 14, 30, 0, 123000, timezone.utc)

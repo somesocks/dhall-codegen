@@ -94,7 +94,7 @@ let renderSchema
                 let condition =
                       if    encode
                       then  "hasOwn(object, ${key}) && object[${key}] !== undefined"
-                      else  "hasOwn(object, ${key})"
+                      else  "hasOwn(object, ${key}) && object[${key}] !== null"
 
                 in  "${indent}if (${condition}) result[${key}] = ${converted};${break}"
 

@@ -1743,8 +1743,8 @@ function encodeRecordTest2ContactAt(value: RecordTest2Contact, path: string): Js
 function decodeRecordTest2ContactAt(input: unknown, path: string): RecordTest2Contact {
 	const object = asObject("decode", input, path);
 	const result: { [key: string]: unknown } = {};
-	if (hasOwn(object, "email")) result["email"] = decodeText("none", object["email"], pathField(path, "email"));
-	if (hasOwn(object, "phone")) result["phone"] = decodeText("none", object["phone"], pathField(path, "phone"));
+	if (hasOwn(object, "email") && object["email"] !== null) result["email"] = decodeText("none", object["email"], pathField(path, "email"));
+	if (hasOwn(object, "phone") && object["phone"] !== null) result["phone"] = decodeText("none", object["phone"], pathField(path, "phone"));
 	return result as RecordTest2Contact;
 }
 
@@ -1797,8 +1797,8 @@ function decodeRecordTest3At(input: unknown, path: string): RecordTest3 {
 	const object = asObject("decode", input, path);
 	const result: { [key: string]: unknown } = {};
 	result["name"] = decodeText("none", object["name"], pathField(path, "name"));
-	if (hasOwn(object, "age")) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
-	if (hasOwn(object, "deceased")) result["deceased"] = decodeBoolean(object["deceased"], pathField(path, "deceased"));
+	if (hasOwn(object, "age") && object["age"] !== null) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
+	if (hasOwn(object, "deceased") && object["deceased"] !== null) result["deceased"] = decodeBoolean(object["deceased"], pathField(path, "deceased"));
 	return result as RecordTest3;
 }
 
@@ -1824,7 +1824,7 @@ function decodeRecordTest4At(input: unknown, path: string): RecordTest4 {
 	const result: { [key: string]: unknown } = {};
 	result["id"] = decodeText("none", object["id"], pathField(path, "id"));
 	result["status"] = decodeText("none", object["status"], pathField(path, "status"));
-	if (hasOwn(object, "age")) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
+	if (hasOwn(object, "age") && object["age"] !== null) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
 	return result as RecordTest4;
 }
 

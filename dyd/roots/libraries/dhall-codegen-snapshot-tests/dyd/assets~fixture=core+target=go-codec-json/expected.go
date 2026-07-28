@@ -2669,7 +2669,7 @@ func decodeRecordTest2ContactAt(input any, path string) (err error, result Recor
 		if err != nil {
 			return err, result
 		}
-		if rawValue, exists := object["email"]; exists {
+		if rawValue, exists := object["email"]; exists && rawValue != nil {
 			var decodedValue string
 			err, decodedValue = decodeText("none", rawValue, pathField(path, "email"))
 			if err != nil {
@@ -2677,7 +2677,7 @@ func decodeRecordTest2ContactAt(input any, path string) (err error, result Recor
 			}
 			decoded.Email = &decodedValue
 		}
-		if rawValue, exists := object["phone"]; exists {
+		if rawValue, exists := object["phone"]; exists && rawValue != nil {
 			var decodedValue string
 			err, decodedValue = decodeText("none", rawValue, pathField(path, "phone"))
 			if err != nil {
@@ -2881,7 +2881,7 @@ func decodeRecordTest3At(input any, path string) (err error, result RecordTest3)
 				return err, result
 			}
 		}
-		if rawValue, exists := object["age"]; exists {
+		if rawValue, exists := object["age"]; exists && rawValue != nil {
 			var decodedValue int
 			err, decodedValue = decodeInteger(rawValue, true, pathField(path, "age"))
 			if err != nil {
@@ -2889,7 +2889,7 @@ func decodeRecordTest3At(input any, path string) (err error, result RecordTest3)
 			}
 			decoded.Age = &decodedValue
 		}
-		if rawValue, exists := object["deceased"]; exists {
+		if rawValue, exists := object["deceased"]; exists && rawValue != nil {
 			var decodedValue bool
 			err, decodedValue = decodeBoolean(rawValue, pathField(path, "deceased"))
 			if err != nil {
@@ -3000,7 +3000,7 @@ func decodeRecordTest4At(input any, path string) (err error, result RecordTest4)
 				return err, result
 			}
 		}
-		if rawValue, exists := object["age"]; exists {
+		if rawValue, exists := object["age"]; exists && rawValue != nil {
 			var decodedValue int
 			err, decodedValue = decodeInteger(rawValue, true, pathField(path, "age"))
 			if err != nil {
