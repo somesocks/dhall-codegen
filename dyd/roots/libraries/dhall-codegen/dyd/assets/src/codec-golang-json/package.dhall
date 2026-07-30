@@ -92,7 +92,10 @@ let renderDocument
     : common.RenderOptions -> Document.Type -> Text
     = \(options : common.RenderOptions) ->
       \(document : Document.Type) ->
-        let document = liftDefinitions.transform liftDefinitions.options::{=} document
+        let document =
+              liftDefinitions.transform
+                liftDefinitions.options::{ liftOneOf = True }
+                document
 
         let typeOptions = options // { package = None Text }
 

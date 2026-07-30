@@ -508,6 +508,33 @@ type OneOfTest5 struct {
 	ExtendedRecord *OneOfTest5Option1 `json:"ExtendedRecord,omitempty"`
 }
 
+type OptionalNestedOneOfValueOption0 struct {
+	Content string `json:"content"`
+	Type string `json:"type"`
+}
+
+type OptionalNestedOneOfValueOption1 struct {
+	Type string `json:"type"`
+}
+
+type OptionalNestedOneOfValueKind string
+
+const (
+	OptionalNestedOneOfValueKindTextValue OptionalNestedOneOfValueKind = "TextValue"
+	OptionalNestedOneOfValueKindEmptyValue OptionalNestedOneOfValueKind = "EmptyValue"
+)
+
+type OptionalNestedOneOfValue struct {
+	Kind OptionalNestedOneOfValueKind `json:"kind"`
+	TextValue *OptionalNestedOneOfValueOption0 `json:"TextValue,omitempty"`
+	EmptyValue *OptionalNestedOneOfValueOption1 `json:"EmptyValue,omitempty"`
+}
+
+type OptionalNestedOneOf struct {
+	Name string `json:"name"`
+	Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+}
+
 type Foo string
 
 type Bar int
@@ -4198,6 +4225,273 @@ func decodeOneOfTest5At(input any, path string) (err error, result OneOfTest5) {
 		}
 	}
 	result = OneOfTest5(decoded)
+	return nil, result
+}
+
+
+
+func EncodeOptionalNestedOneOfValueOption0(value OptionalNestedOneOfValueOption0) (err error, result any) {
+	return encodeOptionalNestedOneOfValueOption0At(value, "$")
+}
+
+func encodeOptionalNestedOneOfValueOption0At(value OptionalNestedOneOfValueOption0, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		err, encodedObject["content"] = encodeText("none", (struct {
+			Content string `json:"content"`
+			Type string `json:"type"`
+		})(value).Content, pathField(path, "content"))
+		if err != nil {
+			return err, result
+		}
+		err, encodedObject["type"] = encodeText("literal:text", (struct {
+			Content string `json:"content"`
+			Type string `json:"type"`
+		})(value).Type, pathField(path, "type"))
+		if err != nil {
+			return err, result
+		}
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeOptionalNestedOneOfValueOption0(input any) (err error, result OptionalNestedOneOfValueOption0) {
+	return decodeOptionalNestedOneOfValueOption0At(input, "$")
+}
+
+func decodeOptionalNestedOneOfValueOption0At(input any, path string) (err error, result OptionalNestedOneOfValueOption0) {
+	var decoded struct {
+		Content string `json:"content"`
+		Type string `json:"type"`
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		{
+			rawValue, exists := object["content"]
+			if !exists {
+				err = codecError("decode", pathField(path, "content"), "missing required field")
+				return err, result
+			}
+			err, decoded.Content = decodeText("none", rawValue, pathField(path, "content"))
+			if err != nil {
+				return err, result
+			}
+		}
+		{
+			rawValue, exists := object["type"]
+			if !exists {
+				err = codecError("decode", pathField(path, "type"), "missing required field")
+				return err, result
+			}
+			err, decoded.Type = decodeText("literal:text", rawValue, pathField(path, "type"))
+			if err != nil {
+				return err, result
+			}
+		}
+	}
+	result = OptionalNestedOneOfValueOption0(decoded)
+	return nil, result
+}
+
+
+
+func EncodeOptionalNestedOneOfValueOption1(value OptionalNestedOneOfValueOption1) (err error, result any) {
+	return encodeOptionalNestedOneOfValueOption1At(value, "$")
+}
+
+func encodeOptionalNestedOneOfValueOption1At(value OptionalNestedOneOfValueOption1, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		err, encodedObject["type"] = encodeText("literal:empty", (struct {
+			Type string `json:"type"`
+		})(value).Type, pathField(path, "type"))
+		if err != nil {
+			return err, result
+		}
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeOptionalNestedOneOfValueOption1(input any) (err error, result OptionalNestedOneOfValueOption1) {
+	return decodeOptionalNestedOneOfValueOption1At(input, "$")
+}
+
+func decodeOptionalNestedOneOfValueOption1At(input any, path string) (err error, result OptionalNestedOneOfValueOption1) {
+	var decoded struct {
+		Type string `json:"type"`
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		{
+			rawValue, exists := object["type"]
+			if !exists {
+				err = codecError("decode", pathField(path, "type"), "missing required field")
+				return err, result
+			}
+			err, decoded.Type = decodeText("literal:empty", rawValue, pathField(path, "type"))
+			if err != nil {
+				return err, result
+			}
+		}
+	}
+	result = OptionalNestedOneOfValueOption1(decoded)
+	return nil, result
+}
+
+
+
+func EncodeOptionalNestedOneOfValue(value OptionalNestedOneOfValue) (err error, result any) {
+	return encodeOptionalNestedOneOfValueAt(value, "$")
+}
+
+func encodeOptionalNestedOneOfValueAt(value OptionalNestedOneOfValue, path string) (err error, result any) {
+	{
+		switch (OptionalNestedOneOfValue)(value).Kind {
+		case OptionalNestedOneOfValueKindTextValue:
+			if (OptionalNestedOneOfValue)(value).TextValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil TextValue field")
+				return err, result
+			}
+			err, result = encodeOptionalNestedOneOfValueOption0At(*(OptionalNestedOneOfValue)(value).TextValue, path)
+			if err != nil {
+				return err, result
+			}
+		case OptionalNestedOneOfValueKindEmptyValue:
+			if (OptionalNestedOneOfValue)(value).EmptyValue == nil {
+				err = codecError("encode", path, "malformed union struct: nil EmptyValue field")
+				return err, result
+			}
+			err, result = encodeOptionalNestedOneOfValueOption1At(*(OptionalNestedOneOfValue)(value).EmptyValue, path)
+			if err != nil {
+				return err, result
+			}
+		default:
+			err = codecError("encode", path, "malformed union struct: Kind is missing or unknown")
+			return err, result
+		}
+	}
+	return nil, result
+}
+
+func DecodeOptionalNestedOneOfValue(input any) (err error, result OptionalNestedOneOfValue) {
+	return decodeOptionalNestedOneOfValueAt(input, "$")
+}
+
+func decodeOptionalNestedOneOfValueAt(input any, path string) (err error, result OptionalNestedOneOfValue) {
+	var decoded OptionalNestedOneOfValue
+	{
+		matched := false
+		if !matched {
+			oneOfRoot75Option1:
+			for {
+				var decodedValue OptionalNestedOneOfValueOption0
+				err, decodedValue = decodeOptionalNestedOneOfValueOption0At(input, path)
+				if err != nil {
+					break oneOfRoot75Option1
+				}
+				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindTextValue, TextValue: &decodedValue}
+				matched = true
+				break oneOfRoot75Option1
+			}
+		}
+		if !matched {
+			oneOfRoot75Option2:
+			for {
+				var decodedValue OptionalNestedOneOfValueOption1
+				err, decodedValue = decodeOptionalNestedOneOfValueOption1At(input, path)
+				if err != nil {
+					break oneOfRoot75Option2
+				}
+				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindEmptyValue, EmptyValue: &decodedValue}
+				matched = true
+				break oneOfRoot75Option2
+			}
+		}
+		if !matched {
+			err = codecError("decode", path, "no OneOf option matched")
+			return err, result
+		}
+	}
+	result = OptionalNestedOneOfValue(decoded)
+	return nil, result
+}
+
+
+
+func EncodeOptionalNestedOneOf(value OptionalNestedOneOf) (err error, result any) {
+	return encodeOptionalNestedOneOfAt(value, "$")
+}
+
+func encodeOptionalNestedOneOfAt(value OptionalNestedOneOf, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		err, encodedObject["name"] = encodeText("none", (struct {
+			Name string `json:"name"`
+			Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+		})(value).Name, pathField(path, "name"))
+		if err != nil {
+			return err, result
+		}
+		if (struct {
+			Name string `json:"name"`
+			Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+		})(value).Value != nil {
+			err, encodedObject["value"] = encodeOptionalNestedOneOfValueAt(*(struct {
+				Name string `json:"name"`
+				Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+			})(value).Value, pathField(path, "value"))
+			if err != nil {
+				return err, result
+			}
+		}
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeOptionalNestedOneOf(input any) (err error, result OptionalNestedOneOf) {
+	return decodeOptionalNestedOneOfAt(input, "$")
+}
+
+func decodeOptionalNestedOneOfAt(input any, path string) (err error, result OptionalNestedOneOf) {
+	var decoded struct {
+		Name string `json:"name"`
+		Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		{
+			rawValue, exists := object["name"]
+			if !exists {
+				err = codecError("decode", pathField(path, "name"), "missing required field")
+				return err, result
+			}
+			err, decoded.Name = decodeText("none", rawValue, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+		}
+		if rawValue, exists := object["value"]; exists && rawValue != nil {
+			var decodedValue OptionalNestedOneOfValue
+			err, decodedValue = decodeOptionalNestedOneOfValueAt(rawValue, pathField(path, "value"))
+			if err != nil {
+				return err, result
+			}
+			decoded.Value = &decodedValue
+		}
+	}
+	result = OptionalNestedOneOf(decoded)
 	return nil, result
 }
 

@@ -46,7 +46,7 @@ let Bar =
 let document =
       Document::{
       , headers = [] : List Text
-      , schemas = ./schemas-boolean.dhall # ./schemas-number.dhall # ./schemas-text.dhall # ./schemas-optional.dhall # ./schemas-list.dhall # ./schemas-tuple.dhall # ./schemas-set.dhall # ./schemas-map.dhall # ./schemas-record.dhall # ./schemas-time.dhall # ./schemas-any.dhall # ./schemas-reference.dhall # ./schemas-oneOf.dhall # [ Foo, Bar ]
+      , schemas = ./schemas-boolean.dhall # ./schemas-number.dhall # ./schemas-text.dhall # ./schemas-optional.dhall # ./schemas-list.dhall # ./schemas-tuple.dhall # ./schemas-set.dhall # ./schemas-map.dhall # ./schemas-record.dhall # ./schemas-time.dhall # ./schemas-any.dhall # ./schemas-reference.dhall # ./schemas-oneOf.dhall # ./schemas-optional-oneOf.dhall # [ Foo, Bar ]
       }
 
 in  codec.render codec.options::{ package = Some "models" } document

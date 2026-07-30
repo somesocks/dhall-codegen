@@ -139,3 +139,51 @@ func TestOptionalRecordNullFields(t *testing.T) {
 		t.Fatalf("null interface optional field was not absent: %#v", interfaceRecord)
 	}
 }
+
+func TestOptionalNestedOneOfRoundTrip(t *testing.T) {
+	err, absent := DecodeOptionalNestedOneOf(map[string]any{"name": "local"})
+	requireNoError(t, err)
+	if absent.Value != nil {
+		t.Fatalf("absent nested union was decoded: %#v", absent)
+	}
+
+	err, text := DecodeOptionalNestedOneOf(map[string]any{
+		"name": "local",
+		"value": map[string]any{"type": "text", "content": "hello"},
+	})
+	requireNoError(t, err)
+	if text.Value == nil || text.Value.Kind != OptionalNestedOneOfValueKindTextValue || text.Value.TextValue == nil || text.Value.TextValue.Content != "hello" {
+		t.Fatalf("unexpected decoded text value: %#v", text)
+	}
+
+	err, encoded := EncodeOptionalNestedOneOf(text)
+	requireNoError(t, err)
+	object, ok := encoded.(map[string]any)
+	if !ok {
+		t.Fatalf("unexpected encoded record: %#v", encoded)
+	}
+	value, ok := object["value"].(map[string]any)
+	if !ok || value["type"] != "text" || value["content"] != "hello" {
+		t.Fatalf("unexpected encoded text value: %#v", encoded)
+	}
+
+	err, empty := DecodeOptionalNestedOneOf(map[string]any{
+		"name": "local",
+		"value": map[string]any{"type": "empty"},
+	})
+	requireNoError(t, err)
+	if empty.Value == nil || empty.Value.Kind != OptionalNestedOneOfValueKindEmptyValue || empty.Value.EmptyValue == nil {
+		t.Fatalf("unexpected decoded empty value: %#v", empty)
+	}
+
+	err, encoded = EncodeOptionalNestedOneOf(empty)
+	requireNoError(t, err)
+	object, ok = encoded.(map[string]any)
+	if !ok {
+		t.Fatalf("unexpected encoded record: %#v", encoded)
+	}
+	value, ok = object["value"].(map[string]any)
+	if !ok || value["type"] != "empty" {
+		t.Fatalf("unexpected encoded empty value: %#v", encoded)
+	}
+}
