@@ -168,6 +168,9 @@ type MapTest3Values struct {
 // map test 3
 type MapTest3 map[MapTest3Keys]MapTest3Values
 
+// map test 4
+type MapTest4 map[string]*string
+
 // oneOf test 0
 type OneOfTest0Kind string
 

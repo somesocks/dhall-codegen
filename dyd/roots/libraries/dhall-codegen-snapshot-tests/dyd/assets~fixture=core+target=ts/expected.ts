@@ -367,6 +367,18 @@ export type MapTest3 =
 	>;
 
 
+/** map test 4 */
+export type MapTest4 =
+	/** a map with optional values */
+	Map<
+		string,
+		(
+			string
+			| undefined
+		)
+	>;
+
+
 /** oneOf test 0 */
 export type OneOfTest0 =
 	(

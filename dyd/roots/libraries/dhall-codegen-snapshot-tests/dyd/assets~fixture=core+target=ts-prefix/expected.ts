@@ -367,6 +367,18 @@ export type TMapTest3 =
 	>;
 
 
+/** map test 4 */
+export type TMapTest4 =
+	/** a map with optional values */
+	Map<
+		string,
+		(
+			string
+			| undefined
+		)
+	>;
+
+
 /** oneOf test 0 */
 export type TOneOfTest0 =
 	(

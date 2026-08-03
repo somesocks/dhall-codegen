@@ -305,6 +305,21 @@ let MapTest3 =
       }
   )
 
+let MapTest4 =
+  (
+  {- a map with optional values -}
+    List
+      {
+        mapKey :
+          Text
+        , mapValue :
+          (
+            Optional
+              Text
+          )
+      }
+  )
+
 let OneOfTest0 =
   <
     TextValue :
@@ -727,6 +742,7 @@ in {
   MapTest3Keys,
   MapTest3Values,
   MapTest3,
+  MapTest4,
   OneOfTest0,
   OneOfTest1,
   OneOfTest2Option2,

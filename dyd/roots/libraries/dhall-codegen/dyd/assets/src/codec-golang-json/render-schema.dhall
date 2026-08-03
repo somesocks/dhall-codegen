@@ -240,7 +240,7 @@ let renderSchema
 
                 let decodeKey = keys.decode ctx1 "rawKey" "decodedKey" "entryPath"
 
-                let decodeValue = values.decode ctx1 "rawValue" "decodedValue" "entryPath"
+                let decodeValue = values.decode ctx1 "rawValue" "decodedMapValue" "entryPath"
 
                 in  if    record
                     then  if    encode
@@ -266,9 +266,9 @@ let renderSchema
                                         ++ "rawKey := any(key)\n"
                                         ++ "var decodedKey ${keyType}\n"
                                         ++ decodeKey
-                                        ++ "var decodedValue ${valueType}\n"
+                                        ++ "var decodedMapValue ${valueType}\n"
                                         ++ decodeValue
-                                        ++ "decodedMap[decodedKey] = decodedValue\n"
+                                        ++ "decodedMap[decodedKey] = decodedMapValue\n"
 
                                   in  block
                                     ( "err, object := asObject(\"decode\", ${value}, ${path})\n"
@@ -304,9 +304,9 @@ let renderSchema
                                         ++ "if !hasKey || !hasValue { err = codecError(\"decode\", entryPath, \"expected map entry\"); ${ctx.onError} }\n"
                                         ++ "var decodedKey ${keyType}\n"
                                         ++ keys.decode ctx1 "rawKey" "decodedKey" "pathField(entryPath, \"key\")"
-                                        ++ "var decodedValue ${valueType}\n"
-                                        ++ values.decode ctx1 "rawValue" "decodedValue" "pathField(entryPath, \"value\")"
-                                        ++ "decodedMap[decodedKey] = decodedValue\n"
+                                        ++ "var decodedMapValue ${valueType}\n"
+                                        ++ values.decode ctx1 "rawValue" "decodedMapValue" "pathField(entryPath, \"value\")"
+                                        ++ "decodedMap[decodedKey] = decodedMapValue\n"
 
                                   in  block
                                     ( "err, entries := asArray(\"decode\", ${value}, ${path})\n"

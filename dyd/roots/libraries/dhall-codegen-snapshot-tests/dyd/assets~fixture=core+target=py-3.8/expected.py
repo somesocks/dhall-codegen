@@ -188,6 +188,9 @@ class MapTest3Values(BaseModel):# a values record inside a map
 # map test 3
 MapTest3: TypeAlias = Dict[MapTest3Keys,MapTest3Values]
 
+# map test 4
+MapTest4: TypeAlias = Dict[str,Optional[str]]
+
 # oneOf test 0
 OneOfTest0: TypeAlias = Union[str,int]
 

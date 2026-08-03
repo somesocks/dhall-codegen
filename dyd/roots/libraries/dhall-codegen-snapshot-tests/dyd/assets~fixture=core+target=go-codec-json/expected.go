@@ -323,6 +323,9 @@ type MapTest3Values struct {
 // map test 3
 type MapTest3 map[MapTest3Keys]MapTest3Values
 
+// map test 4
+type MapTest4 map[string]*string
+
 // record test 0
 type RecordTest0 struct {
 	Age int `json:"age"`
@@ -2166,12 +2169,12 @@ func decodeMapTest0At(input any, path string) (err error, result MapTest0) {
 			if err != nil {
 				return err, result
 			}
-			var decodedValue string
-			err, decodedValue = decodeText("none", rawValue, pathField(entryPath, "value"))
+			var decodedMapValue string
+			err, decodedMapValue = decodeText("none", rawValue, pathField(entryPath, "value"))
 			if err != nil {
 				return err, result
 			}
-			decodedMap[decodedKey] = decodedValue
+			decodedMap[decodedKey] = decodedMapValue
 		}
 		decoded = decodedMap
 	}
@@ -2229,12 +2232,12 @@ func decodeMapTest1At(input any, path string) (err error, result MapTest1) {
 			if err != nil {
 				return err, result
 			}
-			var decodedValue string
-			err, decodedValue = decodeText("none", rawValue, entryPath)
+			var decodedMapValue string
+			err, decodedMapValue = decodeText("none", rawValue, entryPath)
 			if err != nil {
 				return err, result
 			}
-			decodedMap[decodedKey] = decodedValue
+			decodedMap[decodedKey] = decodedMapValue
 		}
 		decoded = decodedMap
 	}
@@ -2308,7 +2311,7 @@ func decodeMapTest2At(input any, path string) (err error, result MapTest2) {
 			if err != nil {
 				return err, result
 			}
-			var decodedValue map[string]string
+			var decodedMapValue map[string]string
 			{
 				err, entries := asArray("decode", rawValue, pathField(entryPath, "value"))
 				if err != nil {
@@ -2327,16 +2330,16 @@ func decodeMapTest2At(input any, path string) (err error, result MapTest2) {
 					if err != nil {
 						return err, result
 					}
-					var decodedValue string
-					err, decodedValue = decodeText("none", rawValue, pathField(entryPath, "value"))
+					var decodedMapValue string
+					err, decodedMapValue = decodeText("none", rawValue, pathField(entryPath, "value"))
 					if err != nil {
 						return err, result
 					}
-					decodedMap[decodedKey] = decodedValue
+					decodedMap[decodedKey] = decodedMapValue
 				}
-				decodedValue = decodedMap
+				decodedMapValue = decodedMap
 			}
-			decodedMap[decodedKey] = decodedValue
+			decodedMap[decodedKey] = decodedMapValue
 		}
 		decoded = decodedMap
 	}
@@ -2502,16 +2505,91 @@ func decodeMapTest3At(input any, path string) (err error, result MapTest3) {
 			if err != nil {
 				return err, result
 			}
-			var decodedValue MapTest3Values
-			err, decodedValue = decodeMapTest3ValuesAt(rawValue, pathField(entryPath, "value"))
+			var decodedMapValue MapTest3Values
+			err, decodedMapValue = decodeMapTest3ValuesAt(rawValue, pathField(entryPath, "value"))
 			if err != nil {
 				return err, result
 			}
-			decodedMap[decodedKey] = decodedValue
+			decodedMap[decodedKey] = decodedMapValue
 		}
 		decoded = decodedMap
 	}
 	result = MapTest3(decoded)
+	return nil, result
+}
+
+
+
+func EncodeMapTest4(value MapTest4) (err error, result any) {
+	return encodeMapTest4At(value, "$")
+}
+
+func encodeMapTest4At(value MapTest4, path string) (err error, result any) {
+	{
+		encodedEntries := make([]any, 0, len((map[string]*string)(value)))
+		for key, entry := range (map[string]*string)(value) {
+			entryPath := pathField(path, fmt.Sprint(key))
+			var encodedKey any
+			err, encodedKey = encodeText("none", key, entryPath)
+			if err != nil {
+				return err, result
+			}
+			var encodedValue any
+			if entry == nil {
+			encodedValue = nil
+			} else {
+			err, encodedValue = encodeText("none", *entry, entryPath)
+			if err != nil {
+				return err, result
+			}
+			}
+			encodedEntries = append(encodedEntries, map[string]any{"key": encodedKey, "value": encodedValue})
+		}
+		result = encodedEntries
+	}
+	return nil, result
+}
+
+func DecodeMapTest4(input any) (err error, result MapTest4) {
+	return decodeMapTest4At(input, "$")
+}
+
+func decodeMapTest4At(input any, path string) (err error, result MapTest4) {
+	var decoded map[string]*string
+	{
+		err, entries := asArray("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		decodedMap := make(map[string]*string, len(entries))
+		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
+			entryObject, ok := entry.(map[string]any)
+			if !ok { err = codecError("decode", entryPath, "expected map entry"); return err, result }
+			rawKey, hasKey := entryObject["key"]
+			rawValue, hasValue := entryObject["value"]
+			if !hasKey || !hasValue { err = codecError("decode", entryPath, "expected map entry"); return err, result }
+			var decodedKey string
+			err, decodedKey = decodeText("none", rawKey, pathField(entryPath, "key"))
+			if err != nil {
+				return err, result
+			}
+			var decodedMapValue *string
+			if rawValue == nil {
+			decodedMapValue = nil
+			} else {
+			var decodedValue string
+			err, decodedValue = decodeText("none", rawValue, pathField(entryPath, "value"))
+			if err != nil {
+				return err, result
+			}
+			decodedMapValue = &decodedValue
+			}
+			decodedMap[decodedKey] = decodedMapValue
+		}
+		decoded = decodedMap
+	}
+	result = MapTest4(decoded)
 	return nil, result
 }
 
@@ -3231,12 +3309,12 @@ func decodeRecordTest5At(input any, path string) (err error, result RecordTest5)
 					if err != nil {
 						return err, result
 					}
-					var decodedValue string
-					err, decodedValue = decodeText("none", rawValue, entryPath)
+					var decodedMapValue string
+					err, decodedMapValue = decodeText("none", rawValue, entryPath)
 					if err != nil {
 						return err, result
 					}
-					decodedMap[decodedKey] = decodedValue
+					decodedMap[decodedKey] = decodedMapValue
 				}
 				decoded.Headers = decodedMap
 			}
@@ -3696,29 +3774,29 @@ func decodeOneOfTest0At(input any, path string) (err error, result OneOfTest0) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot63Option1:
+			oneOfRoot64Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot63Option1
+					break oneOfRoot64Option1
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot63Option1
+				break oneOfRoot64Option1
 			}
 		}
 		if !matched {
-			oneOfRoot63Option2:
+			oneOfRoot64Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot63Option2
+					break oneOfRoot64Option2
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot63Option2
+				break oneOfRoot64Option2
 			}
 		}
 		if !matched {
@@ -3774,29 +3852,29 @@ func decodeOneOfTest1At(input any, path string) (err error, result OneOfTest1) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot64Option1:
+			oneOfRoot65Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot64Option1
+					break oneOfRoot65Option1
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot64Option1
+				break oneOfRoot65Option1
 			}
 		}
 		if !matched {
-			oneOfRoot64Option2:
+			oneOfRoot65Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot64Option2
+					break oneOfRoot65Option2
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot64Option2
+				break oneOfRoot65Option2
 			}
 		}
 		if !matched {
@@ -3938,42 +4016,42 @@ func decodeOneOfTest2At(input any, path string) (err error, result OneOfTest2) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot66Option1:
+			oneOfRoot67Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot66Option1
+					break oneOfRoot67Option1
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot66Option1
+				break oneOfRoot67Option1
 			}
 		}
 		if !matched {
-			oneOfRoot66Option2:
+			oneOfRoot67Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot66Option2
+					break oneOfRoot67Option2
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot66Option2
+				break oneOfRoot67Option2
 			}
 		}
 		if !matched {
-			oneOfRoot66Option3:
+			oneOfRoot67Option3:
 			for {
 				var decodedValue OneOfTest2Option2
 				err, decodedValue = decodeOneOfTest2Option2At(input, path)
 				if err != nil {
-					break oneOfRoot66Option3
+					break oneOfRoot67Option3
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindDetails, Details: &decodedValue}
 				matched = true
-				break oneOfRoot66Option3
+				break oneOfRoot67Option3
 			}
 		}
 		if !matched {
@@ -4029,29 +4107,29 @@ func decodeOneOfTest3At(input any, path string) (err error, result OneOfTest3) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot67Option1:
+			oneOfRoot68Option1:
 			for {
 				var decodedValue Foo
 				err, decodedValue = decodeFooAt(input, path)
 				if err != nil {
-					break oneOfRoot67Option1
+					break oneOfRoot68Option1
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindFooRef, FooRef: &decodedValue}
 				matched = true
-				break oneOfRoot67Option1
+				break oneOfRoot68Option1
 			}
 		}
 		if !matched {
-			oneOfRoot67Option2:
+			oneOfRoot68Option2:
 			for {
 				var decodedValue Bar
 				err, decodedValue = decodeBarAt(input, path)
 				if err != nil {
-					break oneOfRoot67Option2
+					break oneOfRoot68Option2
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindBarRef, BarRef: &decodedValue}
 				matched = true
-				break oneOfRoot67Option2
+				break oneOfRoot68Option2
 			}
 		}
 		if !matched {
@@ -4237,29 +4315,29 @@ func decodeOneOfTest4At(input any, path string) (err error, result OneOfTest4) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot70Option1:
+			oneOfRoot71Option1:
 			for {
 				var decodedValue OneOfTest4Option0
 				err, decodedValue = decodeOneOfTest4Option0At(input, path)
 				if err != nil {
-					break oneOfRoot70Option1
+					break oneOfRoot71Option1
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot70Option1
+				break oneOfRoot71Option1
 			}
 		}
 		if !matched {
-			oneOfRoot70Option2:
+			oneOfRoot71Option2:
 			for {
 				var decodedValue OneOfTest4Option1
 				err, decodedValue = decodeOneOfTest4Option1At(input, path)
 				if err != nil {
-					break oneOfRoot70Option2
+					break oneOfRoot71Option2
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot70Option2
+				break oneOfRoot71Option2
 			}
 		}
 		if !matched {
@@ -4445,29 +4523,29 @@ func decodeOneOfTest5At(input any, path string) (err error, result OneOfTest5) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot73Option1:
+			oneOfRoot74Option1:
 			for {
 				var decodedValue OneOfTest5Option0
 				err, decodedValue = decodeOneOfTest5Option0At(input, path)
 				if err != nil {
-					break oneOfRoot73Option1
+					break oneOfRoot74Option1
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot73Option1
+				break oneOfRoot74Option1
 			}
 		}
 		if !matched {
-			oneOfRoot73Option2:
+			oneOfRoot74Option2:
 			for {
 				var decodedValue OneOfTest5Option1
 				err, decodedValue = decodeOneOfTest5Option1At(input, path)
 				if err != nil {
-					break oneOfRoot73Option2
+					break oneOfRoot74Option2
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot73Option2
+				break oneOfRoot74Option2
 			}
 		}
 		if !matched {
@@ -4653,29 +4731,29 @@ func decodeOptionalNestedOneOfValueAt(input any, path string) (err error, result
 	{
 		matched := false
 		if !matched {
-			oneOfRoot76Option1:
+			oneOfRoot77Option1:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption0
 				err, decodedValue = decodeOptionalNestedOneOfValueOption0At(input, path)
 				if err != nil {
-					break oneOfRoot76Option1
+					break oneOfRoot77Option1
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot76Option1
+				break oneOfRoot77Option1
 			}
 		}
 		if !matched {
-			oneOfRoot76Option2:
+			oneOfRoot77Option2:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption1
 				err, decodedValue = decodeOptionalNestedOneOfValueOption1At(input, path)
 				if err != nil {
-					break oneOfRoot76Option2
+					break oneOfRoot77Option2
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindEmptyValue, EmptyValue: &decodedValue}
 				matched = true
-				break oneOfRoot76Option2
+				break oneOfRoot77Option2
 			}
 		}
 		if !matched {

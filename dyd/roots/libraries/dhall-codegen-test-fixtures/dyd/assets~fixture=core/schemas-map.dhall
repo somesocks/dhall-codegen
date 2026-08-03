@@ -59,7 +59,20 @@ let testSchema4 =
         }
         s.map.meta::{ description = Some "a map" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
+let testSchema5 =
+      s.map.from
+        s.map.props::{
+        , keys = s.text.from s.text.props::{=} s.text.meta::{=}
+        , values =
+            s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{=}
+              }
+              s.optional.meta::{=}
+        }
+        s.map.meta::{ description = Some "a map with optional values" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5 ]
 
 let mapSchema =
       \(index : Natural) ->

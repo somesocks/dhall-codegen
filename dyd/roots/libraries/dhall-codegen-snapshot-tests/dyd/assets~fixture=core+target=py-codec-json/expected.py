@@ -154,6 +154,9 @@ class MapTest3Values(BaseModel):# a values record inside a map
 # map test 3
 MapTest3: TypeAlias = dict[MapTest3Keys, MapTest3Values]
 
+# map test 4
+MapTest4: TypeAlias = dict[str, (str) | None]
+
 # record test 0
 class RecordTest0(BaseModel):
     age : int
@@ -1386,6 +1389,41 @@ def encode_MapTest3(value: MapTest3) -> Any:
 
 def decode_MapTest3(input: Any) -> MapTest3:
     return _decode_MapTest3_at(input, "$")
+
+
+def _encode_MapTest4_at(value: MapTest4, path: str) -> Any:
+    if not isinstance(value, dict):
+        _fail("encode", path, "expected dict")
+    result = []
+    for key, entry in value.items():
+        wire_key_MapTest4 = _text("encode", key, _index(path, len(result)), "none")
+        if entry is None:
+            wire_value_MapTest4 = None
+        else:
+            wire_value_MapTest4 = _text("encode", entry, _index(path, len(result)), "none")
+        result.append({"key": wire_key_MapTest4, "value": wire_value_MapTest4})
+    return result
+
+def _decode_MapTest4_at(input: Any, path: str) -> MapTest4:
+    entries = _array("decode", input, path)
+    result = {}
+    for index, entry in enumerate(entries):
+        item = _object("decode", entry, _index(path, index))
+        if "key" not in item or "value" not in item:
+            _fail("decode", _index(path, index), "expected map entry")
+        domain_key_MapTest4 = _text("decode", item["key"], _field(_index(path, index), "key"), "none")
+        if item["value"] is None:
+            domain_value_MapTest4 = None
+        else:
+            domain_value_MapTest4 = _text("decode", item["value"], _field(_index(path, index), "value"), "none")
+        result[domain_key_MapTest4] = domain_value_MapTest4
+    return result
+
+def encode_MapTest4(value: MapTest4) -> Any:
+    return _encode_MapTest4_at(value, "$")
+
+def decode_MapTest4(input: Any) -> MapTest4:
+    return _decode_MapTest4_at(input, "$")
 
 
 def _encode_RecordTest0_at(value: RecordTest0, path: str) -> Any:

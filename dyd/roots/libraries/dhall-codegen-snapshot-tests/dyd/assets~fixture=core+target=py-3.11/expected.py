@@ -175,6 +175,9 @@ class MapTest3Values(BaseModel):# a values record inside a map
 # map test 3
 MapTest3: TypeAlias = dict[MapTest3Keys, MapTest3Values]
 
+# map test 4
+MapTest4: TypeAlias = dict[str, (str) | None]
+
 # oneOf test 0
 OneOfTest0: TypeAlias = (str | int)
 

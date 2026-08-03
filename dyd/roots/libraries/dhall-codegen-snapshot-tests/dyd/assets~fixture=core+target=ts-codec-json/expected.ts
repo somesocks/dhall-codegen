@@ -329,6 +329,18 @@ export type MapTest3 =
 	>;
 
 
+/** map test 4 */
+export type MapTest4 =
+	/** a map with optional values */
+	Map<
+		string,
+		(
+			string
+			| undefined
+		)
+	>;
+
+
 /** record test 0 */
 export type RecordTest0 =
 	{
@@ -1690,6 +1702,38 @@ export function encodeMapTest3(value: MapTest3): JsonValue {
 
 export function decodeMapTest3(input: unknown): MapTest3 {
 	return decodeMapTest3At(input, "$");
+}
+
+function encodeMapTest4At(value: MapTest4, path: string): JsonValue {
+	return ((value: unknown, path: string): JsonValue[] => {
+		const entries = value instanceof Map ? value : fail("encode", path, "expected Map");
+		const result: JsonValue[] = new Array(entries.size);
+		let index = 0;
+		for (const entry of entries) {
+			result[index] = { key: encodeText("none", entry[0], pathIndex(path, index)), value: entry[1] === undefined || entry[1] === null ? null : encodeText("none", entry[1], pathIndex(path, index)) };
+			index += 1;
+		}
+		return result;
+	})(value, path);}
+
+function decodeMapTest4At(input: unknown, path: string): MapTest4 {
+	return ((input: unknown, path: string): Map<unknown, unknown> => {
+		const entries = asArray("decode", input, path);
+		const result = new Map<unknown, unknown>();
+		for (let index = 0; index < entries.length; index += 1) {
+			const entry = asObject("decode", entries[index], pathIndex(path, index));
+			if (!hasOwn(entry, "key") || !hasOwn(entry, "value")) fail("decode", pathIndex(path, index), "expected map entry");
+			result.set(decodeText("none", entry["key"], pathField(pathIndex(path, index), "key")), entry["value"] === null ? undefined : decodeText("none", entry["value"], pathField(pathIndex(path, index), "value")));
+		}
+		return result;
+	})(input, path) as MapTest4;}
+
+export function encodeMapTest4(value: MapTest4): JsonValue {
+	return encodeMapTest4At(value, "$");
+}
+
+export function decodeMapTest4(input: unknown): MapTest4 {
+	return decodeMapTest4At(input, "$");
 }
 
 function encodeRecordTest0At(value: RecordTest0, path: string): JsonValue {

@@ -372,6 +372,15 @@ export const MapTest3 =
 export type TMapTest3 = z.infer<typeof MapTest3>
 
 
+	/** map test 4 */
+export const MapTest4 =
+	z.map(
+		z.string(),
+		z.string().optional()
+	).describe("a map with optional values");
+export type TMapTest4 = z.infer<typeof MapTest4>
+
+
 	/** oneOf test 0 */
 export const OneOfTest0 =
 	z.union([

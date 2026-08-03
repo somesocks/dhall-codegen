@@ -519,6 +519,33 @@
 					},
 				"description" : "a map"
 			},
+		"MapTest4Values":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" :
+						{
+							"type": "string"
+						},
+					"value" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"key"
+				],
+				"additionalProperties" : false
+			},
+		"MapTest4":
+			{
+				"type" : "array",
+				"items" :
+					{
+						"$ref": "#/definitions/MapTest4Values"
+					},
+				"description" : "a map with optional values"
+			},
 		"OneOfTest0":
 			{
 				"oneOf" : [

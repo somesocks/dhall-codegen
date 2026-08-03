@@ -63,6 +63,16 @@ func TestNestedMapDecodeErrorPath(t *testing.T) {
 	}
 }
 
+func TestOptionalMapValueDecode(t *testing.T) {
+	err, decoded := DecodeMapTest4([]any{
+		map[string]any{"key": "label", "value": "value"},
+	})
+	requireNoError(t, err)
+	if decoded["label"] == nil || *decoded["label"] != "value" {
+		t.Fatalf("unexpected decoded optional map value: %#v", decoded)
+	}
+}
+
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
 	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})

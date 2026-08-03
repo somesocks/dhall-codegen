@@ -150,6 +150,9 @@ export type MapTest3Values = /** a values record inside a map */ { foo : string;
  /** map test 3 */
 export type MapTest3 = /** a map */ Map< /** a keys record inside a map */ MapTest3Keys, /** a values record inside a map */ MapTest3Values >;
 
+ /** map test 4 */
+export type MapTest4 = /** a map with optional values */ Map< string, ( string | undefined ) >;
+
  /** oneOf test 0 */
 export type OneOfTest0 = ( string | number );
 
