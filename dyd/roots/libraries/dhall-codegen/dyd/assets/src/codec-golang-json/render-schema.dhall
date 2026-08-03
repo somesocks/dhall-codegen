@@ -139,14 +139,15 @@ let renderSchema
 
                 let conversion =
                       if    encode
-                      then  child.encode ctx1 "entry" "encodedEntry" "pathIndex(${path}, index)"
-                      else  child.decode ctx1 "entries[index]" "decodedEntry" "pathIndex(${path}, index)"
+                      then  child.encode ctx1 "entry" "encodedEntry" "entryPath"
+                      else  child.decode ctx1 "entries[index]" "decodedEntry" "entryPath"
 
                 let childType = child.goType ctx1
 
                 in  if    encode
                     then  let loop =
-                                "var encodedEntry any\n"
+                                "entryPath := pathIndex(${path}, index)\n"
+                                ++ "var encodedEntry any\n"
                                 ++ conversion
                                 ++ "encodedValues[index] = encodedEntry\n"
 
@@ -160,7 +161,8 @@ let renderSchema
 
                           in  block body
                     else  let loop =
-                                "var decodedEntry ${childType}\n"
+                                "entryPath := pathIndex(${path}, index)\n"
+                                ++ "var decodedEntry ${childType}\n"
                                 ++ conversion
                                 ++ "decodedValues[index] = decodedEntry\n"
 
@@ -232,18 +234,19 @@ let renderSchema
 
                 let valueType = values.goType ctx1
 
-                let encodeKey = keys.encode ctx1 "key" "encodedKey" "pathField(${path}, fmt.Sprint(key))"
+                let encodeKey = keys.encode ctx1 "key" "encodedKey" "entryPath"
 
-                let encodeValue = values.encode ctx1 "entry" "encodedValue" "pathField(${path}, fmt.Sprint(key))"
+                let encodeValue = values.encode ctx1 "entry" "encodedValue" "entryPath"
 
-                let decodeKey = keys.decode ctx1 "rawKey" "decodedKey" "pathField(${path}, key)"
+                let decodeKey = keys.decode ctx1 "rawKey" "decodedKey" "entryPath"
 
-                let decodeValue = values.decode ctx1 "rawValue" "decodedValue" "pathField(${path}, key)"
+                let decodeValue = values.decode ctx1 "rawValue" "decodedValue" "entryPath"
 
                 in  if    record
                     then  if    encode
                           then  let loop =
-                                        "var encodedKey any\n"
+                                        "entryPath := pathField(${path}, fmt.Sprint(key))\n"
+                                        ++ "var encodedKey any\n"
                                         ++ encodeKey
                                         ++ "wireKey, ok := encodedKey.(string)\n"
                                         ++ "if !ok { err = codecError(\"encode\", ${path}, \"record map keys must encode as strings\"); ${ctx.onError} }\n"
@@ -259,7 +262,8 @@ let renderSchema
                                     ++ "${target} = encodedObject\n"
                                     )
                           else  let loop =
-                                        "rawKey := any(key)\n"
+                                        "entryPath := pathField(${path}, key)\n"
+                                        ++ "rawKey := any(key)\n"
                                         ++ "var decodedKey ${keyType}\n"
                                         ++ decodeKey
                                         ++ "var decodedValue ${valueType}\n"
@@ -277,7 +281,8 @@ let renderSchema
                                     )
                     else  if    encode
                           then  let loop =
-                                        "var encodedKey any\n"
+                                        "entryPath := pathField(${path}, fmt.Sprint(key))\n"
+                                        ++ "var encodedKey any\n"
                                         ++ encodeKey
                                         ++ "var encodedValue any\n"
                                         ++ encodeValue
@@ -291,15 +296,16 @@ let renderSchema
                                     ++ "${target} = encodedEntries\n"
                                     )
                           else  let loop =
-                                        "entryObject, ok := entry.(map[string]any)\n"
-                                        ++ "if !ok { err = codecError(\"decode\", pathIndex(${path}, index), \"expected map entry\"); ${ctx.onError} }\n"
+                                        "entryPath := pathIndex(${path}, index)\n"
+                                        ++ "entryObject, ok := entry.(map[string]any)\n"
+                                        ++ "if !ok { err = codecError(\"decode\", entryPath, \"expected map entry\"); ${ctx.onError} }\n"
                                         ++ "rawKey, hasKey := entryObject[\"key\"]\n"
                                         ++ "rawValue, hasValue := entryObject[\"value\"]\n"
-                                        ++ "if !hasKey || !hasValue { err = codecError(\"decode\", pathIndex(${path}, index), \"expected map entry\"); ${ctx.onError} }\n"
+                                        ++ "if !hasKey || !hasValue { err = codecError(\"decode\", entryPath, \"expected map entry\"); ${ctx.onError} }\n"
                                         ++ "var decodedKey ${keyType}\n"
-                                        ++ keys.decode ctx1 "rawKey" "decodedKey" "pathField(pathIndex(${path}, index), \"key\")"
+                                        ++ keys.decode ctx1 "rawKey" "decodedKey" "pathField(entryPath, \"key\")"
                                         ++ "var decodedValue ${valueType}\n"
-                                        ++ values.decode ctx1 "rawValue" "decodedValue" "pathField(pathIndex(${path}, index), \"value\")"
+                                        ++ values.decode ctx1 "rawValue" "decodedValue" "pathField(entryPath, \"value\")"
                                         ++ "decodedMap[decodedKey] = decodedValue\n"
 
                                   in  block

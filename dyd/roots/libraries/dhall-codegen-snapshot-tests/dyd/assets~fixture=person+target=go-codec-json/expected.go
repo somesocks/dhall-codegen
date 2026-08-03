@@ -453,8 +453,9 @@ func encodePersonAt(value Person, path string) (err error, result any) {
 				})(value).Friends
 				encodedValues := make([]any, len(entries))
 				for index, entry := range entries {
+					entryPath := pathIndex(pathField(path, "friends"), index)
 					var encodedEntry any
-					err, encodedEntry = encodePersonAt(entry, pathIndex(pathField(path, "friends"), index))
+					err, encodedEntry = encodePersonAt(entry, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -694,8 +695,9 @@ func decodePersonAt(input any, path string) (err error, result Person) {
 				}
 				decodedValues := make([]Person, len(entries))
 				for index := range entries {
+					entryPath := pathIndex(pathField(path, "friends"), index)
 					var decodedEntry Person
-					err, decodedEntry = decodePersonAt(entries[index], pathIndex(pathField(path, "friends"), index))
+					err, decodedEntry = decodePersonAt(entries[index], entryPath)
 					if err != nil {
 						return err, result
 					}

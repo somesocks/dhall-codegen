@@ -1367,8 +1367,9 @@ func encodeListTest0At(value ListTest0, path string) (err error, result any) {
 		entries := ([]string)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodeText("none", entry, pathIndex(path, index))
+			err, encodedEntry = encodeText("none", entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1392,8 +1393,9 @@ func decodeListTest0At(input any, path string) (err error, result ListTest0) {
 		}
 		decodedValues := make([]string, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry string
-			err, decodedEntry = decodeText("none", entries[index], pathIndex(path, index))
+			err, decodedEntry = decodeText("none", entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1416,13 +1418,15 @@ func encodeListTest1At(value ListTest1, path string) (err error, result any) {
 		entries := ([][]string)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
 			{
 				entries := entry
 				encodedValues := make([]any, len(entries))
 				for index, entry := range entries {
+					entryPath := pathIndex(entryPath, index)
 					var encodedEntry any
-					err, encodedEntry = encodeText("none", entry, pathIndex(pathIndex(path, index), index))
+					err, encodedEntry = encodeText("none", entry, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -1450,16 +1454,18 @@ func decodeListTest1At(input any, path string) (err error, result ListTest1) {
 		}
 		decodedValues := make([][]string, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry []string
 			{
-				err, entries := asArray("decode", entries[index], pathIndex(path, index))
+				err, entries := asArray("decode", entries[index], entryPath)
 				if err != nil {
 					return err, result
 				}
 				decodedValues := make([]string, len(entries))
 				for index := range entries {
+					entryPath := pathIndex(entryPath, index)
 					var decodedEntry string
-					err, decodedEntry = decodeText("none", entries[index], pathIndex(pathIndex(path, index), index))
+					err, decodedEntry = decodeText("none", entries[index], entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -1539,8 +1545,9 @@ func encodeListTest2At(value ListTest2, path string) (err error, result any) {
 		entries := ([]ListTest2Values)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodeListTest2ValuesAt(entry, pathIndex(path, index))
+			err, encodedEntry = encodeListTest2ValuesAt(entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1564,8 +1571,9 @@ func decodeListTest2At(input any, path string) (err error, result ListTest2) {
 		}
 		decodedValues := make([]ListTest2Values, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry ListTest2Values
-			err, decodedEntry = decodeListTest2ValuesAt(entries[index], pathIndex(path, index))
+			err, decodedEntry = decodeListTest2ValuesAt(entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1837,8 +1845,9 @@ func encodeSetTest0At(value SetTest0, path string) (err error, result any) {
 		entries := ([]string)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodeText("none", entry, pathIndex(path, index))
+			err, encodedEntry = encodeText("none", entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1862,8 +1871,9 @@ func decodeSetTest0At(input any, path string) (err error, result SetTest0) {
 		}
 		decodedValues := make([]string, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry string
-			err, decodedEntry = decodeText("none", entries[index], pathIndex(path, index))
+			err, decodedEntry = decodeText("none", entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1886,8 +1896,9 @@ func encodeSetTest1At(value SetTest1, path string) (err error, result any) {
 		entries := ([]string)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodeText("none", entry, pathIndex(path, index))
+			err, encodedEntry = encodeText("none", entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1911,8 +1922,9 @@ func decodeSetTest1At(input any, path string) (err error, result SetTest1) {
 		}
 		decodedValues := make([]string, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry string
-			err, decodedEntry = decodeText("none", entries[index], pathIndex(path, index))
+			err, decodedEntry = decodeText("none", entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -1935,13 +1947,15 @@ func encodeSetTest2At(value SetTest2, path string) (err error, result any) {
 		entries := ([][]string)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
 			{
 				entries := entry
 				encodedValues := make([]any, len(entries))
 				for index, entry := range entries {
+					entryPath := pathIndex(entryPath, index)
 					var encodedEntry any
-					err, encodedEntry = encodeText("none", entry, pathIndex(pathIndex(path, index), index))
+					err, encodedEntry = encodeText("none", entry, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -1969,16 +1983,18 @@ func decodeSetTest2At(input any, path string) (err error, result SetTest2) {
 		}
 		decodedValues := make([][]string, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry []string
 			{
-				err, entries := asArray("decode", entries[index], pathIndex(path, index))
+				err, entries := asArray("decode", entries[index], entryPath)
 				if err != nil {
 					return err, result
 				}
 				decodedValues := make([]string, len(entries))
 				for index := range entries {
+					entryPath := pathIndex(entryPath, index)
 					var decodedEntry string
-					err, decodedEntry = decodeText("none", entries[index], pathIndex(pathIndex(path, index), index))
+					err, decodedEntry = decodeText("none", entries[index], entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -2058,8 +2074,9 @@ func encodeSetTest3At(value SetTest3, path string) (err error, result any) {
 		entries := ([]SetTest3Values)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodeSetTest3ValuesAt(entry, pathIndex(path, index))
+			err, encodedEntry = encodeSetTest3ValuesAt(entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2083,8 +2100,9 @@ func decodeSetTest3At(input any, path string) (err error, result SetTest3) {
 		}
 		decodedValues := make([]SetTest3Values, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry SetTest3Values
-			err, decodedEntry = decodeSetTest3ValuesAt(entries[index], pathIndex(path, index))
+			err, decodedEntry = decodeSetTest3ValuesAt(entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2106,13 +2124,14 @@ func encodeMapTest0At(value MapTest0, path string) (err error, result any) {
 	{
 		encodedEntries := make([]any, 0, len((map[string]string)(value)))
 		for key, entry := range (map[string]string)(value) {
+			entryPath := pathField(path, fmt.Sprint(key))
 			var encodedKey any
-			err, encodedKey = encodeText("none", key, pathField(path, fmt.Sprint(key)))
+			err, encodedKey = encodeText("none", key, entryPath)
 			if err != nil {
 				return err, result
 			}
 			var encodedValue any
-			err, encodedValue = encodeText("none", entry, pathField(path, fmt.Sprint(key)))
+			err, encodedValue = encodeText("none", entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2136,18 +2155,19 @@ func decodeMapTest0At(input any, path string) (err error, result MapTest0) {
 		}
 		decodedMap := make(map[string]string, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			entryObject, ok := entry.(map[string]any)
-			if !ok { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !ok { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			rawKey, hasKey := entryObject["key"]
 			rawValue, hasValue := entryObject["value"]
-			if !hasKey || !hasValue { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !hasKey || !hasValue { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			var decodedKey string
-			err, decodedKey = decodeText("none", rawKey, pathField(pathIndex(path, index), "key"))
+			err, decodedKey = decodeText("none", rawKey, pathField(entryPath, "key"))
 			if err != nil {
 				return err, result
 			}
 			var decodedValue string
-			err, decodedValue = decodeText("none", rawValue, pathField(pathIndex(path, index), "value"))
+			err, decodedValue = decodeText("none", rawValue, pathField(entryPath, "value"))
 			if err != nil {
 				return err, result
 			}
@@ -2169,15 +2189,16 @@ func encodeMapTest1At(value MapTest1, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any, len((map[string]string)(value)))
 		for key, entry := range (map[string]string)(value) {
+			entryPath := pathField(path, fmt.Sprint(key))
 			var encodedKey any
-			err, encodedKey = encodeText("none", key, pathField(path, fmt.Sprint(key)))
+			err, encodedKey = encodeText("none", key, entryPath)
 			if err != nil {
 				return err, result
 			}
 			wireKey, ok := encodedKey.(string)
 			if !ok { err = codecError("encode", path, "record map keys must encode as strings"); return err, result }
 			var encodedValue any
-			err, encodedValue = encodeText("none", entry, pathField(path, fmt.Sprint(key)))
+			err, encodedValue = encodeText("none", entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2201,14 +2222,15 @@ func decodeMapTest1At(input any, path string) (err error, result MapTest1) {
 		}
 		decodedMap := make(map[string]string, len(object))
 		for key, rawValue := range object {
+			entryPath := pathField(path, key)
 			rawKey := any(key)
 			var decodedKey string
-			err, decodedKey = decodeText("none", rawKey, pathField(path, key))
+			err, decodedKey = decodeText("none", rawKey, entryPath)
 			if err != nil {
 				return err, result
 			}
 			var decodedValue string
-			err, decodedValue = decodeText("none", rawValue, pathField(path, key))
+			err, decodedValue = decodeText("none", rawValue, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2230,8 +2252,9 @@ func encodeMapTest2At(value MapTest2, path string) (err error, result any) {
 	{
 		encodedEntries := make([]any, 0, len((map[string]map[string]string)(value)))
 		for key, entry := range (map[string]map[string]string)(value) {
+			entryPath := pathField(path, fmt.Sprint(key))
 			var encodedKey any
-			err, encodedKey = encodeText("none", key, pathField(path, fmt.Sprint(key)))
+			err, encodedKey = encodeText("none", key, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2239,13 +2262,14 @@ func encodeMapTest2At(value MapTest2, path string) (err error, result any) {
 			{
 				encodedEntries := make([]any, 0, len(entry))
 				for key, entry := range entry {
+					entryPath := pathField(entryPath, fmt.Sprint(key))
 					var encodedKey any
-					err, encodedKey = encodeText("none", key, pathField(pathField(path, fmt.Sprint(key)), fmt.Sprint(key)))
+					err, encodedKey = encodeText("none", key, entryPath)
 					if err != nil {
 						return err, result
 					}
 					var encodedValue any
-					err, encodedValue = encodeText("none", entry, pathField(pathField(path, fmt.Sprint(key)), fmt.Sprint(key)))
+					err, encodedValue = encodeText("none", entry, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -2273,36 +2297,38 @@ func decodeMapTest2At(input any, path string) (err error, result MapTest2) {
 		}
 		decodedMap := make(map[string]map[string]string, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			entryObject, ok := entry.(map[string]any)
-			if !ok { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !ok { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			rawKey, hasKey := entryObject["key"]
 			rawValue, hasValue := entryObject["value"]
-			if !hasKey || !hasValue { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !hasKey || !hasValue { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			var decodedKey string
-			err, decodedKey = decodeText("none", rawKey, pathField(pathIndex(path, index), "key"))
+			err, decodedKey = decodeText("none", rawKey, pathField(entryPath, "key"))
 			if err != nil {
 				return err, result
 			}
 			var decodedValue map[string]string
 			{
-				err, entries := asArray("decode", rawValue, pathField(pathIndex(path, index), "value"))
+				err, entries := asArray("decode", rawValue, pathField(entryPath, "value"))
 				if err != nil {
 					return err, result
 				}
 				decodedMap := make(map[string]string, len(entries))
 				for index, entry := range entries {
+					entryPath := pathIndex(pathField(entryPath, "value"), index)
 					entryObject, ok := entry.(map[string]any)
-					if !ok { err = codecError("decode", pathIndex(pathField(pathIndex(path, index), "value"), index), "expected map entry"); return err, result }
+					if !ok { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 					rawKey, hasKey := entryObject["key"]
 					rawValue, hasValue := entryObject["value"]
-					if !hasKey || !hasValue { err = codecError("decode", pathIndex(pathField(pathIndex(path, index), "value"), index), "expected map entry"); return err, result }
+					if !hasKey || !hasValue { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 					var decodedKey string
-					err, decodedKey = decodeText("none", rawKey, pathField(pathIndex(pathField(pathIndex(path, index), "value"), index), "key"))
+					err, decodedKey = decodeText("none", rawKey, pathField(entryPath, "key"))
 					if err != nil {
 						return err, result
 					}
 					var decodedValue string
-					err, decodedValue = decodeText("none", rawValue, pathField(pathIndex(pathField(pathIndex(path, index), "value"), index), "value"))
+					err, decodedValue = decodeText("none", rawValue, pathField(entryPath, "value"))
 					if err != nil {
 						return err, result
 					}
@@ -2434,13 +2460,14 @@ func encodeMapTest3At(value MapTest3, path string) (err error, result any) {
 	{
 		encodedEntries := make([]any, 0, len((map[MapTest3Keys]MapTest3Values)(value)))
 		for key, entry := range (map[MapTest3Keys]MapTest3Values)(value) {
+			entryPath := pathField(path, fmt.Sprint(key))
 			var encodedKey any
-			err, encodedKey = encodeMapTest3KeysAt(key, pathField(path, fmt.Sprint(key)))
+			err, encodedKey = encodeMapTest3KeysAt(key, entryPath)
 			if err != nil {
 				return err, result
 			}
 			var encodedValue any
-			err, encodedValue = encodeMapTest3ValuesAt(entry, pathField(path, fmt.Sprint(key)))
+			err, encodedValue = encodeMapTest3ValuesAt(entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -2464,18 +2491,19 @@ func decodeMapTest3At(input any, path string) (err error, result MapTest3) {
 		}
 		decodedMap := make(map[MapTest3Keys]MapTest3Values, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			entryObject, ok := entry.(map[string]any)
-			if !ok { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !ok { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			rawKey, hasKey := entryObject["key"]
 			rawValue, hasValue := entryObject["value"]
-			if !hasKey || !hasValue { err = codecError("decode", pathIndex(path, index), "expected map entry"); return err, result }
+			if !hasKey || !hasValue { err = codecError("decode", entryPath, "expected map entry"); return err, result }
 			var decodedKey MapTest3Keys
-			err, decodedKey = decodeMapTest3KeysAt(rawKey, pathField(pathIndex(path, index), "key"))
+			err, decodedKey = decodeMapTest3KeysAt(rawKey, pathField(entryPath, "key"))
 			if err != nil {
 				return err, result
 			}
 			var decodedValue MapTest3Values
-			err, decodedValue = decodeMapTest3ValuesAt(rawValue, pathField(pathIndex(path, index), "value"))
+			err, decodedValue = decodeMapTest3ValuesAt(rawValue, pathField(entryPath, "value"))
 			if err != nil {
 				return err, result
 			}
@@ -3146,15 +3174,16 @@ func encodeRecordTest5At(value RecordTest5, path string) (err error, result any)
 				for key, entry := range (struct {
 					Headers map[string]string `json:"headers"`
 				})(value).Headers {
+					entryPath := pathField(pathField(path, "headers"), fmt.Sprint(key))
 					var encodedKey any
-					err, encodedKey = encodeText("none", key, pathField(pathField(path, "headers"), fmt.Sprint(key)))
+					err, encodedKey = encodeText("none", key, entryPath)
 					if err != nil {
 						return err, result
 					}
 					wireKey, ok := encodedKey.(string)
 					if !ok { err = codecError("encode", pathField(path, "headers"), "record map keys must encode as strings"); return err, result }
 					var encodedValue any
-					err, encodedValue = encodeText("none", entry, pathField(pathField(path, "headers"), fmt.Sprint(key)))
+					err, encodedValue = encodeText("none", entry, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -3195,14 +3224,15 @@ func decodeRecordTest5At(input any, path string) (err error, result RecordTest5)
 				}
 				decodedMap := make(map[string]string, len(object))
 				for key, rawValue := range object {
+					entryPath := pathField(pathField(path, "headers"), key)
 					rawKey := any(key)
 					var decodedKey string
-					err, decodedKey = decodeText("none", rawKey, pathField(pathField(path, "headers"), key))
+					err, decodedKey = decodeText("none", rawKey, entryPath)
 					if err != nil {
 						return err, result
 					}
 					var decodedValue string
-					err, decodedValue = decodeText("none", rawValue, pathField(pathField(path, "headers"), key))
+					err, decodedValue = decodeText("none", rawValue, entryPath)
 					if err != nil {
 						return err, result
 					}
@@ -3582,8 +3612,9 @@ func encodePeopleAt(value People, path string) (err error, result any) {
 		entries := ([]Person)(value)
 		encodedValues := make([]any, len(entries))
 		for index, entry := range entries {
+			entryPath := pathIndex(path, index)
 			var encodedEntry any
-			err, encodedEntry = encodePersonAt(entry, pathIndex(path, index))
+			err, encodedEntry = encodePersonAt(entry, entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -3607,8 +3638,9 @@ func decodePeopleAt(input any, path string) (err error, result People) {
 		}
 		decodedValues := make([]Person, len(entries))
 		for index := range entries {
+			entryPath := pathIndex(path, index)
 			var decodedEntry Person
-			err, decodedEntry = decodePersonAt(entries[index], pathIndex(path, index))
+			err, decodedEntry = decodePersonAt(entries[index], entryPath)
 			if err != nil {
 				return err, result
 			}

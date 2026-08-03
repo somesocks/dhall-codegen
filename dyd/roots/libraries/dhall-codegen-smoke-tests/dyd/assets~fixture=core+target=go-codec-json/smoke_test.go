@@ -45,6 +45,24 @@ func TestRecordMapEncoding(t *testing.T) {
 	}
 }
 
+func TestNestedMapDecodeErrorPath(t *testing.T) {
+	err, _ := DecodeMapTest2([]any{
+		map[string]any{"key": "first", "value": []any{}},
+		map[string]any{
+			"key": "second",
+			"value": []any{
+				map[string]any{"key": "inner", "value": json.Number("1")},
+			},
+		},
+	})
+	if err == nil {
+		t.Fatal("expected invalid nested map value to fail")
+	}
+	if err.Error() != "decode error at $[1].value[0].value: expected string" {
+		t.Fatalf("unexpected nested map error path: %v", err)
+	}
+}
+
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
 	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})
