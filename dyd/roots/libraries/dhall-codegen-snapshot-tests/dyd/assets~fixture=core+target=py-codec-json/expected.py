@@ -189,6 +189,10 @@ class RecordTest4(Protocol):
     status : str
     age : (int) | None
 
+# record test 5
+class RecordTest5(BaseModel):# a record with a record map
+    headers : dict[str, str]
+
 # time test 0
 TimeTest0: TypeAlias = datetime
 
@@ -1593,6 +1597,42 @@ def encode_RecordTest4(value: RecordTest4) -> Any:
 
 def decode_RecordTest4(input: Any) -> RecordTest4:
     return _decode_RecordTest4_at(input, "$")
+
+
+def _encode_RecordTest5_at(value: RecordTest5, path: str) -> Any:
+    result = {}
+    result["headers"] = None
+    if not isinstance(value.headers, dict):
+        _fail("encode", _field(path, "headers"), "expected dict")
+    result["headers"] = {}
+    for key, entry in value.headers.items():
+        wire_key_RecordTest5x = _text("encode", key, _field(_field(path, "headers"), str(key)), "none")
+        if not isinstance(wire_key_RecordTest5x, str):
+            _fail("encode", _field(path, "headers"), "record map keys must encode as strings")
+        wire_value_RecordTest5x = _text("encode", entry, _field(_field(path, "headers"), wire_key_RecordTest5x), "none")
+        result["headers"][wire_key_RecordTest5x] = wire_value_RecordTest5x
+    return result
+
+def _decode_RecordTest5_at(input: Any, path: str) -> RecordTest5:
+    object = _object("decode", input, path)
+    result = {}
+    if "headers" not in object:
+        _fail("decode", _field(path, "headers"), "missing required field")
+    object = _object("decode", object["headers"], _field(path, "headers"))
+    result["headers"] = {}
+    for key, entry in object.items():
+        domain_key_RecordTest5x = _text("decode", key, _field(_field(path, "headers"), key), "none")
+        if not isinstance(domain_key_RecordTest5x, str):
+            _fail("decode", _field(path, "headers"), "record map keys must decode as strings")
+        domain_value_RecordTest5x = _text("decode", entry, _field(_field(path, "headers"), key), "none")
+        result["headers"][domain_key_RecordTest5x] = domain_value_RecordTest5x
+    return RecordTest5.model_construct(**result)
+
+def encode_RecordTest5(value: RecordTest5) -> Any:
+    return _encode_RecordTest5_at(value, "$")
+
+def decode_RecordTest5(input: Any) -> RecordTest5:
+    return _decode_RecordTest5_at(input, "$")
 
 
 def _encode_TimeTest0_at(value: TimeTest0, path: str) -> Any:

@@ -525,6 +525,24 @@ let RecordTest4 =
       Natural
   }
 
+let RecordTest5HeadersValues =
+  {
+    key :
+      Text,
+    value :
+      Text
+  }
+
+let RecordTest5 =
+  {
+    {- a record with a record map -}
+    headers :
+      (
+        List
+          RecordTest5HeadersValues
+      )
+  }
+
 let FunctionTest0 =
   {
     input :
@@ -907,6 +925,8 @@ in {
   RecordTest2,
   RecordTest3,
   RecordTest4,
+  RecordTest5HeadersValues,
+  RecordTest5,
   FunctionTest0,
   FunctionTest1,
   FunctionTest2,

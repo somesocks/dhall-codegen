@@ -264,6 +264,10 @@ class RecordTest4(Protocol):
     status : str
     age : (int) | None
 
+# record test 5
+class RecordTest5(BaseModel):# a record with a record map
+    headers : dict[str, str]
+
 # function test 0
 FunctionTest0: TypeAlias = Callable[[], None]
 

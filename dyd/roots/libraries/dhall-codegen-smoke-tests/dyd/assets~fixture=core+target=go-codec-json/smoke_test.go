@@ -26,6 +26,25 @@ func TestJSONNumberRoundTrip(t *testing.T) {
 	}
 }
 
+func TestRecordMapEncoding(t *testing.T) {
+	err, encoded := EncodeRecordTest5(RecordTest5{
+		Headers: map[string]string{"x-trace": "trace-1"},
+	})
+	requireNoError(t, err)
+
+	object, ok := encoded.(map[string]any)
+	if !ok {
+		t.Fatal("record encoder did not return an object")
+	}
+	headers, ok := object["headers"].(map[string]any)
+	if !ok {
+		t.Fatal("record encoder omitted headers")
+	}
+	if headers["x-trace"] != "trace-1" {
+		t.Fatalf("unexpected encoded headers: %#v", headers)
+	}
+}
+
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
 	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})

@@ -911,6 +911,44 @@
 				],
 				"additionalProperties" : false
 			},
+		"RecordTest5HeadersValues":
+			{
+				"type" : "object",
+				"properties" : {
+					"key" :
+						{
+							"type": "string"
+						},
+					"value" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"key",
+					"value"
+				],
+				"additionalProperties" : false
+			},
+		"RecordTest5":
+			{
+				"type" : "object",
+				"properties" : {
+					"headers" :
+						{
+							"type" : "array",
+							"items" :
+								{
+									"$ref": "#/definitions/RecordTest5HeadersValues"
+								}
+						}
+				},
+				"required" : [
+					"headers"
+				],
+				"additionalProperties" : false,
+				"description" : "a record with a record map"
+			},
 		"FunctionTest0":
 			{
 				"type" : "object",

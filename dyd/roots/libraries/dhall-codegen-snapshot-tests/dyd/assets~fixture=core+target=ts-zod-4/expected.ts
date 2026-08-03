@@ -605,6 +605,18 @@ export const RecordTest4 =
 export type TRecordTest4 = z.infer<typeof RecordTest4>
 
 
+	/** record test 5 */
+export const RecordTest5 =
+	z.object({
+		headers :
+			z.record(
+				z.string(),
+				z.string()
+			),
+	}).describe("a record with a record map");
+export type TRecordTest5 = z.infer<typeof RecordTest5>
+
+
 	/** function test 0 */
 export const FunctionTest0 =
 	z.function()

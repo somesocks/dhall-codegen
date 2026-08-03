@@ -353,6 +353,11 @@ type RecordTest4 interface {
 	Age() *int
 }
 
+// record test 5
+type RecordTest5 struct {
+	Headers map[string]string `json:"headers"`
+}
+
 // function test 0
 type FunctionTest0 func()
 

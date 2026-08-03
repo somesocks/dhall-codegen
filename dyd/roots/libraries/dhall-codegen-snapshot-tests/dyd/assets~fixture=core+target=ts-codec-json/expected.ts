@@ -402,6 +402,18 @@ export type RecordTest4 =
 	};
 
 
+/** record test 5 */
+export type RecordTest5 =
+	/** a record with a record map */
+	{
+		headers :
+			Record<
+				string,
+				string
+			>;
+	};
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;
@@ -1834,6 +1846,48 @@ export function encodeRecordTest4(value: RecordTest4): JsonValue {
 
 export function decodeRecordTest4(input: unknown): RecordTest4 {
 	return decodeRecordTest4At(input, "$");
+}
+
+function encodeRecordTest5At(value: RecordTest5, path: string): JsonValue {
+	const object = asObject("encode", value, path);
+	const result: { [key: string]: JsonValue } = {};
+	result["headers"] = ((input: unknown, path: string): { [key: string]: JsonValue } => {
+		const object = asObject("encode", input, path);
+		const result: { [key: string]: JsonValue } = {};
+		for (const key in object) {
+			if (!hasOwn(object, key)) continue;
+			const wireKeyValue = encodeText("none", key, pathField(path, key));
+			const wireKey = typeof wireKeyValue === "string" ? wireKeyValue : fail("encode", pathField(path, key), "record map keys must encode as strings");
+			result[wireKey] = encodeText("none", object[key], pathField(path, key));
+		}
+		return result;
+	})(object["headers"], pathField(path, "headers"));
+	return result;
+}
+
+function decodeRecordTest5At(input: unknown, path: string): RecordTest5 {
+	const object = asObject("decode", input, path);
+	const result: { [key: string]: unknown } = {};
+	result["headers"] = ((input: unknown, path: string): { [key: string]: unknown } => {
+		const object = asObject("decode", input, path);
+		const result: { [key: string]: unknown } = {};
+		for (const key in object) {
+			if (!hasOwn(object, key)) continue;
+			const domainKeyValue = decodeText("none", key, pathField(path, key));
+			const domainKey = typeof domainKeyValue === "string" ? domainKeyValue : fail("decode", pathField(path, key), "record map keys must decode as strings");
+			result[domainKey] = decodeText("none", object[key], pathField(path, key));
+		}
+		return result;
+	})(object["headers"], pathField(path, "headers"));
+	return result as RecordTest5;
+}
+
+export function encodeRecordTest5(value: RecordTest5): JsonValue {
+	return encodeRecordTest5At(value, "$");
+}
+
+export function decodeRecordTest5(input: unknown): RecordTest5 {
+	return decodeRecordTest5At(input, "$");
 }
 
 function encodeTimeTest0At(value: TimeTest0, path: string): JsonValue {

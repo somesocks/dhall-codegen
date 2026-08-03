@@ -364,6 +364,11 @@ type RecordTest4 interface {
 	Age() *int
 }
 
+// record test 5
+type RecordTest5 struct {
+	Headers map[string]string `json:"headers"`
+}
+
 // time test 0
 type TimeTest0 time.Time
 
@@ -1231,11 +1236,15 @@ func EncodeOptionalTest1Value(value OptionalTest1Value) (err error, result any) 
 func encodeOptionalTest1ValueAt(value OptionalTest1Value, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -1475,11 +1484,15 @@ func EncodeListTest2Values(value ListTest2Values) (err error, result any) {
 func encodeListTest2ValuesAt(value ListTest2Values, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -1990,11 +2003,15 @@ func EncodeSetTest3Values(value SetTest3Values) (err error, result any) {
 func encodeSetTest3ValuesAt(value SetTest3Values, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2310,11 +2327,15 @@ func EncodeMapTest3Keys(value MapTest3Keys) (err error, result any) {
 func encodeMapTest3KeysAt(value MapTest3Keys, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2359,11 +2380,15 @@ func EncodeMapTest3Values(value MapTest3Values) (err error, result any) {
 func encodeMapTest3ValuesAt(value MapTest3Values, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2471,29 +2496,41 @@ func EncodeRecordTest0(value RecordTest0) (err error, result any) {
 func encodeRecordTest0At(value RecordTest0, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["age"] = encodeInteger((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Age, true, pathField(path, "age"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeInteger((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Age, true, pathField(path, "age"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["age"] = encodedField
 		}
-		err, encodedObject["deceased"] = encodeBoolean((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Deceased, pathField(path, "deceased"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeBoolean((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Deceased, pathField(path, "deceased"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["deceased"] = encodedField
 		}
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2562,29 +2599,41 @@ func EncodeRecordTest1(value RecordTest1) (err error, result any) {
 func encodeRecordTest1At(value RecordTest1, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["age"] = encodeInteger((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Age, true, pathField(path, "age"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeInteger((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Age, true, pathField(path, "age"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["age"] = encodedField
 		}
-		err, encodedObject["deceased"] = encodeBoolean((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Deceased, pathField(path, "deceased"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeBoolean((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Deceased, pathField(path, "deceased"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["deceased"] = encodedField
 		}
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2657,25 +2706,29 @@ func encodeRecordTest2ContactAt(value RecordTest2Contact, path string) (err erro
 			Email *string `json:"email,omitempty"`
 			Phone *string `json:"phone,omitempty"`
 		})(value).Email != nil {
-			err, encodedObject["email"] = encodeText("none", *(struct {
+			var encodedField any
+			err, encodedField = encodeText("none", *(struct {
 				Email *string `json:"email,omitempty"`
 				Phone *string `json:"phone,omitempty"`
 			})(value).Email, pathField(path, "email"))
 			if err != nil {
 				return err, result
 			}
+			encodedObject["email"] = encodedField
 		}
 		if (struct {
 			Email *string `json:"email,omitempty"`
 			Phone *string `json:"phone,omitempty"`
 		})(value).Phone != nil {
-			err, encodedObject["phone"] = encodeText("none", *(struct {
+			var encodedField any
+			err, encodedField = encodeText("none", *(struct {
 				Email *string `json:"email,omitempty"`
 				Phone *string `json:"phone,omitempty"`
 			})(value).Phone, pathField(path, "phone"))
 			if err != nil {
 				return err, result
 			}
+			encodedObject["phone"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2726,41 +2779,57 @@ func EncodeRecordTest2(value RecordTest2) (err error, result any) {
 func encodeRecordTest2At(value RecordTest2, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["age"] = encodeInteger((struct {
-			Age int `json:"age"`
-			Contact RecordTest2Contact `json:"contact"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Age, true, pathField(path, "age"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeInteger((struct {
+				Age int `json:"age"`
+				Contact RecordTest2Contact `json:"contact"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Age, true, pathField(path, "age"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["age"] = encodedField
 		}
-		err, encodedObject["contact"] = encodeRecordTest2ContactAt((struct {
-			Age int `json:"age"`
-			Contact RecordTest2Contact `json:"contact"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Contact, pathField(path, "contact"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeRecordTest2ContactAt((struct {
+				Age int `json:"age"`
+				Contact RecordTest2Contact `json:"contact"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Contact, pathField(path, "contact"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["contact"] = encodedField
 		}
-		err, encodedObject["deceased"] = encodeBoolean((struct {
-			Age int `json:"age"`
-			Contact RecordTest2Contact `json:"contact"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Deceased, pathField(path, "deceased"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeBoolean((struct {
+				Age int `json:"age"`
+				Contact RecordTest2Contact `json:"contact"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Deceased, pathField(path, "deceased"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["deceased"] = encodedField
 		}
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Age int `json:"age"`
-			Contact RecordTest2Contact `json:"contact"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Age int `json:"age"`
+				Contact RecordTest2Contact `json:"contact"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2841,20 +2910,25 @@ func EncodeRecordTest3(value RecordTest3) (err error, result any) {
 func encodeRecordTest3At(value RecordTest3, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Name string `json:"name"`
-			Age *int `json:"age,omitempty"`
-			Deceased *bool `json:"deceased,omitempty"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Name string `json:"name"`
+				Age *int `json:"age,omitempty"`
+				Deceased *bool `json:"deceased,omitempty"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		if (struct {
 			Name string `json:"name"`
 			Age *int `json:"age,omitempty"`
 			Deceased *bool `json:"deceased,omitempty"`
 		})(value).Age != nil {
-			err, encodedObject["age"] = encodeInteger(*(struct {
+			var encodedField any
+			err, encodedField = encodeInteger(*(struct {
 				Name string `json:"name"`
 				Age *int `json:"age,omitempty"`
 				Deceased *bool `json:"deceased,omitempty"`
@@ -2862,13 +2936,15 @@ func encodeRecordTest3At(value RecordTest3, path string) (err error, result any)
 			if err != nil {
 				return err, result
 			}
+			encodedObject["age"] = encodedField
 		}
 		if (struct {
 			Name string `json:"name"`
 			Age *int `json:"age,omitempty"`
 			Deceased *bool `json:"deceased,omitempty"`
 		})(value).Deceased != nil {
-			err, encodedObject["deceased"] = encodeBoolean(*(struct {
+			var encodedField any
+			err, encodedField = encodeBoolean(*(struct {
 				Name string `json:"name"`
 				Age *int `json:"age,omitempty"`
 				Deceased *bool `json:"deceased,omitempty"`
@@ -2876,6 +2952,7 @@ func encodeRecordTest3At(value RecordTest3, path string) (err error, result any)
 			if err != nil {
 				return err, result
 			}
+			encodedObject["deceased"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -2954,28 +3031,37 @@ func EncodeRecordTest4(value RecordTest4) (err error, result any) {
 func encodeRecordTest4At(value RecordTest4, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["id"] = encodeText("none", (interface {
-			Id() string
-			Status() string
-			Age() *int
-		})(value).Id(), pathField(path, "id"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (interface {
+				Id() string
+				Status() string
+				Age() *int
+			})(value).Id(), pathField(path, "id"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["id"] = encodedField
 		}
-		err, encodedObject["status"] = encodeText("none", (interface {
-			Id() string
-			Status() string
-			Age() *int
-		})(value).Status(), pathField(path, "status"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (interface {
+				Id() string
+				Status() string
+				Age() *int
+			})(value).Status(), pathField(path, "status"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["status"] = encodedField
 		}
 		if (interface {
 			Id() string
 			Status() string
 			Age() *int
 		})(value).Age() != nil {
-			err, encodedObject["age"] = encodeInteger(*(interface {
+			var encodedField any
+			err, encodedField = encodeInteger(*(interface {
 				Id() string
 				Status() string
 				Age() *int
@@ -2983,6 +3069,7 @@ func encodeRecordTest4At(value RecordTest4, path string) (err error, result any)
 			if err != nil {
 				return err, result
 			}
+			encodedObject["age"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -3038,6 +3125,94 @@ func decodeRecordTest4At(input any, path string) (err error, result RecordTest4)
 		decoded = implementation
 	}
 	result = RecordTest4(decoded)
+	return nil, result
+}
+
+
+
+func EncodeRecordTest5(value RecordTest5) (err error, result any) {
+	return encodeRecordTest5At(value, "$")
+}
+
+func encodeRecordTest5At(value RecordTest5, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		{
+			var encodedField any
+			{
+				encodedObject := make(map[string]any, len((struct {
+					Headers map[string]string `json:"headers"`
+				})(value).Headers))
+				for key, entry := range (struct {
+					Headers map[string]string `json:"headers"`
+				})(value).Headers {
+					var encodedKey any
+					err, encodedKey = encodeText("none", key, pathField(pathField(path, "headers"), fmt.Sprint(key)))
+					if err != nil {
+						return err, result
+					}
+					wireKey, ok := encodedKey.(string)
+					if !ok { err = codecError("encode", pathField(path, "headers"), "record map keys must encode as strings"); return err, result }
+					var encodedValue any
+					err, encodedValue = encodeText("none", entry, pathField(pathField(path, "headers"), fmt.Sprint(key)))
+					if err != nil {
+						return err, result
+					}
+					encodedObject[wireKey] = encodedValue
+				}
+				encodedField = encodedObject
+			}
+			encodedObject["headers"] = encodedField
+		}
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeRecordTest5(input any) (err error, result RecordTest5) {
+	return decodeRecordTest5At(input, "$")
+}
+
+func decodeRecordTest5At(input any, path string) (err error, result RecordTest5) {
+	var decoded struct {
+		Headers map[string]string `json:"headers"`
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		{
+			rawValue, exists := object["headers"]
+			if !exists {
+				err = codecError("decode", pathField(path, "headers"), "missing required field")
+				return err, result
+			}
+			{
+				err, object := asObject("decode", rawValue, pathField(path, "headers"))
+				if err != nil {
+					return err, result
+				}
+				decodedMap := make(map[string]string, len(object))
+				for key, rawValue := range object {
+					rawKey := any(key)
+					var decodedKey string
+					err, decodedKey = decodeText("none", rawKey, pathField(pathField(path, "headers"), key))
+					if err != nil {
+						return err, result
+					}
+					var decodedValue string
+					err, decodedValue = decodeText("none", rawValue, pathField(pathField(path, "headers"), key))
+					if err != nil {
+						return err, result
+					}
+					decodedMap[decodedKey] = decodedValue
+				}
+				decoded.Headers = decodedMap
+			}
+		}
+	}
+	result = RecordTest5(decoded)
 	return nil, result
 }
 
@@ -3302,29 +3477,41 @@ func EncodePerson(value Person) (err error, result any) {
 func encodePersonAt(value Person, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["age"] = encodeInteger((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Age, true, pathField(path, "age"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeInteger((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Age, true, pathField(path, "age"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["age"] = encodedField
 		}
-		err, encodedObject["deceased"] = encodeBoolean((struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Deceased, pathField(path, "deceased"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeBoolean((struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Deceased, pathField(path, "deceased"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["deceased"] = encodedField
 		}
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Age int `json:"age"`
-			Deceased bool `json:"deceased"`
-			Name string `json:"name"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Age int `json:"age"`
+				Deceased bool `json:"deceased"`
+				Name string `json:"name"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -3477,29 +3664,29 @@ func decodeOneOfTest0At(input any, path string) (err error, result OneOfTest0) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot62Option1:
+			oneOfRoot63Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot62Option1
+					break oneOfRoot63Option1
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot62Option1
+				break oneOfRoot63Option1
 			}
 		}
 		if !matched {
-			oneOfRoot62Option2:
+			oneOfRoot63Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot62Option2
+					break oneOfRoot63Option2
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot62Option2
+				break oneOfRoot63Option2
 			}
 		}
 		if !matched {
@@ -3555,29 +3742,29 @@ func decodeOneOfTest1At(input any, path string) (err error, result OneOfTest1) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot63Option1:
+			oneOfRoot64Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot63Option1
+					break oneOfRoot64Option1
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot63Option1
+				break oneOfRoot64Option1
 			}
 		}
 		if !matched {
-			oneOfRoot63Option2:
+			oneOfRoot64Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot63Option2
+					break oneOfRoot64Option2
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot63Option2
+				break oneOfRoot64Option2
 			}
 		}
 		if !matched {
@@ -3598,19 +3785,27 @@ func EncodeOneOfTest2Option2(value OneOfTest2Option2) (err error, result any) {
 func encodeOneOfTest2Option2At(value OneOfTest2Option2, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["bar"] = encodeFloat((struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Bar, pathField(path, "bar"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeFloat((struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Bar, pathField(path, "bar"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["bar"] = encodedField
 		}
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -3711,42 +3906,42 @@ func decodeOneOfTest2At(input any, path string) (err error, result OneOfTest2) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot65Option1:
+			oneOfRoot66Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot65Option1
+					break oneOfRoot66Option1
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot65Option1
+				break oneOfRoot66Option1
 			}
 		}
 		if !matched {
-			oneOfRoot65Option2:
+			oneOfRoot66Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot65Option2
+					break oneOfRoot66Option2
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot65Option2
+				break oneOfRoot66Option2
 			}
 		}
 		if !matched {
-			oneOfRoot65Option3:
+			oneOfRoot66Option3:
 			for {
 				var decodedValue OneOfTest2Option2
 				err, decodedValue = decodeOneOfTest2Option2At(input, path)
 				if err != nil {
-					break oneOfRoot65Option3
+					break oneOfRoot66Option3
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindDetails, Details: &decodedValue}
 				matched = true
-				break oneOfRoot65Option3
+				break oneOfRoot66Option3
 			}
 		}
 		if !matched {
@@ -3802,29 +3997,29 @@ func decodeOneOfTest3At(input any, path string) (err error, result OneOfTest3) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot66Option1:
+			oneOfRoot67Option1:
 			for {
 				var decodedValue Foo
 				err, decodedValue = decodeFooAt(input, path)
 				if err != nil {
-					break oneOfRoot66Option1
+					break oneOfRoot67Option1
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindFooRef, FooRef: &decodedValue}
 				matched = true
-				break oneOfRoot66Option1
+				break oneOfRoot67Option1
 			}
 		}
 		if !matched {
-			oneOfRoot66Option2:
+			oneOfRoot67Option2:
 			for {
 				var decodedValue Bar
 				err, decodedValue = decodeBarAt(input, path)
 				if err != nil {
-					break oneOfRoot66Option2
+					break oneOfRoot67Option2
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindBarRef, BarRef: &decodedValue}
 				matched = true
-				break oneOfRoot66Option2
+				break oneOfRoot67Option2
 			}
 		}
 		if !matched {
@@ -3845,19 +4040,27 @@ func EncodeOneOfTest4Option0(value OneOfTest4Option0) (err error, result any) {
 func encodeOneOfTest4Option0At(value OneOfTest4Option0, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["bar"] = encodeFloat((struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Bar, pathField(path, "bar"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeFloat((struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Bar, pathField(path, "bar"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["bar"] = encodedField
 		}
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -3914,11 +4117,15 @@ func EncodeOneOfTest4Option1(value OneOfTest4Option1) (err error, result any) {
 func encodeOneOfTest4Option1At(value OneOfTest4Option1, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -3998,29 +4205,29 @@ func decodeOneOfTest4At(input any, path string) (err error, result OneOfTest4) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot69Option1:
+			oneOfRoot70Option1:
 			for {
 				var decodedValue OneOfTest4Option0
 				err, decodedValue = decodeOneOfTest4Option0At(input, path)
 				if err != nil {
-					break oneOfRoot69Option1
+					break oneOfRoot70Option1
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot69Option1
+				break oneOfRoot70Option1
 			}
 		}
 		if !matched {
-			oneOfRoot69Option2:
+			oneOfRoot70Option2:
 			for {
 				var decodedValue OneOfTest4Option1
 				err, decodedValue = decodeOneOfTest4Option1At(input, path)
 				if err != nil {
-					break oneOfRoot69Option2
+					break oneOfRoot70Option2
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot69Option2
+				break oneOfRoot70Option2
 			}
 		}
 		if !matched {
@@ -4041,11 +4248,15 @@ func EncodeOneOfTest5Option0(value OneOfTest5Option0) (err error, result any) {
 func encodeOneOfTest5Option0At(value OneOfTest5Option0, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -4090,19 +4301,27 @@ func EncodeOneOfTest5Option1(value OneOfTest5Option1) (err error, result any) {
 func encodeOneOfTest5Option1At(value OneOfTest5Option1, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["bar"] = encodeFloat((struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Bar, pathField(path, "bar"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeFloat((struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Bar, pathField(path, "bar"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["bar"] = encodedField
 		}
-		err, encodedObject["foo"] = encodeText("none", (struct {
-			Bar float64 `json:"bar"`
-			Foo string `json:"foo"`
-		})(value).Foo, pathField(path, "foo"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Bar float64 `json:"bar"`
+				Foo string `json:"foo"`
+			})(value).Foo, pathField(path, "foo"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["foo"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -4194,29 +4413,29 @@ func decodeOneOfTest5At(input any, path string) (err error, result OneOfTest5) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot72Option1:
+			oneOfRoot73Option1:
 			for {
 				var decodedValue OneOfTest5Option0
 				err, decodedValue = decodeOneOfTest5Option0At(input, path)
 				if err != nil {
-					break oneOfRoot72Option1
+					break oneOfRoot73Option1
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot72Option1
+				break oneOfRoot73Option1
 			}
 		}
 		if !matched {
-			oneOfRoot72Option2:
+			oneOfRoot73Option2:
 			for {
 				var decodedValue OneOfTest5Option1
 				err, decodedValue = decodeOneOfTest5Option1At(input, path)
 				if err != nil {
-					break oneOfRoot72Option2
+					break oneOfRoot73Option2
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot72Option2
+				break oneOfRoot73Option2
 			}
 		}
 		if !matched {
@@ -4237,19 +4456,27 @@ func EncodeOptionalNestedOneOfValueOption0(value OptionalNestedOneOfValueOption0
 func encodeOptionalNestedOneOfValueOption0At(value OptionalNestedOneOfValueOption0, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["content"] = encodeText("none", (struct {
-			Content string `json:"content"`
-			Type string `json:"type"`
-		})(value).Content, pathField(path, "content"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Content string `json:"content"`
+				Type string `json:"type"`
+			})(value).Content, pathField(path, "content"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["content"] = encodedField
 		}
-		err, encodedObject["type"] = encodeText("literal:text", (struct {
-			Content string `json:"content"`
-			Type string `json:"type"`
-		})(value).Type, pathField(path, "type"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("literal:text", (struct {
+				Content string `json:"content"`
+				Type string `json:"type"`
+			})(value).Type, pathField(path, "type"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["type"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -4306,11 +4533,15 @@ func EncodeOptionalNestedOneOfValueOption1(value OptionalNestedOneOfValueOption1
 func encodeOptionalNestedOneOfValueOption1At(value OptionalNestedOneOfValueOption1, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["type"] = encodeText("literal:empty", (struct {
-			Type string `json:"type"`
-		})(value).Type, pathField(path, "type"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("literal:empty", (struct {
+				Type string `json:"type"`
+			})(value).Type, pathField(path, "type"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["type"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -4390,29 +4621,29 @@ func decodeOptionalNestedOneOfValueAt(input any, path string) (err error, result
 	{
 		matched := false
 		if !matched {
-			oneOfRoot75Option1:
+			oneOfRoot76Option1:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption0
 				err, decodedValue = decodeOptionalNestedOneOfValueOption0At(input, path)
 				if err != nil {
-					break oneOfRoot75Option1
+					break oneOfRoot76Option1
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot75Option1
+				break oneOfRoot76Option1
 			}
 		}
 		if !matched {
-			oneOfRoot75Option2:
+			oneOfRoot76Option2:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption1
 				err, decodedValue = decodeOptionalNestedOneOfValueOption1At(input, path)
 				if err != nil {
-					break oneOfRoot75Option2
+					break oneOfRoot76Option2
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindEmptyValue, EmptyValue: &decodedValue}
 				matched = true
-				break oneOfRoot75Option2
+				break oneOfRoot76Option2
 			}
 		}
 		if !matched {
@@ -4433,24 +4664,30 @@ func EncodeOptionalNestedOneOf(value OptionalNestedOneOf) (err error, result any
 func encodeOptionalNestedOneOfAt(value OptionalNestedOneOf, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["name"] = encodeText("none", (struct {
-			Name string `json:"name"`
-			Value *OptionalNestedOneOfValue `json:"value,omitempty"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				Name string `json:"name"`
+				Value *OptionalNestedOneOfValue `json:"value,omitempty"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
 		}
 		if (struct {
 			Name string `json:"name"`
 			Value *OptionalNestedOneOfValue `json:"value,omitempty"`
 		})(value).Value != nil {
-			err, encodedObject["value"] = encodeOptionalNestedOneOfValueAt(*(struct {
+			var encodedField any
+			err, encodedField = encodeOptionalNestedOneOfValueAt(*(struct {
 				Name string `json:"name"`
 				Value *OptionalNestedOneOfValue `json:"value,omitempty"`
 			})(value).Value, pathField(path, "value"))
 			if err != nil {
 				return err, result
 			}
+			encodedObject["value"] = encodedField
 		}
 		result = encodedObject
 	}

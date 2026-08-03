@@ -202,24 +202,30 @@ func EncodePersonContact(value PersonContact) (err error, result any) {
 func encodePersonContactAt(value PersonContact, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["phone_number"] = encodeText("e164", (struct {
-			PhoneNumber string `json:"phone_number"`
-			Email *string `json:"email,omitempty"`
-		})(value).PhoneNumber, pathField(path, "phone_number"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("e164", (struct {
+				PhoneNumber string `json:"phone_number"`
+				Email *string `json:"email,omitempty"`
+			})(value).PhoneNumber, pathField(path, "phone_number"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["phone_number"] = encodedField
 		}
 		if (struct {
 			PhoneNumber string `json:"phone_number"`
 			Email *string `json:"email,omitempty"`
 		})(value).Email != nil {
-			err, encodedObject["email"] = encodeText("email", *(struct {
+			var encodedField any
+			err, encodedField = encodeText("email", *(struct {
 				PhoneNumber string `json:"phone_number"`
 				Email *string `json:"email,omitempty"`
 			})(value).Email, pathField(path, "email"))
 			if err != nil {
 				return err, result
 			}
+			encodedObject["email"] = encodedField
 		}
 		result = encodedObject
 	}
@@ -273,134 +279,9 @@ func EncodePerson(value Person) (err error, result any) {
 func encodePersonAt(value Person, path string) (err error, result any) {
 	{
 		encodedObject := make(map[string]any)
-		err, encodedObject["appointment_time"] = encodeLocalTime((struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).AppointmentTime, pathField(path, "appointment_time"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["binary_data"] = encodeText("base64", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).BinaryData, pathField(path, "binary_data"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["birth_date"] = encodeText("isoDate", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).BirthDate, pathField(path, "birth_date"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["contact"] = encodePersonContactAt((struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).Contact, pathField(path, "contact"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["created_at"] = encodeText("isoDateTime", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).CreatedAt, pathField(path, "created_at"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["date_of_birth"] = encodeDate((struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).DateOfBirth, pathField(path, "date_of_birth"))
-		if err != nil {
-			return err, result
-		}
-		err, encodedObject["destination_ip"] = encodeText("ipv6", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).DestinationIp, pathField(path, "destination_ip"))
-		if err != nil {
-			return err, result
-		}
 		{
-			entries := (struct {
+			var encodedField any
+			err, encodedField = encodeLocalTime((struct {
 				AppointmentTime time.Time `json:"appointment_time"`
 				BinaryData string `json:"binary_data"`
 				BirthDate string `json:"birth_date"`
@@ -414,107 +295,284 @@ func encodePersonAt(value Person, path string) (err error, result any) {
 				RetentionPeriod string `json:"retention_period"`
 				SourceIp string `json:"source_ip"`
 				Token string `json:"token"`
-			})(value).Friends
-			encodedValues := make([]any, len(entries))
-			for index, entry := range entries {
-				var encodedEntry any
-				err, encodedEntry = encodePersonAt(entry, pathIndex(pathField(path, "friends"), index))
-				if err != nil {
-					return err, result
-				}
-				encodedValues[index] = encodedEntry
+			})(value).AppointmentTime, pathField(path, "appointment_time"))
+			if err != nil {
+				return err, result
 			}
-			encodedObject["friends"] = encodedValues
+			encodedObject["appointment_time"] = encodedField
 		}
-		err, encodedObject["id"] = encodeText("uuid", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).Id, pathField(path, "id"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("base64", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).BinaryData, pathField(path, "binary_data"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["binary_data"] = encodedField
 		}
-		err, encodedObject["name"] = encodeText("none", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).Name, pathField(path, "name"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("isoDate", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).BirthDate, pathField(path, "birth_date"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["birth_date"] = encodedField
 		}
-		err, encodedObject["retention_period"] = encodeDuration((struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).RetentionPeriod, pathField(path, "retention_period"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodePersonContactAt((struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).Contact, pathField(path, "contact"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["contact"] = encodedField
 		}
-		err, encodedObject["source_ip"] = encodeText("ipv4", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).SourceIp, pathField(path, "source_ip"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeText("isoDateTime", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).CreatedAt, pathField(path, "created_at"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["created_at"] = encodedField
 		}
-		err, encodedObject["token"] = encodeText("base64url", (struct {
-			AppointmentTime time.Time `json:"appointment_time"`
-			BinaryData string `json:"binary_data"`
-			BirthDate string `json:"birth_date"`
-			Contact PersonContact `json:"contact"`
-			CreatedAt string `json:"created_at"`
-			DateOfBirth time.Time `json:"date_of_birth"`
-			DestinationIp string `json:"destination_ip"`
-			Friends []Person `json:"friends"`
-			Id string `json:"id"`
-			Name string `json:"name"`
-			RetentionPeriod string `json:"retention_period"`
-			SourceIp string `json:"source_ip"`
-			Token string `json:"token"`
-		})(value).Token, pathField(path, "token"))
-		if err != nil {
-			return err, result
+		{
+			var encodedField any
+			err, encodedField = encodeDate((struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).DateOfBirth, pathField(path, "date_of_birth"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["date_of_birth"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeText("ipv6", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).DestinationIp, pathField(path, "destination_ip"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["destination_ip"] = encodedField
+		}
+		{
+			var encodedField any
+			{
+				entries := (struct {
+					AppointmentTime time.Time `json:"appointment_time"`
+					BinaryData string `json:"binary_data"`
+					BirthDate string `json:"birth_date"`
+					Contact PersonContact `json:"contact"`
+					CreatedAt string `json:"created_at"`
+					DateOfBirth time.Time `json:"date_of_birth"`
+					DestinationIp string `json:"destination_ip"`
+					Friends []Person `json:"friends"`
+					Id string `json:"id"`
+					Name string `json:"name"`
+					RetentionPeriod string `json:"retention_period"`
+					SourceIp string `json:"source_ip"`
+					Token string `json:"token"`
+				})(value).Friends
+				encodedValues := make([]any, len(entries))
+				for index, entry := range entries {
+					var encodedEntry any
+					err, encodedEntry = encodePersonAt(entry, pathIndex(pathField(path, "friends"), index))
+					if err != nil {
+						return err, result
+					}
+					encodedValues[index] = encodedEntry
+				}
+				encodedField = encodedValues
+			}
+			encodedObject["friends"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeText("uuid", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).Id, pathField(path, "id"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["id"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeText("none", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).Name, pathField(path, "name"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["name"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeDuration((struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).RetentionPeriod, pathField(path, "retention_period"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["retention_period"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeText("ipv4", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).SourceIp, pathField(path, "source_ip"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["source_ip"] = encodedField
+		}
+		{
+			var encodedField any
+			err, encodedField = encodeText("base64url", (struct {
+				AppointmentTime time.Time `json:"appointment_time"`
+				BinaryData string `json:"binary_data"`
+				BirthDate string `json:"birth_date"`
+				Contact PersonContact `json:"contact"`
+				CreatedAt string `json:"created_at"`
+				DateOfBirth time.Time `json:"date_of_birth"`
+				DestinationIp string `json:"destination_ip"`
+				Friends []Person `json:"friends"`
+				Id string `json:"id"`
+				Name string `json:"name"`
+				RetentionPeriod string `json:"retention_period"`
+				SourceIp string `json:"source_ip"`
+				Token string `json:"token"`
+			})(value).Token, pathField(path, "token"))
+			if err != nil {
+				return err, result
+			}
+			encodedObject["token"] = encodedField
 		}
 		result = encodedObject
 	}

@@ -211,6 +211,9 @@ export type RecordTest3 = /** a record with optional props */ { name : string; a
  /** record test 4 */
 export type RecordTest4 = { id : string; status : string; age ?: number; };
 
+ /** record test 5 */
+export type RecordTest5 = /** a record with a record map */ { headers : Record< string, string >; };
+
  /** function test 0 */
 export type FunctionTest0 = ( ) =>  void;
 

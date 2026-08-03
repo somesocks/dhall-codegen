@@ -101,7 +101,23 @@ let testSchema5 =
         }
         s.record.meta::{=}
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5 ]
+let testSchema6 =
+      s.record.from
+        s.record.props::{
+        , required = toMap
+            { headers =
+                s.map.from
+                  s.map.props::{
+                  , keys = s.text.from s.text.props::{=} s.text.meta::{=}
+                  , values = s.text.from s.text.props::{=} s.text.meta::{=}
+                  , variant = s.map.variants.record
+                  }
+                  s.map.meta::{=}
+            }
+        }
+        s.record.meta::{ description = Some "a record with a record map" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
 
 let mapSchema =
       \(index : Natural) ->

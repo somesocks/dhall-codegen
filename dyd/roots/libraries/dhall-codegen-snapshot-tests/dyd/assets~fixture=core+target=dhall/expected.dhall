@@ -510,6 +510,21 @@ let RecordTest4 =
       Natural
   }
 
+let RecordTest5 =
+  {
+    {- a record with a record map -}
+    headers :
+      (
+        List
+          {
+            mapKey :
+              Text
+            , mapValue :
+              Text
+          }
+      )
+  }
+
 let FunctionTest0 =
   {} ->
   {}
@@ -735,6 +750,7 @@ in {
   RecordTest2,
   RecordTest3,
   RecordTest4,
+  RecordTest5,
   FunctionTest0,
   FunctionTest1,
   FunctionTest2,

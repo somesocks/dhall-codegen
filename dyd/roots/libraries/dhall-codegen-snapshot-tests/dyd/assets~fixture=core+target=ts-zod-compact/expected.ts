@@ -307,6 +307,10 @@ export type TRecordTest3 = z.infer<typeof RecordTest3>
 export const RecordTest4 = z.object({ id : z.string(), status : z.string(), age : z.number().int().nonnegative().optional(), });
 export type TRecordTest4 = z.infer<typeof RecordTest4>
 
+ /** record test 5 */
+export const RecordTest5 = z.object({ headers : z.record( z.string(), z.string() ), }).describe("a record with a record map");
+export type TRecordTest5 = z.infer<typeof RecordTest5>
+
  /** function test 0 */
 export const FunctionTest0 = z.function() .args( ) .returns( z.void() );
 export type TFunctionTest0 = z.infer<typeof FunctionTest0>

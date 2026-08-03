@@ -581,6 +581,18 @@ export type RecordTest4 =
 	};
 
 
+/** record test 5 */
+export type RecordTest5 =
+	/** a record with a record map */
+	{
+		headers :
+			Record<
+				string,
+				string
+			>;
+	};
+
+
 /** function test 0 */
 export type FunctionTest0 =
 	(

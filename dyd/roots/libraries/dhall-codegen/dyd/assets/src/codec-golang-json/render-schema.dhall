@@ -330,7 +330,11 @@ let renderSchema
                         let key = quote field.mapKey
 
                         in  if    encode
-                            then  field.mapValue.encode ctx1 "${value}.${fieldName}" "encodedObject[${key}]" "pathField(${path}, ${key})"
+                            then  block
+                              ( "var encodedField any\n"
+                              ++ field.mapValue.encode ctx1 "${value}.${fieldName}" "encodedField" "pathField(${path}, ${key})"
+                              ++ "encodedObject[${key}] = encodedField\n"
+                              )
                             else  block
                               ( "rawValue, exists := object[${key}]\n"
                               ++ "if !exists {\n"
@@ -354,7 +358,10 @@ let renderSchema
                         in  if    encode
                             then  "if ${value}.${fieldName} != nil {\n"
                               ++ indent "\t"
-                                (field.mapValue.encode ctx1 "*${value}.${fieldName}" "encodedObject[${key}]" "pathField(${path}, ${key})")
+                                ( "var encodedField any\n"
+                                ++ field.mapValue.encode ctx1 "*${value}.${fieldName}" "encodedField" "pathField(${path}, ${key})"
+                                ++ "encodedObject[${key}] = encodedField\n"
+                                )
                               ++ "\n}\n"
                             else  "if rawValue, exists := object[${key}]; exists && rawValue != nil {\n"
                               ++ indent "\t"
@@ -477,7 +484,11 @@ let renderSchema
                                 let key = quote field.mapKey
 
                                 in  if    encode
-                                    then  field.mapValue.encode ctx1 "${value}.${fieldName}()" "encodedObject[${key}]" "pathField(${path}, ${key})"
+                                    then  block
+                                      ( "var encodedField any\n"
+                                      ++ field.mapValue.encode ctx1 "${value}.${fieldName}()" "encodedField" "pathField(${path}, ${key})"
+                                      ++ "encodedObject[${key}] = encodedField\n"
+                                      )
                                     else  block
                                       ( "rawValue, exists := object[${key}]\n"
                                       ++ "if !exists {\n"
@@ -501,7 +512,10 @@ let renderSchema
                                 in  if    encode
                                     then  "if ${value}.${fieldName}() != nil {\n"
                                       ++ indent "\t"
-                                        (field.mapValue.encode ctx1 "*${value}.${fieldName}()" "encodedObject[${key}]" "pathField(${path}, ${key})")
+                                        ( "var encodedField any\n"
+                                        ++ field.mapValue.encode ctx1 "*${value}.${fieldName}()" "encodedField" "pathField(${path}, ${key})"
+                                        ++ "encodedObject[${key}] = encodedField\n"
+                                        )
                                       ++ "\n}\n"
                                     else  "if rawValue, exists := object[${key}]; exists && rawValue != nil {\n"
                                       ++ indent "\t"
