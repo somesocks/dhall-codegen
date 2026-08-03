@@ -253,6 +253,12 @@ type OptionalTest1 *OptionalTest1Value
 // optional test 2
 type OptionalTest2 *string
 
+// optional test 3
+type OptionalTest3 *struct {
+	Item1 string `json:"item1"`
+	Item2 int `json:"item2"`
+}
+
 // list test 0
 type ListTest0 []string
 
@@ -1202,7 +1208,7 @@ func encodeOptionalTest0At(value OptionalTest0, path string) (err error, result 
 	if (*string)(value) == nil {
 	result = nil
 	} else {
-	err, result = encodeText("none", *(*string)(value), path)
+	err, result = encodeText("none", (*((*string)(value))), path)
 	if err != nil {
 		return err, result
 	}
@@ -1293,7 +1299,7 @@ func encodeOptionalTest1At(value OptionalTest1, path string) (err error, result 
 	if (*OptionalTest1Value)(value) == nil {
 	result = nil
 	} else {
-	err, result = encodeOptionalTest1ValueAt(*(*OptionalTest1Value)(value), path)
+	err, result = encodeOptionalTest1ValueAt((*((*OptionalTest1Value)(value))), path)
 	if err != nil {
 		return err, result
 	}
@@ -1331,7 +1337,7 @@ func encodeOptionalTest2At(value OptionalTest2, path string) (err error, result 
 	if (*string)(value) == nil {
 	result = nil
 	} else {
-	err, result = encodeText("none", *(*string)(value), path)
+	err, result = encodeText("none", (*((*string)(value))), path)
 	if err != nil {
 		return err, result
 	}
@@ -1356,6 +1362,89 @@ func decodeOptionalTest2At(input any, path string) (err error, result OptionalTe
 	decoded = &decodedValue
 	}
 	result = OptionalTest2(decoded)
+	return nil, result
+}
+
+
+
+func EncodeOptionalTest3(value OptionalTest3) (err error, result any) {
+	return encodeOptionalTest3At(value, "$")
+}
+
+func encodeOptionalTest3At(value OptionalTest3, path string) (err error, result any) {
+	if (*struct {
+		Item1 string `json:"item1"`
+		Item2 int `json:"item2"`
+	})(value) == nil {
+	result = nil
+	} else {
+	{
+		encodedItems := make([]any, 2)
+		var encodedRoot27Item1 any
+		err, encodedRoot27Item1 = encodeText("none", (*((*struct {
+			Item1 string `json:"item1"`
+			Item2 int `json:"item2"`
+		})(value))).Item1, pathIndex(path, 0))
+		if err != nil {
+			return err, result
+		}
+		encodedItems[0] = encodedRoot27Item1
+		var encodedRoot27Item2 any
+		err, encodedRoot27Item2 = encodeInteger((*((*struct {
+			Item1 string `json:"item1"`
+			Item2 int `json:"item2"`
+		})(value))).Item2, true, pathIndex(path, 1))
+		if err != nil {
+			return err, result
+		}
+		encodedItems[1] = encodedRoot27Item2
+		result = encodedItems
+	}
+	}
+	return nil, result
+}
+
+func DecodeOptionalTest3(input any) (err error, result OptionalTest3) {
+	return decodeOptionalTest3At(input, "$")
+}
+
+func decodeOptionalTest3At(input any, path string) (err error, result OptionalTest3) {
+	var decoded *struct {
+		Item1 string `json:"item1"`
+		Item2 int `json:"item2"`
+	}
+	if input == nil {
+	decoded = nil
+	} else {
+	var decodedValue struct {
+		Item1 string `json:"item1"`
+		Item2 int `json:"item2"`
+	}
+	{
+		err, entries := asArray("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		if len(entries) != 2 {
+			err = codecError("decode", path, "expected tuple of length 2")
+			return err, result
+		}
+		var decodedRoot27Item1 string
+		err, decodedRoot27Item1 = decodeText("none", entries[0], pathIndex(path, 0))
+		if err != nil {
+			return err, result
+		}
+		decodedValue.Item1 = decodedRoot27Item1
+		var decodedRoot27Item2 int
+		err, decodedRoot27Item2 = decodeInteger(entries[1], true, pathIndex(path, 1))
+		if err != nil {
+			return err, result
+		}
+		decodedValue.Item2 = decodedRoot27Item2
+	}
+	decoded = &decodedValue
+	}
+	result = OptionalTest3(decoded)
 	return nil, result
 }
 
@@ -1597,73 +1686,6 @@ func EncodeTupleTest0(value TupleTest0) (err error, result any) {
 func encodeTupleTest0At(value TupleTest0, path string) (err error, result any) {
 	{
 		encodedItems := make([]any, 2)
-		var encodedRoot31Item1 any
-		err, encodedRoot31Item1 = encodeText("none", (struct {
-			Item1 string `json:"item1"`
-			Item2 int `json:"item2"`
-		})(value).Item1, pathIndex(path, 0))
-		if err != nil {
-			return err, result
-		}
-		encodedItems[0] = encodedRoot31Item1
-		var encodedRoot31Item2 any
-		err, encodedRoot31Item2 = encodeInteger((struct {
-			Item1 string `json:"item1"`
-			Item2 int `json:"item2"`
-		})(value).Item2, true, pathIndex(path, 1))
-		if err != nil {
-			return err, result
-		}
-		encodedItems[1] = encodedRoot31Item2
-		result = encodedItems
-	}
-	return nil, result
-}
-
-func DecodeTupleTest0(input any) (err error, result TupleTest0) {
-	return decodeTupleTest0At(input, "$")
-}
-
-func decodeTupleTest0At(input any, path string) (err error, result TupleTest0) {
-	var decoded struct {
-		Item1 string `json:"item1"`
-		Item2 int `json:"item2"`
-	}
-	{
-		err, entries := asArray("decode", input, path)
-		if err != nil {
-			return err, result
-		}
-		if len(entries) != 2 {
-			err = codecError("decode", path, "expected tuple of length 2")
-			return err, result
-		}
-		var decodedRoot31Item1 string
-		err, decodedRoot31Item1 = decodeText("none", entries[0], pathIndex(path, 0))
-		if err != nil {
-			return err, result
-		}
-		decoded.Item1 = decodedRoot31Item1
-		var decodedRoot31Item2 int
-		err, decodedRoot31Item2 = decodeInteger(entries[1], true, pathIndex(path, 1))
-		if err != nil {
-			return err, result
-		}
-		decoded.Item2 = decodedRoot31Item2
-	}
-	result = TupleTest0(decoded)
-	return nil, result
-}
-
-
-
-func EncodeTupleTest1(value TupleTest1) (err error, result any) {
-	return encodeTupleTest1At(value, "$")
-}
-
-func encodeTupleTest1At(value TupleTest1, path string) (err error, result any) {
-	{
-		encodedItems := make([]any, 2)
 		var encodedRoot32Item1 any
 		err, encodedRoot32Item1 = encodeText("none", (struct {
 			Item1 string `json:"item1"`
@@ -1687,11 +1709,11 @@ func encodeTupleTest1At(value TupleTest1, path string) (err error, result any) {
 	return nil, result
 }
 
-func DecodeTupleTest1(input any) (err error, result TupleTest1) {
-	return decodeTupleTest1At(input, "$")
+func DecodeTupleTest0(input any) (err error, result TupleTest0) {
+	return decodeTupleTest0At(input, "$")
 }
 
-func decodeTupleTest1At(input any, path string) (err error, result TupleTest1) {
+func decodeTupleTest0At(input any, path string) (err error, result TupleTest0) {
 	var decoded struct {
 		Item1 string `json:"item1"`
 		Item2 int `json:"item2"`
@@ -1718,6 +1740,73 @@ func decodeTupleTest1At(input any, path string) (err error, result TupleTest1) {
 		}
 		decoded.Item2 = decodedRoot32Item2
 	}
+	result = TupleTest0(decoded)
+	return nil, result
+}
+
+
+
+func EncodeTupleTest1(value TupleTest1) (err error, result any) {
+	return encodeTupleTest1At(value, "$")
+}
+
+func encodeTupleTest1At(value TupleTest1, path string) (err error, result any) {
+	{
+		encodedItems := make([]any, 2)
+		var encodedRoot33Item1 any
+		err, encodedRoot33Item1 = encodeText("none", (struct {
+			Item1 string `json:"item1"`
+			Item2 int `json:"item2"`
+		})(value).Item1, pathIndex(path, 0))
+		if err != nil {
+			return err, result
+		}
+		encodedItems[0] = encodedRoot33Item1
+		var encodedRoot33Item2 any
+		err, encodedRoot33Item2 = encodeInteger((struct {
+			Item1 string `json:"item1"`
+			Item2 int `json:"item2"`
+		})(value).Item2, true, pathIndex(path, 1))
+		if err != nil {
+			return err, result
+		}
+		encodedItems[1] = encodedRoot33Item2
+		result = encodedItems
+	}
+	return nil, result
+}
+
+func DecodeTupleTest1(input any) (err error, result TupleTest1) {
+	return decodeTupleTest1At(input, "$")
+}
+
+func decodeTupleTest1At(input any, path string) (err error, result TupleTest1) {
+	var decoded struct {
+		Item1 string `json:"item1"`
+		Item2 int `json:"item2"`
+	}
+	{
+		err, entries := asArray("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		if len(entries) != 2 {
+			err = codecError("decode", path, "expected tuple of length 2")
+			return err, result
+		}
+		var decodedRoot33Item1 string
+		err, decodedRoot33Item1 = decodeText("none", entries[0], pathIndex(path, 0))
+		if err != nil {
+			return err, result
+		}
+		decoded.Item1 = decodedRoot33Item1
+		var decodedRoot33Item2 int
+		err, decodedRoot33Item2 = decodeInteger(entries[1], true, pathIndex(path, 1))
+		if err != nil {
+			return err, result
+		}
+		decoded.Item2 = decodedRoot33Item2
+	}
 	result = TupleTest1(decoded)
 	return nil, result
 }
@@ -1731,8 +1820,8 @@ func EncodeTupleTest2(value TupleTest2) (err error, result any) {
 func encodeTupleTest2At(value TupleTest2, path string) (err error, result any) {
 	{
 		encodedItems := make([]any, 2)
-		var encodedRoot33Item1 any
-		err, encodedRoot33Item1 = encodeText("none", (struct {
+		var encodedRoot34Item1 any
+		err, encodedRoot34Item1 = encodeText("none", (struct {
 			Item1 string `json:"item1"`
 			Item2 struct {
 			Item1 string `json:"item1"`
@@ -1742,12 +1831,12 @@ func encodeTupleTest2At(value TupleTest2, path string) (err error, result any) {
 		if err != nil {
 			return err, result
 		}
-		encodedItems[0] = encodedRoot33Item1
-		var encodedRoot33Item2 any
+		encodedItems[0] = encodedRoot34Item1
+		var encodedRoot34Item2 any
 		{
 			encodedItems := make([]any, 2)
-			var encodedRoot33t2Item1 any
-			err, encodedRoot33t2Item1 = encodeText("none", (struct {
+			var encodedRoot34t2Item1 any
+			err, encodedRoot34t2Item1 = encodeText("none", (struct {
 				Item1 string `json:"item1"`
 				Item2 struct {
 				Item1 string `json:"item1"`
@@ -1757,9 +1846,9 @@ func encodeTupleTest2At(value TupleTest2, path string) (err error, result any) {
 			if err != nil {
 				return err, result
 			}
-			encodedItems[0] = encodedRoot33t2Item1
-			var encodedRoot33t2Item2 any
-			err, encodedRoot33t2Item2 = encodeInteger((struct {
+			encodedItems[0] = encodedRoot34t2Item1
+			var encodedRoot34t2Item2 any
+			err, encodedRoot34t2Item2 = encodeInteger((struct {
 				Item1 string `json:"item1"`
 				Item2 struct {
 				Item1 string `json:"item1"`
@@ -1769,10 +1858,10 @@ func encodeTupleTest2At(value TupleTest2, path string) (err error, result any) {
 			if err != nil {
 				return err, result
 			}
-			encodedItems[1] = encodedRoot33t2Item2
-			encodedRoot33Item2 = encodedItems
+			encodedItems[1] = encodedRoot34t2Item2
+			encodedRoot34Item2 = encodedItems
 		}
-		encodedItems[1] = encodedRoot33Item2
+		encodedItems[1] = encodedRoot34Item2
 		result = encodedItems
 	}
 	return nil, result
@@ -1799,13 +1888,13 @@ func decodeTupleTest2At(input any, path string) (err error, result TupleTest2) {
 			err = codecError("decode", path, "expected tuple of length 2")
 			return err, result
 		}
-		var decodedRoot33Item1 string
-		err, decodedRoot33Item1 = decodeText("none", entries[0], pathIndex(path, 0))
+		var decodedRoot34Item1 string
+		err, decodedRoot34Item1 = decodeText("none", entries[0], pathIndex(path, 0))
 		if err != nil {
 			return err, result
 		}
-		decoded.Item1 = decodedRoot33Item1
-		var decodedRoot33Item2 struct {
+		decoded.Item1 = decodedRoot34Item1
+		var decodedRoot34Item2 struct {
 			Item1 string `json:"item1"`
 			Item2 int `json:"item2"`
 		}
@@ -1818,20 +1907,20 @@ func decodeTupleTest2At(input any, path string) (err error, result TupleTest2) {
 				err = codecError("decode", pathIndex(path, 1), "expected tuple of length 2")
 				return err, result
 			}
-			var decodedRoot33t2Item1 string
-			err, decodedRoot33t2Item1 = decodeText("none", entries[0], pathIndex(pathIndex(path, 1), 0))
+			var decodedRoot34t2Item1 string
+			err, decodedRoot34t2Item1 = decodeText("none", entries[0], pathIndex(pathIndex(path, 1), 0))
 			if err != nil {
 				return err, result
 			}
-			decodedRoot33Item2.Item1 = decodedRoot33t2Item1
-			var decodedRoot33t2Item2 int
-			err, decodedRoot33t2Item2 = decodeInteger(entries[1], true, pathIndex(pathIndex(path, 1), 1))
+			decodedRoot34Item2.Item1 = decodedRoot34t2Item1
+			var decodedRoot34t2Item2 int
+			err, decodedRoot34t2Item2 = decodeInteger(entries[1], true, pathIndex(pathIndex(path, 1), 1))
 			if err != nil {
 				return err, result
 			}
-			decodedRoot33Item2.Item2 = decodedRoot33t2Item2
+			decodedRoot34Item2.Item2 = decodedRoot34t2Item2
 		}
-		decoded.Item2 = decodedRoot33Item2
+		decoded.Item2 = decodedRoot34Item2
 	}
 	result = TupleTest2(decoded)
 	return nil, result
@@ -2538,7 +2627,7 @@ func encodeMapTest4At(value MapTest4, path string) (err error, result any) {
 			if entry == nil {
 			encodedValue = nil
 			} else {
-			err, encodedValue = encodeText("none", *entry, entryPath)
+			err, encodedValue = encodeText("none", (*(entry)), entryPath)
 			if err != nil {
 				return err, result
 			}
@@ -3774,29 +3863,29 @@ func decodeOneOfTest0At(input any, path string) (err error, result OneOfTest0) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot64Option1:
+			oneOfRoot65Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot64Option1
+					break oneOfRoot65Option1
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot64Option1
+				break oneOfRoot65Option1
 			}
 		}
 		if !matched {
-			oneOfRoot64Option2:
+			oneOfRoot65Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot64Option2
+					break oneOfRoot65Option2
 				}
 				decoded = OneOfTest0{Kind: OneOfTest0KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot64Option2
+				break oneOfRoot65Option2
 			}
 		}
 		if !matched {
@@ -3852,29 +3941,29 @@ func decodeOneOfTest1At(input any, path string) (err error, result OneOfTest1) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot65Option1:
+			oneOfRoot66Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot65Option1
+					break oneOfRoot66Option1
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot65Option1
+				break oneOfRoot66Option1
 			}
 		}
 		if !matched {
-			oneOfRoot65Option2:
+			oneOfRoot66Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot65Option2
+					break oneOfRoot66Option2
 				}
 				decoded = OneOfTest1{Kind: OneOfTest1KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot65Option2
+				break oneOfRoot66Option2
 			}
 		}
 		if !matched {
@@ -4016,42 +4105,42 @@ func decodeOneOfTest2At(input any, path string) (err error, result OneOfTest2) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot67Option1:
+			oneOfRoot68Option1:
 			for {
 				var decodedValue string
 				err, decodedValue = decodeText("none", input, path)
 				if err != nil {
-					break oneOfRoot67Option1
+					break oneOfRoot68Option1
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot67Option1
+				break oneOfRoot68Option1
 			}
 		}
 		if !matched {
-			oneOfRoot67Option2:
+			oneOfRoot68Option2:
 			for {
 				var decodedValue int
 				err, decodedValue = decodeInteger(input, true, path)
 				if err != nil {
-					break oneOfRoot67Option2
+					break oneOfRoot68Option2
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindNaturalValue, NaturalValue: &decodedValue}
 				matched = true
-				break oneOfRoot67Option2
+				break oneOfRoot68Option2
 			}
 		}
 		if !matched {
-			oneOfRoot67Option3:
+			oneOfRoot68Option3:
 			for {
 				var decodedValue OneOfTest2Option2
 				err, decodedValue = decodeOneOfTest2Option2At(input, path)
 				if err != nil {
-					break oneOfRoot67Option3
+					break oneOfRoot68Option3
 				}
 				decoded = OneOfTest2{Kind: OneOfTest2KindDetails, Details: &decodedValue}
 				matched = true
-				break oneOfRoot67Option3
+				break oneOfRoot68Option3
 			}
 		}
 		if !matched {
@@ -4107,29 +4196,29 @@ func decodeOneOfTest3At(input any, path string) (err error, result OneOfTest3) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot68Option1:
+			oneOfRoot69Option1:
 			for {
 				var decodedValue Foo
 				err, decodedValue = decodeFooAt(input, path)
 				if err != nil {
-					break oneOfRoot68Option1
+					break oneOfRoot69Option1
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindFooRef, FooRef: &decodedValue}
 				matched = true
-				break oneOfRoot68Option1
+				break oneOfRoot69Option1
 			}
 		}
 		if !matched {
-			oneOfRoot68Option2:
+			oneOfRoot69Option2:
 			for {
 				var decodedValue Bar
 				err, decodedValue = decodeBarAt(input, path)
 				if err != nil {
-					break oneOfRoot68Option2
+					break oneOfRoot69Option2
 				}
 				decoded = OneOfTest3{Kind: OneOfTest3KindBarRef, BarRef: &decodedValue}
 				matched = true
-				break oneOfRoot68Option2
+				break oneOfRoot69Option2
 			}
 		}
 		if !matched {
@@ -4315,29 +4404,29 @@ func decodeOneOfTest4At(input any, path string) (err error, result OneOfTest4) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot71Option1:
+			oneOfRoot72Option1:
 			for {
 				var decodedValue OneOfTest4Option0
 				err, decodedValue = decodeOneOfTest4Option0At(input, path)
 				if err != nil {
-					break oneOfRoot71Option1
+					break oneOfRoot72Option1
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot71Option1
+				break oneOfRoot72Option1
 			}
 		}
 		if !matched {
-			oneOfRoot71Option2:
+			oneOfRoot72Option2:
 			for {
 				var decodedValue OneOfTest4Option1
 				err, decodedValue = decodeOneOfTest4Option1At(input, path)
 				if err != nil {
-					break oneOfRoot71Option2
+					break oneOfRoot72Option2
 				}
 				decoded = OneOfTest4{Kind: OneOfTest4KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot71Option2
+				break oneOfRoot72Option2
 			}
 		}
 		if !matched {
@@ -4523,29 +4612,29 @@ func decodeOneOfTest5At(input any, path string) (err error, result OneOfTest5) {
 	{
 		matched := false
 		if !matched {
-			oneOfRoot74Option1:
+			oneOfRoot75Option1:
 			for {
 				var decodedValue OneOfTest5Option0
 				err, decodedValue = decodeOneOfTest5Option0At(input, path)
 				if err != nil {
-					break oneOfRoot74Option1
+					break oneOfRoot75Option1
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindBaseRecord, BaseRecord: &decodedValue}
 				matched = true
-				break oneOfRoot74Option1
+				break oneOfRoot75Option1
 			}
 		}
 		if !matched {
-			oneOfRoot74Option2:
+			oneOfRoot75Option2:
 			for {
 				var decodedValue OneOfTest5Option1
 				err, decodedValue = decodeOneOfTest5Option1At(input, path)
 				if err != nil {
-					break oneOfRoot74Option2
+					break oneOfRoot75Option2
 				}
 				decoded = OneOfTest5{Kind: OneOfTest5KindExtendedRecord, ExtendedRecord: &decodedValue}
 				matched = true
-				break oneOfRoot74Option2
+				break oneOfRoot75Option2
 			}
 		}
 		if !matched {
@@ -4731,29 +4820,29 @@ func decodeOptionalNestedOneOfValueAt(input any, path string) (err error, result
 	{
 		matched := false
 		if !matched {
-			oneOfRoot77Option1:
+			oneOfRoot78Option1:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption0
 				err, decodedValue = decodeOptionalNestedOneOfValueOption0At(input, path)
 				if err != nil {
-					break oneOfRoot77Option1
+					break oneOfRoot78Option1
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindTextValue, TextValue: &decodedValue}
 				matched = true
-				break oneOfRoot77Option1
+				break oneOfRoot78Option1
 			}
 		}
 		if !matched {
-			oneOfRoot77Option2:
+			oneOfRoot78Option2:
 			for {
 				var decodedValue OptionalNestedOneOfValueOption1
 				err, decodedValue = decodeOptionalNestedOneOfValueOption1At(input, path)
 				if err != nil {
-					break oneOfRoot77Option2
+					break oneOfRoot78Option2
 				}
 				decoded = OptionalNestedOneOfValue{Kind: OptionalNestedOneOfValueKindEmptyValue, EmptyValue: &decodedValue}
 				matched = true
-				break oneOfRoot77Option2
+				break oneOfRoot78Option2
 			}
 		}
 		if !matched {

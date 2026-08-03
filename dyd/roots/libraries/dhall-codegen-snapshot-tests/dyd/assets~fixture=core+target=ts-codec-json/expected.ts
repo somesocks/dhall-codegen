@@ -165,6 +165,17 @@ export type OptionalTest2 =
 	);
 
 
+/** optional test 3 */
+export type OptionalTest3 =
+	(
+		[
+			string,
+			number
+		]
+		| undefined
+	);
+
+
 /** list test 0 */
 export type ListTest0 =
 	/** a list */
@@ -1160,6 +1171,28 @@ export function encodeOptionalTest2(value: OptionalTest2): JsonValue {
 
 export function decodeOptionalTest2(input: unknown): OptionalTest2 {
 	return decodeOptionalTest2At(input, "$");
+}
+
+function encodeOptionalTest3At(value: OptionalTest3, path: string): JsonValue {
+	return value === undefined || value === null ? null : ((input: unknown, path: string): JsonValue[] => {
+		const entries = asArray("encode", input, path);
+		if (entries.length !== 2) fail("encode", path, "expected tuple of length 2");
+		return [encodeText("none", entries[0], pathIndex(path, 0)), encodeNumber("natural", entries[1], pathIndex(path, 1))];
+	})(value, path);}
+
+function decodeOptionalTest3At(input: unknown, path: string): OptionalTest3 {
+	return input === null ? undefined : ((input: unknown, path: string): unknown[] => {
+		const entries = asArray("decode", input, path);
+		if (entries.length !== 2) fail("decode", path, "expected tuple of length 2");
+		return [decodeText("none", entries[0], pathIndex(path, 0)), decodeNumber("natural", entries[1], pathIndex(path, 1))];
+	})(input, path) as OptionalTest3;}
+
+export function encodeOptionalTest3(value: OptionalTest3): JsonValue {
+	return encodeOptionalTest3At(value, "$");
+}
+
+export function decodeOptionalTest3(input: unknown): OptionalTest3 {
+	return decodeOptionalTest3At(input, "$");
 }
 
 function encodeListTest0At(value: ListTest0, path: string): JsonValue {

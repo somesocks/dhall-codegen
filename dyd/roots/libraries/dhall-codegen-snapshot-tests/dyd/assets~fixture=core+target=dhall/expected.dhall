@@ -163,6 +163,17 @@ let OptionalTest2 =
       Text
   )
 
+let OptionalTest3 =
+  (
+    Optional
+      {
+        _1 :
+          Text,
+        _2 :
+          Natural
+      }
+  )
+
 let ListTest0 =
   (
     {- a list -}
@@ -727,6 +738,7 @@ in {
   OptionalTest1Value,
   OptionalTest1,
   OptionalTest2,
+  OptionalTest3,
   ListTest0,
   ListTest1,
   ListTest2Values,

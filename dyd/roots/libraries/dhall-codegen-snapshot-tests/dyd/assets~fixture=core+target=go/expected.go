@@ -119,6 +119,12 @@ type OptionalTest1 *OptionalTest1Value
 // optional test 2
 type OptionalTest2 *string
 
+// optional test 3
+type OptionalTest3 *struct {
+	Item1 string `json:"item1"`
+	Item2 int `json:"item2"`
+}
+
 // list test 0
 type ListTest0 []string
 

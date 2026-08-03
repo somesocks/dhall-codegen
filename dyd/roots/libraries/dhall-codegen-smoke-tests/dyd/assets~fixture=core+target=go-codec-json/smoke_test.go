@@ -73,6 +73,18 @@ func TestOptionalMapValueDecode(t *testing.T) {
 	}
 }
 
+func TestOptionalTupleEncode(t *testing.T) {
+	err, decoded := DecodeOptionalTest3([]any{"text", json.Number("1")})
+	requireNoError(t, err)
+
+	err, encoded := EncodeOptionalTest3(decoded)
+	requireNoError(t, err)
+	entries, ok := encoded.([]any)
+	if !ok || len(entries) != 2 || entries[0] != "text" || entries[1] != json.Number("1") {
+		t.Fatalf("unexpected encoded optional tuple: %#v", encoded)
+	}
+}
+
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
 	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})

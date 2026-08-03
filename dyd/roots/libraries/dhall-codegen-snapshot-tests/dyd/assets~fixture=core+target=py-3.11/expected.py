@@ -130,6 +130,9 @@ OptionalTest1: TypeAlias = (OptionalTest1Value) | None
 # optional test 2
 OptionalTest2: TypeAlias = (str) | None
 
+# optional test 3
+OptionalTest3: TypeAlias = (tuple[str, int]) | None
+
 # list test 0
 ListTest0: TypeAlias = list[str]
 

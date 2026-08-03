@@ -244,6 +244,24 @@
 					{ "type": "null" }
 				]
 			},
+		"OptionalTest3":
+			{
+				"oneOf" : [
+					{
+						"type" : "array",
+						"prefixItems" : [
+							{
+								"type": "string"
+							},
+							{
+								"type": "integer"
+							}
+						],
+						"items" : false
+					},
+					{ "type": "null" }
+				]
+			},
 		"ListTest0":
 			{
 				"type" : "array",

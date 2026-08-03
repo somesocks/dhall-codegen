@@ -241,6 +241,15 @@ export const OptionalTest2 =
 export type TOptionalTest2 = z.infer<typeof OptionalTest2>
 
 
+	/** optional test 3 */
+export const OptionalTest3 =
+	z.tuple([
+		z.string(),
+		z.number().int().nonnegative()
+	]).optional();
+export type TOptionalTest3 = z.infer<typeof OptionalTest3>
+
+
 	/** list test 0 */
 export const ListTest0 =
 	z.array(

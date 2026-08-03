@@ -143,6 +143,9 @@ OptionalTest1: TypeAlias = Optional[OptionalTest1Value]
 # optional test 2
 OptionalTest2: TypeAlias = Optional[str]
 
+# optional test 3
+OptionalTest3: TypeAlias = Optional[Tuple[str,int]]
+
 # list test 0
 ListTest0: TypeAlias = List[str]
 

@@ -233,6 +233,17 @@ export type TOptionalTest2 =
 	);
 
 
+/** optional test 3 */
+export type TOptionalTest3 =
+	(
+		[
+			string,
+			number
+		]
+		| undefined
+	);
+
+
 /** list test 0 */
 export type TListTest0 =
 	/** a list */

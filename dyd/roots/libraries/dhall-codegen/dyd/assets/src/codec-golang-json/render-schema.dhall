@@ -717,7 +717,7 @@ let renderSchema
                       }
                 , Optional =
                     \(node : (s.optional.nodeF Fragment).Type) ->
-                      { encode = \(ctx : RenderContext) -> \(value : Text) -> \(target : Text) -> \(path : Text) -> "if ${value} == nil {\n${target} = nil\n} else {\n${node.props.value.encode (childContext ctx) "*${value}" target path}}\n"
+                      { encode = \(ctx : RenderContext) -> \(value : Text) -> \(target : Text) -> \(path : Text) -> "if ${value} == nil {\n${target} = nil\n} else {\n${node.props.value.encode (childContext ctx) "(*(${value}))" target path}}\n"
                       , decode = \(ctx : RenderContext) -> \(value : Text) -> \(target : Text) -> \(path : Text) -> "if ${value} == nil {\n${target} = nil\n} else {\nvar decodedValue ${(node.props.value.goType (childContext ctx))}\n${node.props.value.decode (childContext ctx) value "decodedValue" path}${target} = &decodedValue\n}\n"
                       , goType = \(ctx : RenderContext) -> "*${node.props.value.goType (childContext ctx)}"
                       , name = node.meta.name

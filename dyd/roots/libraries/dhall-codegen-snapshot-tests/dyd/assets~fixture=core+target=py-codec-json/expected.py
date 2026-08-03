@@ -100,6 +100,9 @@ OptionalTest1: TypeAlias = (OptionalTest1Value) | None
 # optional test 2
 OptionalTest2: TypeAlias = (str) | None
 
+# optional test 3
+OptionalTest3: TypeAlias = (tuple[str, int]) | None
+
 # list test 0
 ListTest0: TypeAlias = list[str]
 
@@ -908,6 +911,38 @@ def encode_OptionalTest2(value: OptionalTest2) -> Any:
 
 def decode_OptionalTest2(input: Any) -> OptionalTest2:
     return _decode_OptionalTest2_at(input, "$")
+
+
+def _encode_OptionalTest3_at(value: OptionalTest3, path: str) -> Any:
+    if value is None:
+        result = None
+    else:
+        entries = value
+        if not isinstance(entries, (list, tuple)) or len(entries) != 2:
+            _fail("encode", path, "expected tuple of length 2")
+        result = [None] * 2
+        result[0] = _text("encode", entries[0], _index(path, 0), "none")
+        result[1] = _number("encode", entries[1], _index(path, 1), "natural")
+    return result
+
+def _decode_OptionalTest3_at(input: Any, path: str) -> OptionalTest3:
+    if input is None:
+        result = None
+    else:
+        entries = _array("decode", input, path)
+        if not isinstance(entries, (list, tuple)) or len(entries) != 2:
+            _fail("decode", path, "expected tuple of length 2")
+        result = [None] * 2
+        result[0] = _text("decode", entries[0], _index(path, 0), "none")
+        result[1] = _number("decode", entries[1], _index(path, 1), "natural")
+        result = tuple(result)
+    return result
+
+def encode_OptionalTest3(value: OptionalTest3) -> Any:
+    return _encode_OptionalTest3_at(value, "$")
+
+def decode_OptionalTest3(input: Any) -> OptionalTest3:
+    return _decode_OptionalTest3_at(input, "$")
 
 
 def _encode_ListTest0_at(value: ListTest0, path: str) -> Any:

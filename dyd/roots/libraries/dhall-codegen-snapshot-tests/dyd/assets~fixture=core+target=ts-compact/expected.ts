@@ -109,6 +109,9 @@ export type OptionalTest1 = ( OptionalTest1Value | undefined );
  /** optional test 2 */
 export type OptionalTest2 = ( string | undefined );
 
+ /** optional test 3 */
+export type OptionalTest3 = ( [ string, number ] | undefined );
+
  /** list test 0 */
 export type ListTest0 = /** a list */ Array< string >;
 
