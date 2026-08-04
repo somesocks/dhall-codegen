@@ -491,6 +491,15 @@ export const OneOfTest5 =
 export type TOneOfTest5 = z.infer<typeof OneOfTest5>
 
 
+	/** oneOf test 6 */
+export const OneOfTest6 =
+	z.union([
+		z.string(),
+		z.number().int().nonnegative()
+	]).describe("optional text or natural").optional();
+export type TOneOfTest6 = z.infer<typeof OneOfTest6>
+
+
 export const AllOfTest0Option0 =
 	z.object({
 		bar :

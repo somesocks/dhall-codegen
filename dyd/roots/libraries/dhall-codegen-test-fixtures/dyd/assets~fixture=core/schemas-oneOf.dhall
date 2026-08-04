@@ -106,7 +106,23 @@ let testSchema6 =
         s.oneOf.props::{ options = [ BaseRecord, ExtendedRecord ] }
         s.oneOf.meta::{ description = Some "base record before extended record" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
+let testSchema7 =
+      s.oneOf.from
+        s.oneOf.props::{
+        , options =
+          [ s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{ name = Some "TextValue" }
+              }
+              s.optional.meta::{ name = Some "OptionalTextValue" }
+          , s.number.from
+              s.number.props::{ variant = s.number.variants.natural }
+              s.number.meta::{ name = Some "NaturalValue" }
+          ]
+        }
+        s.oneOf.meta::{ description = Some "optional text or natural" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7 ]
 
 let mapSchema =
       \(index : Natural) ->

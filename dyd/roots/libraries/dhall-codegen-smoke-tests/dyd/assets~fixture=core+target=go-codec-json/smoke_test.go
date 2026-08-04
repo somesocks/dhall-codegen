@@ -85,6 +85,14 @@ func TestOptionalTupleEncode(t *testing.T) {
 	}
 }
 
+func TestOptionalOneOfDecode(t *testing.T) {
+	err, decoded := DecodeOneOfTest6("text")
+	requireNoError(t, err)
+	if decoded == nil {
+		t.Fatal("optional union was decoded as nil")
+	}
+}
+
 func TestOneOfFirstMatch(t *testing.T) {
 	text := "text value"
 	err, encodedText := EncodeOneOfTest0(OneOfTest0{Kind: OneOfTest0KindTextValue, TextValue: &text})

@@ -479,6 +479,18 @@ export type OneOfTest5 =
 		OneOfTest5Option1
 	);
 
+
+/** oneOf test 6 */
+export type OneOfTest6 =
+	(
+		/** optional text or natural */
+		(
+			string |
+			number
+		)
+		| undefined
+	);
+
 export type AllOfTest0Option0 =
 	{
 		bar :

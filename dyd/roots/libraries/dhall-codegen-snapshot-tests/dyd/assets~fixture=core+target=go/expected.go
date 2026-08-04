@@ -286,6 +286,13 @@ type OneOfTest5 struct {
 	ExtendedRecord *OneOfTest5Option1 `json:"ExtendedRecord,omitempty"`
 }
 
+// oneOf test 6
+type OneOfTest6 *struct {
+	Kind string `json:"kind"`
+	TextValue *string `json:"TextValue,omitempty"`
+	NaturalValue *int `json:"NaturalValue,omitempty"`
+}
+
 type AllOfTest0Option0 struct {
 	Bar float64 `json:"bar"`
 }

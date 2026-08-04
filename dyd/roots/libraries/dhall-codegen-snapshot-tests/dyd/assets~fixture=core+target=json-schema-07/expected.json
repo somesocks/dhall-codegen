@@ -723,6 +723,23 @@
 				],
 				"description" : "base record before extended record"
 			},
+		"OneOfTest6":
+			{
+				"oneOf" : [
+					{
+						"oneOf" : [
+							{
+								"type": "string"
+							},
+							{
+								"type": "integer"
+							}
+						],
+						"description" : "optional text or natural"
+					},
+					{ "type": "null" }
+				]
+			},
 		"AllOfTest0Option0":
 			{
 				"type" : "object",

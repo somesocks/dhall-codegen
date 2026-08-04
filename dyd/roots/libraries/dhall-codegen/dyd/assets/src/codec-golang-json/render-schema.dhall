@@ -625,9 +625,9 @@ let renderSchema
                               "${label}:\n"
                               ++ "for {\n"
                               ++ indent "\t"
-                                ( "var decodedValue ${(option.goType branchContext)}\n"
-                                ++ option.decode branchContext value "decodedValue" path
-                                ++ "${target} = ${resultType}{Kind: ${kind}, ${fieldName}: &decodedValue}\n"
+                                ( "var decodedOption ${(option.goType branchContext)}\n"
+                                ++ option.decode branchContext value "decodedOption" path
+                                ++ "${target} = ${resultType}{Kind: ${kind}, ${fieldName}: &decodedOption}\n"
                                 ++ "matched = true\n"
                                 ++ "break ${label}\n"
                                 )

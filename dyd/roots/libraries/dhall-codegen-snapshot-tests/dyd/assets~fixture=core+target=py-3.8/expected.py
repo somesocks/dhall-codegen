@@ -230,6 +230,9 @@ class OneOfTest5Option1(BaseModel):
 # oneOf test 5
 OneOfTest5: TypeAlias = Union[OneOfTest5Option0,OneOfTest5Option1]
 
+# oneOf test 6
+OneOfTest6: TypeAlias = Optional[Union[str,int]]
+
 class AllOfTest0Option0(BaseModel):
     bar : float
 

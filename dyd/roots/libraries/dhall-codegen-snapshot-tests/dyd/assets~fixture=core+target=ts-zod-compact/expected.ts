@@ -267,6 +267,10 @@ export type TOneOfTest5Option1 = z.infer<typeof OneOfTest5Option1>
 export const OneOfTest5 = z.union([ OneOfTest5Option0, OneOfTest5Option1 ]).describe("base record before extended record");
 export type TOneOfTest5 = z.infer<typeof OneOfTest5>
 
+ /** oneOf test 6 */
+export const OneOfTest6 = z.union([ z.string(), z.number().int().nonnegative() ]).describe("optional text or natural").optional();
+export type TOneOfTest6 = z.infer<typeof OneOfTest6>
+
 
 export const AllOfTest0Option0 = z.object({ bar : z.number(), });
 export type TAllOfTest0Option0 = z.infer<typeof AllOfTest0Option0>

@@ -422,6 +422,18 @@ let OneOfTest5 =
       OneOfTest5Option1
   >
 
+let OneOfTest6 =
+  (
+    Optional
+        {- optional text or natural -}
+      <
+        TextValue :
+          Text |
+        NaturalValue :
+          Natural
+      >
+  )
+
 let AllOfTest0Option0 =
   {
     bar :
@@ -766,6 +778,7 @@ in {
   OneOfTest5Option0,
   OneOfTest5Option1,
   OneOfTest5,
+  OneOfTest6,
   AllOfTest0Option0,
   AllOfTest0Option1,
   AllOfTest0,

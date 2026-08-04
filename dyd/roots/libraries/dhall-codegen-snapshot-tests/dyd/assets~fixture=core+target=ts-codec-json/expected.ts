@@ -594,6 +594,18 @@ export type OneOfTest5 =
 		OneOfTest5Option1
 	);
 
+
+/** oneOf test 6 */
+export type OneOfTest6 =
+	(
+		/** optional text or natural */
+		(
+			string |
+			number
+		)
+		| undefined
+	);
+
 export type Foo =
 	string;
 
@@ -2499,6 +2511,44 @@ export function encodeOneOfTest5(value: OneOfTest5): JsonValue {
 
 export function decodeOneOfTest5(input: unknown): OneOfTest5 {
 	return decodeOneOfTest5At(input, "$");
+}
+
+function encodeOneOfTest6At(value: OneOfTest6, path: string): JsonValue {
+	return value === undefined || value === null ? null : ((value: unknown, path: string): JsonValue => {
+		try {
+			return encodeText("none", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		try {
+			return encodeNumber("natural", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		return fail("encode", path, "no OneOf option matched");
+	})(value, path);}
+
+function decodeOneOfTest6At(input: unknown, path: string): OneOfTest6 {
+	return input === null ? undefined : ((value: unknown, path: string): unknown => {
+		try {
+			return decodeText("none", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		try {
+			return decodeNumber("natural", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		return fail("decode", path, "no OneOf option matched");
+	})(input, path) as OneOfTest6;}
+
+export function encodeOneOfTest6(value: OneOfTest6): JsonValue {
+	return encodeOneOfTest6At(value, "$");
+}
+
+export function decodeOneOfTest6(input: unknown): OneOfTest6 {
+	return decodeOneOfTest6At(input, "$");
 }
 
 function encodeFooAt(value: Foo, path: string): JsonValue {

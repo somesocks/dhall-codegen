@@ -479,6 +479,18 @@ export type TOneOfTest5 =
 		TOneOfTest5Option1
 	);
 
+
+/** oneOf test 6 */
+export type TOneOfTest6 =
+	(
+		/** optional text or natural */
+		(
+			string |
+			number
+		)
+		| undefined
+	);
+
 export type TAllOfTest0Option0 =
 	{
 		bar :

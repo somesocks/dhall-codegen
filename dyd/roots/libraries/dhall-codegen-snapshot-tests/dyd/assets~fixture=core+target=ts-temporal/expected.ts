@@ -184,6 +184,9 @@ export type OneOfTest5Option1 = { bar : number; foo : string; };
  /** oneOf test 5 */
 export type OneOfTest5 = /** base record before extended record */ ( OneOfTest5Option0 | OneOfTest5Option1 );
 
+ /** oneOf test 6 */
+export type OneOfTest6 = ( /** optional text or natural */ ( string | number ) | undefined );
+
 export type AllOfTest0Option0 = { bar : number; };
 
 export type AllOfTest0Option1 = { foo : string; };

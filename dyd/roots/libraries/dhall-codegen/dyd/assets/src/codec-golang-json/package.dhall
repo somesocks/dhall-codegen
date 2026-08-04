@@ -97,6 +97,11 @@ let renderDocument
                 liftDefinitions.options::{ liftOneOf = True }
                 document
 
+        let document =
+              liftDefinitions.transform
+                liftDefinitions.options::{ liftOneOf = True }
+                document
+
         let typeOptions = options // { package = None Text }
 
         let types = renderTypes.render typeOptions document

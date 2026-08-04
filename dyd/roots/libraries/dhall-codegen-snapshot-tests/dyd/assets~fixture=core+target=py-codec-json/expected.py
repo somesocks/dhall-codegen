@@ -269,6 +269,9 @@ class OneOfTest5Option1(BaseModel):
 # oneOf test 5
 OneOfTest5: TypeAlias = (OneOfTest5Option0 | OneOfTest5Option1)
 
+# oneOf test 6
+OneOfTest6: TypeAlias = ((str | int)) | None
+
 import base64
 import math
 import re
@@ -2289,3 +2292,52 @@ def encode_OneOfTest5(value: OneOfTest5) -> Any:
 
 def decode_OneOfTest5(input: Any) -> OneOfTest5:
     return _decode_OneOfTest5_at(input, "$")
+
+
+def _encode_OneOfTest6_at(value: OneOfTest6, path: str) -> Any:
+    if value is None:
+        result = None
+    else:
+        matched = False
+        if not matched:
+            try:
+                result = _text("encode", value, path, "none")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            try:
+                result = _number("encode", value, path, "natural")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            _fail("encode", path, "no OneOf option matched")
+    return result
+
+def _decode_OneOfTest6_at(input: Any, path: str) -> OneOfTest6:
+    if input is None:
+        result = None
+    else:
+        matched = False
+        if not matched:
+            try:
+                result = _text("decode", input, path, "none")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            try:
+                result = _number("decode", input, path, "natural")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            _fail("decode", path, "no OneOf option matched")
+    return result
+
+def encode_OneOfTest6(value: OneOfTest6) -> Any:
+    return _encode_OneOfTest6_at(value, "$")
+
+def decode_OneOfTest6(input: Any) -> OneOfTest6:
+    return _decode_OneOfTest6_at(input, "$")
