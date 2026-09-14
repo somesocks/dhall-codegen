@@ -174,6 +174,18 @@ let OptionalTest3 =
       }
   )
 
+let OptionalTest4 =
+  (
+    Optional
+      Text
+  )
+
+let OptionalTest5 =
+  (
+    Optional
+      Text
+  )
+
 let ListTest0 =
   (
     {- a list -}
@@ -209,6 +221,26 @@ let ListTest2 =
 let ListTest3 =
   (
     {- a list of optional text -}
+    List
+      (
+        Optional
+          Text
+      )
+  )
+
+let ListTest4 =
+  (
+    {- a list of nullable text -}
+    List
+      (
+        Optional
+          Text
+      )
+  )
+
+let ListTest5 =
+  (
+    {- a list of nullish text -}
     List
       (
         Optional
@@ -812,11 +844,15 @@ in {
   OptionalTest1,
   OptionalTest2,
   OptionalTest3,
+  OptionalTest4,
+  OptionalTest5,
   ListTest0,
   ListTest1,
   ListTest2Values,
   ListTest2,
   ListTest3,
+  ListTest4,
+  ListTest5,
   SetTest0,
   SetTest1,
   SetTest2,

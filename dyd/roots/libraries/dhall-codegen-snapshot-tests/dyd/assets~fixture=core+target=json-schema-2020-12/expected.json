@@ -262,6 +262,24 @@
 					{ "type": "null" }
 				]
 			},
+		"OptionalTest4":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{ "type": "null" }
+				]
+			},
+		"OptionalTest5":
+			{
+				"oneOf" : [
+					{
+						"type": "string"
+					},
+					{ "type": "null" }
+				]
+			},
 		"ListTest0":
 			{
 				"type" : "array",
@@ -322,6 +340,34 @@
 						]
 					},
 				"description" : "a list of optional text"
+			},
+		"ListTest4":
+			{
+				"type" : "array",
+				"items" :
+					{
+						"oneOf" : [
+							{
+								"type": "string"
+							},
+							{ "type": "null" }
+						]
+					},
+				"description" : "a list of nullable text"
+			},
+		"ListTest5":
+			{
+				"type" : "array",
+				"items" :
+					{
+						"oneOf" : [
+							{
+								"type": "string"
+							},
+							{ "type": "null" }
+						]
+					},
+				"description" : "a list of nullish text"
 			},
 		"SetTest0":
 			{

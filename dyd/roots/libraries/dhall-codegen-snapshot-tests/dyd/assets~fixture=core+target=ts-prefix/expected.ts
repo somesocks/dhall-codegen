@@ -244,6 +244,23 @@ export type TOptionalTest3 =
 	);
 
 
+/** optional test 4 */
+export type TOptionalTest4 =
+	(
+		string
+		| null
+	);
+
+
+/** optional test 5 */
+export type TOptionalTest5 =
+	(
+		string
+		| null
+		| undefined
+	);
+
+
 /** list test 0 */
 export type TListTest0 =
 	/** a list */
@@ -285,6 +302,29 @@ export type TListTest3 =
 	Array<
 		(
 			string
+			| undefined
+		)
+	>;
+
+
+/** list test 4 */
+export type TListTest4 =
+	/** a list of nullable text */
+	Array<
+		(
+			string
+			| null
+		)
+	>;
+
+
+/** list test 5 */
+export type TListTest5 =
+	/** a list of nullish text */
+	Array<
+		(
+			string
+			| null
 			| undefined
 		)
 	>;

@@ -133,6 +133,12 @@ OptionalTest2: TypeAlias = (str) | None
 # optional test 3
 OptionalTest3: TypeAlias = (tuple[str, int]) | None
 
+# optional test 4
+OptionalTest4: TypeAlias = (str) | None
+
+# optional test 5
+OptionalTest5: TypeAlias = (str) | None
+
 # list test 0
 ListTest0: TypeAlias = list[str]
 
@@ -147,6 +153,12 @@ ListTest2: TypeAlias = list[ListTest2Values]
 
 # list test 3
 ListTest3: TypeAlias = list[(str) | None]
+
+# list test 4
+ListTest4: TypeAlias = list[(str) | None]
+
+# list test 5
+ListTest5: TypeAlias = list[(str) | None]
 
 # set test 0
 SetTest0: TypeAlias = set[str]
@@ -286,12 +298,12 @@ class RecordTest5(BaseModel):# a record with a record map
 # record test 6
 class RecordTest6(BaseModel):# a record with optionality variants
     nullable : (str) | None
-    nullableOptional : ((str) | None) | None = None
-    nullish : ((str) | None) | None = None
+    nullableOptional : (str) | None = None
+    nullish : (str) | None = None
     optional : (str) | None = None
-    optionalNullable : ((str) | None) | None = None
-    declaredNullable : ((str) | None) | None = None
-    declaredNullish : ((str) | None) | None = None
+    optionalNullable : (str) | None = None
+    declaredNullable : (str) | None = None
+    declaredNullish : (str) | None = None
     declaredOptional : (str) | None = None
 
 # function test 0

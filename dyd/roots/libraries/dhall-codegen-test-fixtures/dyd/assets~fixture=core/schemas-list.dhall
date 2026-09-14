@@ -50,7 +50,33 @@ let testSchema4 =
         }
         s.list.meta::{ description = Some "a list of optional text" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
+let testSchema5 =
+      s.list.from
+        s.list.props::{
+        , values =
+            s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{=}
+              , variant = s.optional.variants.nullable
+              }
+              s.optional.meta::{=}
+        }
+        s.list.meta::{ description = Some "a list of nullable text" }
+
+let testSchema6 =
+      s.list.from
+        s.list.props::{
+        , values =
+            s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{=}
+              , variant = s.optional.variants.nullish
+              }
+              s.optional.meta::{=}
+        }
+        s.list.meta::{ description = Some "a list of nullish text" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
 
 let mapSchema =
       \(index : Natural) ->

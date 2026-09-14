@@ -62,12 +62,16 @@ assert decoded_optional_record.foo == "optional record"
 assert out.decode_OptionalTest1(None) is None
 
 assert round_trip(out.encode_OptionalTest2, out.decode_OptionalTest2, "nested optional") == "nested optional"
+assert out.decode_OptionalTest4(None) is None
+assert out.decode_OptionalTest5(None) is None
 
 assert round_trip(out.encode_ListTest0, out.decode_ListTest0, ["one", "two"]) == ["one", "two"]
 assert round_trip(out.encode_ListTest1, out.decode_ListTest1, [["one"], ["two", "three"]])[1][1] == "three"
 list_record = out.ListTest2Values(foo="value")
 assert round_trip(out.encode_ListTest2, out.decode_ListTest2, [list_record])[0].foo == "value"
 assert round_trip(out.encode_ListTest3, out.decode_ListTest3, ["foo", None, "bar"]) == ["foo", None, "bar"]
+assert round_trip(out.encode_ListTest4, out.decode_ListTest4, ["foo", None, "bar"]) == ["foo", None, "bar"]
+assert round_trip(out.encode_ListTest5, out.decode_ListTest5, ["foo", None, "bar"]) == ["foo", None, "bar"]
 expect_codec_error(lambda: out.decode_ListTest0("not-a-list"))
 expect_codec_error(lambda: out.decode_ListTest0(["valid", 0]))
 

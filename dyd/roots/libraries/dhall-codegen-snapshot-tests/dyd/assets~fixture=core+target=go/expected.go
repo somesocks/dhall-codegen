@@ -125,6 +125,12 @@ type OptionalTest3 *struct {
 	Item2 int `json:"item2"`
 }
 
+// optional test 4
+type OptionalTest4 *string
+
+// optional test 5
+type OptionalTest5 *string
+
 // list test 0
 type ListTest0 []string
 
@@ -140,6 +146,12 @@ type ListTest2 []ListTest2Values
 
 // list test 3
 type ListTest3 []*string
+
+// list test 4
+type ListTest4 []*string
+
+// list test 5
+type ListTest5 []*string
 
 // set test 0
 type SetTest0 []string

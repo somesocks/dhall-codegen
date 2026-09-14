@@ -176,6 +176,23 @@ export type OptionalTest3 =
 	);
 
 
+/** optional test 4 */
+export type OptionalTest4 =
+	(
+		string
+		| null
+	);
+
+
+/** optional test 5 */
+export type OptionalTest5 =
+	(
+		string
+		| null
+		| undefined
+	);
+
+
 /** list test 0 */
 export type ListTest0 =
 	/** a list */
@@ -217,6 +234,29 @@ export type ListTest3 =
 	Array<
 		(
 			string
+			| undefined
+		)
+	>;
+
+
+/** list test 4 */
+export type ListTest4 =
+	/** a list of nullable text */
+	Array<
+		(
+			string
+			| null
+		)
+	>;
+
+
+/** list test 5 */
+export type ListTest5 =
+	/** a list of nullish text */
+	Array<
+		(
+			string
+			| null
 			| undefined
 		)
 	>;
@@ -1272,6 +1312,34 @@ export function decodeOptionalTest3(input: unknown): OptionalTest3 {
 	return decodeOptionalTest3At(input, "$");
 }
 
+function encodeOptionalTest4At(value: OptionalTest4, path: string): JsonValue {
+	return value === null ? null : encodeText("none", value, path);}
+
+function decodeOptionalTest4At(input: unknown, path: string): OptionalTest4 {
+	return input === null ? null : decodeText("none", input, path) as OptionalTest4;}
+
+export function encodeOptionalTest4(value: OptionalTest4): JsonValue {
+	return encodeOptionalTest4At(value, "$");
+}
+
+export function decodeOptionalTest4(input: unknown): OptionalTest4 {
+	return decodeOptionalTest4At(input, "$");
+}
+
+function encodeOptionalTest5At(value: OptionalTest5, path: string): JsonValue {
+	return value === undefined || value === null ? null : encodeText("none", value, path);}
+
+function decodeOptionalTest5At(input: unknown, path: string): OptionalTest5 {
+	return input === null ? null : decodeText("none", input, path) as OptionalTest5;}
+
+export function encodeOptionalTest5(value: OptionalTest5): JsonValue {
+	return encodeOptionalTest5At(value, "$");
+}
+
+export function decodeOptionalTest5(input: unknown): OptionalTest5 {
+	return decodeOptionalTest5At(input, "$");
+}
+
 function encodeListTest0At(value: ListTest0, path: string): JsonValue {
 	return ((input: unknown, path: string): JsonValue[] => {
 		const entries = asArray("encode", input, path);
@@ -1418,6 +1486,62 @@ export function encodeListTest3(value: ListTest3): JsonValue {
 
 export function decodeListTest3(input: unknown): ListTest3 {
 	return decodeListTest3At(input, "$");
+}
+
+function encodeListTest4At(value: ListTest4, path: string): JsonValue {
+	return ((input: unknown, path: string): JsonValue[] => {
+		const entries = asArray("encode", input, path);
+		const result: JsonValue[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === null ? null : encodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(value, path);}
+
+function decodeListTest4At(input: unknown, path: string): ListTest4 {
+	return ((input: unknown, path: string): unknown[] => {
+		const entries = asArray("decode", input, path);
+		const result: unknown[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === null ? null : decodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(input, path) as ListTest4;}
+
+export function encodeListTest4(value: ListTest4): JsonValue {
+	return encodeListTest4At(value, "$");
+}
+
+export function decodeListTest4(input: unknown): ListTest4 {
+	return decodeListTest4At(input, "$");
+}
+
+function encodeListTest5At(value: ListTest5, path: string): JsonValue {
+	return ((input: unknown, path: string): JsonValue[] => {
+		const entries = asArray("encode", input, path);
+		const result: JsonValue[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === undefined || entries[index] === null ? null : encodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(value, path);}
+
+function decodeListTest5At(input: unknown, path: string): ListTest5 {
+	return ((input: unknown, path: string): unknown[] => {
+		const entries = asArray("decode", input, path);
+		const result: unknown[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === null ? null : decodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(input, path) as ListTest5;}
+
+export function encodeListTest5(value: ListTest5): JsonValue {
+	return encodeListTest5At(value, "$");
+}
+
+export function decodeListTest5(input: unknown): ListTest5 {
+	return decodeListTest5At(input, "$");
 }
 
 function encodeTupleTest0At(value: TupleTest0, path: string): JsonValue {

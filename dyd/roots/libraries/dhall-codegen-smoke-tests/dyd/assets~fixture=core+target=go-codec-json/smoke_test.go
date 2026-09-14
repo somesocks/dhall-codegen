@@ -85,6 +85,32 @@ func TestOptionalTupleEncode(t *testing.T) {
 	}
 }
 
+func TestNullableAndNullishProjection(t *testing.T) {
+	err, nullable := DecodeOptionalTest4(nil)
+	requireNoError(t, err)
+	if nullable != nil {
+		t.Fatalf("nullable root did not decode null to nil: %#v", nullable)
+	}
+
+	err, nullish := DecodeOptionalTest5(nil)
+	requireNoError(t, err)
+	if nullish != nil {
+		t.Fatalf("nullish root did not decode null to nil: %#v", nullish)
+	}
+
+	err, nullableList := DecodeListTest4([]any{"foo", nil, "bar"})
+	requireNoError(t, err)
+	if nullableList[1] != nil {
+		t.Fatalf("nullable list did not decode null to nil: %#v", nullableList)
+	}
+
+	err, nullishList := DecodeListTest5([]any{"foo", nil, "bar"})
+	requireNoError(t, err)
+	if nullishList[1] != nil {
+		t.Fatalf("nullish list did not decode null to nil: %#v", nullishList)
+	}
+}
+
 func TestOptionalOneOfDecode(t *testing.T) {
 	err, decoded := DecodeOneOfTest6("text")
 	requireNoError(t, err)

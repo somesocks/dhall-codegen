@@ -63,7 +63,23 @@ let testSchema4 =
         }
         s.optional.meta::{ description = Some "an optional tuple" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
+let testSchema5 =
+      s.optional.from
+        s.optional.props::{
+        , value = s.text.from s.text.props::{=} s.text.meta::{=}
+        , variant = s.optional.variants.nullable
+        }
+        s.optional.meta::{ description = Some "a nullable" }
+
+let testSchema6 =
+      s.optional.from
+        s.optional.props::{
+        , value = s.text.from s.text.props::{=} s.text.meta::{=}
+        , variant = s.optional.variants.nullish
+        }
+        s.optional.meta::{ description = Some "a nullish" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
 
 let mapSchema =
       \(index : Natural) ->

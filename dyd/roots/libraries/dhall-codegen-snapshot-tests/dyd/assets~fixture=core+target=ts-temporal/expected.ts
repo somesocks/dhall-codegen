@@ -112,6 +112,12 @@ export type OptionalTest2 = ( string | undefined );
  /** optional test 3 */
 export type OptionalTest3 = ( [ string, number ] | undefined );
 
+ /** optional test 4 */
+export type OptionalTest4 = ( string | null );
+
+ /** optional test 5 */
+export type OptionalTest5 = ( string | null | undefined );
+
  /** list test 0 */
 export type ListTest0 = /** a list */ Array< string >;
 
@@ -125,6 +131,12 @@ export type ListTest2 = /** a list */ Array< /** a record inside a list */ ListT
 
  /** list test 3 */
 export type ListTest3 = /** a list of optional text */ Array< ( string | undefined ) >;
+
+ /** list test 4 */
+export type ListTest4 = /** a list of nullable text */ Array< ( string | null ) >;
+
+ /** list test 5 */
+export type ListTest5 = /** a list of nullish text */ Array< ( string | null | undefined ) >;
 
  /** set test 0 */
 export type SetTest0 = /** a set */ Set< string >;

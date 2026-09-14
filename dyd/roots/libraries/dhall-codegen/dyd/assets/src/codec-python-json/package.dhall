@@ -71,7 +71,9 @@ let render
     : Document.Type -> Text
     = \(document : Document.Type) ->
         let document =
-              liftDefinitions.transform liftDefinitions.options::{=} document
+              liftDefinitions.transform
+                liftDefinitions.options::{ collapseOptionalRecordValues = True }
+                document
 
         let types = renderTypes.render document
 

@@ -159,6 +159,14 @@ export type TOptionalTest2 = z.infer<typeof OptionalTest2>
 export const OptionalTest3 = z.tuple([ z.string(), z.number().int().nonnegative() ]).optional();
 export type TOptionalTest3 = z.infer<typeof OptionalTest3>
 
+ /** optional test 4 */
+export const OptionalTest4 = z.string().nullable();
+export type TOptionalTest4 = z.infer<typeof OptionalTest4>
+
+ /** optional test 5 */
+export const OptionalTest5 = z.string().nullish();
+export type TOptionalTest5 = z.infer<typeof OptionalTest5>
+
  /** list test 0 */
 export const ListTest0 = z.array( z.string() ).describe("a list");
 export type TListTest0 = z.infer<typeof ListTest0>
@@ -178,6 +186,14 @@ export type TListTest2 = z.infer<typeof ListTest2>
  /** list test 3 */
 export const ListTest3 = z.array( z.string().optional() ).describe("a list of optional text");
 export type TListTest3 = z.infer<typeof ListTest3>
+
+ /** list test 4 */
+export const ListTest4 = z.array( z.string().nullable() ).describe("a list of nullable text");
+export type TListTest4 = z.infer<typeof ListTest4>
+
+ /** list test 5 */
+export const ListTest5 = z.array( z.string().nullish() ).describe("a list of nullish text");
+export type TListTest5 = z.infer<typeof ListTest5>
 
  /** set test 0 */
 export const SetTest0 = z.set( z.string() ).describe("a set");

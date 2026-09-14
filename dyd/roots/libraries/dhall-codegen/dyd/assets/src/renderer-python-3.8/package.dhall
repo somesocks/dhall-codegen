@@ -116,7 +116,10 @@ let renderDocument
     : RenderContext -> Renderer
     = \(ctx : RenderContext) ->
       \(d : Document.Type) ->
-        let d = liftDefinitions.transform liftDefinitions.options::{=} d
+        let d =
+              liftDefinitions.transform
+                liftDefinitions.options::{ collapseOptionalRecordValues = True }
+                d
 
         let renderSchemaLine =
               \(index : Natural) ->
