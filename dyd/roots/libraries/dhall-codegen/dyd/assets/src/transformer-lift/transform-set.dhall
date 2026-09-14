@@ -18,6 +18,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let materialize = common.materialize
+
 let SetNode = (s.set.nodeF TransformFragment).Type
 
 let transformSet
@@ -36,16 +38,7 @@ let transformSet
 
         let lifted = values.lifted
 
-        let values =
-              merge
-                { optional =
-                    \(result : s.type) ->
-                      s.optional.from
-                        s.optional.props::{ value = result }
-                        s.optional.meta::{=}
-                , required = \(result : s.type) -> result
-                }
-                values.result
+        let values = materialize values.result
 
         let result =
               s.set.from { values, variant = node.props.variant } node.meta

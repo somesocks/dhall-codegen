@@ -20,6 +20,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let materialize = common.materialize
+
 let AllOfNode = (s.allOf.nodeF TransformFragment).Type
 
 let transformAllOf
@@ -49,16 +51,7 @@ let transformAllOf
 
                 let node = x ctx2
 
-                let result =
-                      merge
-                        { optional =
-                            \(result : s.type) ->
-                              s.optional.from
-                                s.optional.props::{ value = result }
-                                s.optional.meta::{=}
-                        , required = \(result : s.type) -> result
-                        }
-                        node.result
+                let result = materialize node.result
 
                 let options = state.options # [ result ]
 

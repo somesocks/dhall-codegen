@@ -41,7 +41,8 @@ let renderTimePattern
         in  merge
               { none = None Text
               , date = None Text
-              , time = Some "${p0}\"pattern\" : \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
+              , time = Some
+                  "${p0}\"pattern\" : \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
               , duration = None Text
               }
               variant

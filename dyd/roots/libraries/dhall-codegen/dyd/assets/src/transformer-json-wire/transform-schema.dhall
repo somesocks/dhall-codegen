@@ -6,28 +6,47 @@ let Schema = Grammar.Schema
 
 let s = Schema
 
-let TransformContext : Type = { index : Natural, depth : Natural }
+let TransformContext
+    : Type
+    = { index : Natural, depth : Natural }
 
-let TransformNode : Type = { result : s.type }
+let TransformNode
+    : Type
+    = { result : s.type }
 
-let TransformFragment : Type = TransformContext -> TransformNode
+let TransformFragment
+    : Type
+    = TransformContext -> TransformNode
 
 let transformFragments
     : List TransformFragment -> TransformContext -> List s.type
     = \(fragments : List TransformFragment) ->
       \(ctx : TransformContext) ->
-        let FoldState : Type = { values : List s.type, index : Natural }
+        let FoldState
+            : Type
+            = { values : List s.type, index : Natural }
 
         let transformFragment =
               \(state : FoldState) ->
               \(fragment : TransformFragment) ->
-                let transformed = fragment { depth = ctx.depth + 1, index = state.index }
+                let transformed =
+                      fragment { depth = ctx.depth + 1, index = state.index }
 
-                in  { values = state.values # [ transformed.result ], index = state.index + 1 }
+                in  { values = state.values # [ transformed.result ]
+                    , index = state.index + 1
+                    }
 
-        let initial : FoldState = { values = [] : List s.type, index = 0 }
+        let initial
+            : FoldState
+            = { values = [] : List s.type, index = 0 }
 
-        in  (List/foldLeft TransformFragment fragments FoldState transformFragment initial).values
+        in  ( List/foldLeft
+                TransformFragment
+                fragments
+                FoldState
+                transformFragment
+                initial
+            ).values
 
 let RecordFoldState
     : Type
@@ -41,27 +60,31 @@ let transformRequiredField =
       \(state : RecordFoldState) ->
       \(field : { mapKey : Text, mapValue : TransformFragment }) ->
         let transformed =
-              field.mapValue { depth = state.ctx.depth + 1, index = state.index }
+              field.mapValue
+                { depth = state.ctx.depth + 1, index = state.index }
 
-        in  state
-              // { required =
-                     state.required
-                     # [ { mapKey = field.mapKey, mapValue = transformed.result } ]
-                 , index = state.index + 1
-                 }
+        in      state
+            //  { required =
+                      state.required
+                    # [ { mapKey = field.mapKey, mapValue = transformed.result }
+                      ]
+                , index = state.index + 1
+                }
 
 let transformOptionalField =
       \(state : RecordFoldState) ->
       \(field : { mapKey : Text, mapValue : TransformFragment }) ->
         let transformed =
-              field.mapValue { depth = state.ctx.depth + 1, index = state.index }
+              field.mapValue
+                { depth = state.ctx.depth + 1, index = state.index }
 
-        in  state
-              // { optional =
-                     state.optional
-                     # [ { mapKey = field.mapKey, mapValue = transformed.result } ]
-                 , index = state.index + 1
-                 }
+        in      state
+            //  { optional =
+                      state.optional
+                    # [ { mapKey = field.mapKey, mapValue = transformed.result }
+                      ]
+                , index = state.index + 1
+                }
 
 let transformSchemaF
     : s.typeF TransformFragment -> TransformFragment
@@ -98,25 +121,46 @@ let transformSchemaF
                       { result = s.reference.from node.props node.meta }
                 , Optional =
                     \(node : (s.optional.nodeF TransformFragment).Type) ->
-                      let value = node.props.value { depth = ctx.depth + 1, index = 0 }
+                      let value =
+                            node.props.value
+                              { depth = ctx.depth + 1, index = 0 }
 
-                      in  { result = s.optional.from { value = value.result } node.meta }
+                      in  { result =
+                              s.optional.from
+                                { value = value.result
+                                , variant = node.props.variant
+                                }
+                                node.meta
+                          }
                 , List =
                     \(node : (s.list.nodeF TransformFragment).Type) ->
-                      let values = node.props.values { depth = ctx.depth + 1, index = 0 }
+                      let values =
+                            node.props.values
+                              { depth = ctx.depth + 1, index = 0 }
 
-                      in  { result = s.list.from { values = values.result } node.meta }
+                      in  { result =
+                              s.list.from { values = values.result } node.meta
+                          }
                 , Set =
                     \(node : (s.set.nodeF TransformFragment).Type) ->
-                      let values = node.props.values { depth = ctx.depth + 1, index = 0 }
+                      let values =
+                            node.props.values
+                              { depth = ctx.depth + 1, index = 0 }
 
-                      in  { result = s.list.from { values = values.result } node.meta }
+                      in  { result =
+                              s.list.from { values = values.result } node.meta
+                          }
                 , Map =
                     \(node : (s.map.nodeF TransformFragment).Type) ->
-                      let keys = (node.props.keys { depth = ctx.depth + 1, index = 0 }).result
+                      let keys =
+                            ( node.props.keys
+                                { depth = ctx.depth + 1, index = 0 }
+                            ).result
 
                       let values =
-                            (node.props.values { depth = ctx.depth + 1, index = 1 }).result
+                            ( node.props.values
+                                { depth = ctx.depth + 1, index = 1 }
+                            ).result
 
                       let entry =
                             s.record.from
@@ -145,8 +189,10 @@ let transformSchemaF
                     \(node : (s.record.nodeF TransformFragment).Type) ->
                       let initial
                           : RecordFoldState
-                          = { required = [] : List { mapKey : Text, mapValue : s.type }
-                            , optional = [] : List { mapKey : Text, mapValue : s.type }
+                          = { required =
+                                [] : List { mapKey : Text, mapValue : s.type }
+                            , optional =
+                                [] : List { mapKey : Text, mapValue : s.type }
                             , index = 0
                             , ctx
                             }
@@ -188,11 +234,18 @@ let transformSchemaF
                                   { kind =
                                       s.text.from
                                         s.text.props::{
-                                        , variant = s.text.variants.literal "function"
+                                        , variant =
+                                            s.text.variants.literal "function"
                                         }
                                         s.text.meta::{=}
-                                  , input = s.tuple.from { values = input } s.tuple.meta::{=}
-                                  , output = s.tuple.from { values = output } s.tuple.meta::{=}
+                                  , input =
+                                      s.tuple.from
+                                        { values = input }
+                                        s.tuple.meta::{=}
+                                  , output =
+                                      s.tuple.from
+                                        { values = output }
+                                        s.tuple.meta::{=}
                                   }
                               }
                               node.meta

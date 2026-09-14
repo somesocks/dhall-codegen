@@ -69,7 +69,22 @@ let numberNode =
       , default = {=}
       }
 
-let textVariants = < none | email | url | base64 | base64url | e164 | ipv4 | ipv6 | isoDate | isoDateTime | isoDuration | isoTime | uuid | literal : Text >
+let textVariants =
+      < none
+      | email
+      | url
+      | base64
+      | base64url
+      | e164
+      | ipv4
+      | ipv6
+      | isoDate
+      | isoDateTime
+      | isoDuration
+      | isoTime
+      | uuid
+      | literal : Text
+      >
 
 let textProps =
       { Type = { variant : textVariants }, default.variant = textVariants.none }
@@ -98,9 +113,13 @@ let referenceNode =
       , default = {=}
       }
 
-let optionalVariants = < none | nullable >
+let optionalVariants = < optional | nullable | nullish >
 
-let optionalProps = \(a : Type) -> { Type = { value : a }, default = {=} }
+let optionalProps =
+      \(a : Type) ->
+        { Type = { value : a, variant : optionalVariants }
+        , default.variant = optionalVariants.optional
+        }
 
 let optionalMeta = nodeMeta
 
@@ -267,7 +286,11 @@ let fmap-SchemaF
               , Reference = \(x : referenceNode.Type) -> U.Reference x
               , Optional =
                   \(x : (optionalNode A).Type) ->
-                    U.Optional { meta = x.meta, props.value = f x.props.value }
+                    U.Optional
+                      { meta = x.meta
+                      , props.value = f x.props.value
+                      , props.variant = x.props.variant
+                      }
               , List =
                   \(x : (listNode A).Type) ->
                     U.List { meta = x.meta, props.values = f x.props.values }
@@ -518,6 +541,7 @@ in  { Schema =
       , optional =
         { from = optionalFrom
         , meta = optionalMeta
+        , variants = optionalVariants
         , props = optionalProps Schema
         , propsF = optionalProps
         , node = optionalNode Schema

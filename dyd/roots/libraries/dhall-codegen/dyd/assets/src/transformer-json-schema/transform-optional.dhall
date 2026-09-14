@@ -26,7 +26,10 @@ let transformOptional
 
         let value = node.props.value ctx2
 
-        let result = s.optional.from { value = value.result } node.meta
+        let result =
+              s.optional.from
+                { value = value.result, variant = node.props.variant }
+                node.meta
 
         in  { result }
 

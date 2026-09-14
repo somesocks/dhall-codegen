@@ -33,11 +33,13 @@ import {
   decodeRecordTest2,
   decodeRecordTest3,
   decodeRecordTest4,
+  decodeRecordTest6,
   encodeRecordTest0,
   encodeRecordTest1,
   encodeRecordTest2,
   encodeRecordTest3,
   encodeRecordTest4,
+  encodeRecordTest6,
   decodeMapTest0,
   decodeMapTest1,
   decodeMapTest2,
@@ -75,6 +77,7 @@ import {
   decodeOneOfTest3,
   decodeOneOfTest4,
   decodeOneOfTest5,
+  decodeOneOfTest7,
   encodeOptionalTest0,
   encodeOptionalTest1,
   encodeOptionalTest2,
@@ -84,6 +87,7 @@ import {
   encodeOneOfTest3,
   encodeOneOfTest4,
   encodeOneOfTest5,
+  encodeOneOfTest7,
   decodeTextTest0,
   decodeTextTest2,
   decodeTextTest3,
@@ -335,15 +339,12 @@ if (nestedRecord.contact.email !== "ada@example.com" || nestedRecord.contact.pho
   throw new Error("nested optional record did not round-trip");
 }
 
-const nullNestedRecord = decodeRecordTest2({
+expectCodecError(() => decodeRecordTest2({
   age: 36,
   contact: { email: null, phone: null },
   deceased: false,
   name: "Ada",
-});
-if (nullNestedRecord.contact.email !== undefined || nullNestedRecord.contact.phone !== undefined) {
-  throw new Error("null nested optional fields were not absent");
-}
+}));
 
 const omittedOptionalRecord = decodeRecordTest3(encodeRecordTest3({ name: "Ada" }));
 if (omittedOptionalRecord.age !== undefined || omittedOptionalRecord.deceased !== undefined) {
@@ -353,17 +354,25 @@ const presentOptionalRecord = decodeRecordTest3(encodeRecordTest3({ age: 36, dec
 if (presentOptionalRecord.age !== 36 || presentOptionalRecord.deceased !== false) {
   throw new Error("present optional record fields changed");
 }
-const nullOptionalRecord = decodeRecordTest3({ age: null, deceased: null, name: "Ada" });
-if (nullOptionalRecord.age !== undefined || nullOptionalRecord.deceased !== undefined) {
-  throw new Error("null optional record fields were not absent");
-}
+expectCodecError(() => decodeRecordTest3({ age: null, deceased: null, name: "Ada" }));
 
 const interfaceRecord = decodeRecordTest4(encodeRecordTest4({ id: "person-1", status: "active" }));
 if (interfaceRecord.id !== "person-1" || interfaceRecord.status !== "active" || interfaceRecord.age !== undefined) {
   throw new Error("interface record did not round-trip");
 }
-if (decodeRecordTest4({ id: "person-1", status: "active", age: null }).age !== undefined) {
-  throw new Error("null interface optional field was not absent");
+expectCodecError(() => decodeRecordTest4({ id: "person-1", status: "active", age: null }));
+
+const nullableRecord = decodeRecordTest6({ nullable: null });
+if (nullableRecord.nullable !== null || nullableRecord.optional !== undefined || nullableRecord.nullish !== undefined) {
+  throw new Error("record nullability variants did not decode");
+}
+expectCodecError(() => decodeRecordTest6({}));
+expectCodecError(() => decodeRecordTest6({ nullable: "value", optional: null }));
+const nullishRecord = decodeRecordTest6({ nullable: "value", nullish: null });
+if (nullishRecord.nullish !== null) throw new Error("nullish field did not preserve null");
+const variantRoundTrip = decodeRecordTest6(encodeRecordTest6({ nullable: "value", optional: "optional", nullish: "nullish" }));
+if (variantRoundTrip.optional !== "optional" || variantRoundTrip.nullish !== "nullish") {
+  throw new Error("record nullability variants did not round-trip");
 }
 
 const instant = new Date("2026-07-25T14:30:00.123Z");
@@ -441,6 +450,15 @@ if (typeof oneOfRecord === "string" || typeof oneOfRecord === "number" || oneOfR
 }
 if (decodeOneOfTest3(encodeOneOfTest3("foo")) !== "foo") {
   throw new Error("reference OneOf option did not round-trip");
+}
+if (decodeOneOfTest7(encodeOneOfTest7(null)) !== null) {
+  throw new Error("nullish OneOf null did not round-trip");
+}
+if (decodeOneOfTest7(encodeOneOfTest7("text value")) !== "text value") {
+  throw new Error("nullish OneOf text option did not round-trip");
+}
+if (decodeOneOfTest7(encodeOneOfTest7(42)) !== 42) {
+  throw new Error("nullish OneOf natural option did not round-trip");
 }
 expectCodecError(() => decodeOneOfTest0(-1));
 

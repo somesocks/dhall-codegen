@@ -69,7 +69,8 @@ let renderRootSchema
               Text/concatSep
                 "\n"
                 (   description
-                  # [ "export type ${ctx.options.prefix}${root.meta.name} =${definition.expression};" ]
+                  # [ "export type ${ctx.options.prefix}${root.meta.name} =${definition.expression};"
+                    ]
                 )
 
         in  statement
@@ -105,7 +106,8 @@ let renderDocument
 
 let options =
       { Type = RenderOptions
-      , default = { indent = "\t", break = "\n", prefix = "", time = TimeMode.LEGACY }
+      , default =
+        { indent = "\t", break = "\n", prefix = "", time = TimeMode.LEGACY }
       }
 
 in  { render = renderDocument, options, time = TimeMode }

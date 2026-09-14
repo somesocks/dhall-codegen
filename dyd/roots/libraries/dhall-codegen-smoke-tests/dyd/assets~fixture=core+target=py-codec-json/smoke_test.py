@@ -67,6 +67,7 @@ assert round_trip(out.encode_ListTest0, out.decode_ListTest0, ["one", "two"]) ==
 assert round_trip(out.encode_ListTest1, out.decode_ListTest1, [["one"], ["two", "three"]])[1][1] == "three"
 list_record = out.ListTest2Values(foo="value")
 assert round_trip(out.encode_ListTest2, out.decode_ListTest2, [list_record])[0].foo == "value"
+assert round_trip(out.encode_ListTest3, out.decode_ListTest3, ["foo", None, "bar"]) == ["foo", None, "bar"]
 expect_codec_error(lambda: out.decode_ListTest0("not-a-list"))
 expect_codec_error(lambda: out.decode_ListTest0(["valid", 0]))
 
@@ -97,39 +98,66 @@ expect_codec_error(lambda: out.decode_RecordTest0({"age": -1, "deceased": False,
 
 nested_record = out.RecordTest2(
     age=36,
-    contact=out.RecordTest2Contact(email="ada@example.com", phone=None),
+    contact=out.RecordTest2Contact(email="ada@example.com"),
     deceased=False,
     name="Ada",
 )
 decoded_nested_record = round_trip(out.encode_RecordTest2, out.decode_RecordTest2, nested_record)
 assert decoded_nested_record.contact.email == "ada@example.com"
 assert decoded_nested_record.contact.phone is None
-null_nested_record = out.decode_RecordTest2({
+decoded_null_nested_record = out.decode_RecordTest2({
     "age": 36,
     "contact": {"email": None, "phone": None},
     "deceased": False,
     "name": "Ada",
 })
-assert null_nested_record.contact.email is None
-assert null_nested_record.contact.phone is None
+assert decoded_null_nested_record.contact.email is None
+assert decoded_null_nested_record.contact.phone is None
 
-optional_record = out.RecordTest3(name="Ada", age=None, deceased=None)
+optional_record = out.RecordTest3(name="Ada")
 decoded_optional_record = round_trip(out.encode_RecordTest3, out.decode_RecordTest3, optional_record)
 assert decoded_optional_record.age is None
 assert decoded_optional_record.deceased is None
 present_optional_record = out.RecordTest3(name="Grace", age=85, deceased=True)
 assert round_trip(out.encode_RecordTest3, out.decode_RecordTest3, present_optional_record).age == 85
-null_optional_record = out.decode_RecordTest3({"name": "Ada", "age": None, "deceased": None})
-assert null_optional_record.age is None
-assert null_optional_record.deceased is None
+null_optional_record = out.RecordTest3(name="Lin", age=None, deceased=None)
+assert out.encode_RecordTest3(null_optional_record) == {"name": "Lin"}
+assert out.decode_RecordTest3({"name": "Ada", "age": None, "deceased": None}).age is None
 
 interface_record = out.decode_RecordTest4({"id": "person-1", "status": "active", "age": 36})
 assert interface_record.id == "person-1"
 assert interface_record.status == "active"
 assert interface_record.age == 36
 assert out.encode_RecordTest4(interface_record) == {"id": "person-1", "status": "active", "age": 36}
-assert out.decode_RecordTest4({"id": "person-1", "status": "active", "age": None}).age is None
+
+
+class InterfaceRecord:
+    id = "person-2"
+    status = "inactive"
+    age = None
+
+
+assert out.encode_RecordTest4(InterfaceRecord()) == {"id": "person-2", "status": "inactive"}
+
+
+null_interface_record = out.decode_RecordTest4({"id": "person-1", "status": "active", "age": None})
+assert null_interface_record.age is None
+assert out.encode_RecordTest4(null_interface_record) == {"id": "person-1", "status": "active"}
 expect_codec_error(lambda: out.decode_RecordTest4({"id": "person-1"}))
+
+variant_record = out.RecordTest6(nullable=None)
+assert variant_record.nullable is None
+assert "optional" not in variant_record.model_fields_set
+assert out.encode_RecordTest6(variant_record)["nullable"] is None
+assert out.decode_RecordTest6({"nullable": None}).nullable is None
+expect_codec_error(lambda: out.decode_RecordTest6({}))
+optional_null_record = out.decode_RecordTest6({"nullable": "value", "optional": None})
+assert optional_null_record.optional is None
+assert "optional" not in out.encode_RecordTest6(optional_null_record)
+nullish_record = out.decode_RecordTest6({"nullable": "value", "nullish": None})
+assert nullish_record.nullish is None
+assert "nullish" in nullish_record.model_fields_set
+assert "nullish" not in out.encode_RecordTest6(nullish_record)
 
 instant = datetime(2026, 7, 25, 14, 30, 0, 123000, timezone.utc)
 assert round_trip(out.encode_TimeTest0, out.decode_TimeTest0, instant) == instant
@@ -166,6 +194,9 @@ assert round_trip(out.encode_OneOfTest1, out.decode_OneOfTest1, 7) == 7
 one_of_record = out.OneOfTest2Option2(bar=1, foo="details")
 assert round_trip(out.encode_OneOfTest2, out.decode_OneOfTest2, one_of_record).foo == "details"
 assert round_trip(out.encode_OneOfTest3, out.decode_OneOfTest3, "foo") == "foo"
+assert round_trip(out.encode_OneOfTest7, out.decode_OneOfTest7, None) is None
+assert round_trip(out.encode_OneOfTest7, out.decode_OneOfTest7, "text value") == "text value"
+assert round_trip(out.encode_OneOfTest7, out.decode_OneOfTest7, 42) == 42
 expect_codec_error(lambda: out.decode_OneOfTest0(-1))
 
 extended_first = out.decode_OneOfTest4({"foo": "overlap", "bar": 1})

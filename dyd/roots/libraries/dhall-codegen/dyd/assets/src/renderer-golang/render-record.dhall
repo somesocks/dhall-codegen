@@ -33,7 +33,7 @@ let renderRequiredRecordField
         let tag = "`json:\"${x.mapKey}\"`"
 
         let expression =
-              renderPrefix ctx
+                  renderPrefix ctx
               ++  fieldName
               ++  " "
               ++  value.expression
@@ -53,7 +53,7 @@ let renderOptionalRecordField
         let tag = "`json:\"${x.mapKey},omitempty\"`"
 
         let expression =
-              renderPrefix ctx
+                  renderPrefix ctx
               ++  fieldName
               ++  " "
               ++  "*"
@@ -72,10 +72,7 @@ let renderInterfaceRequiredMethod
         let methodName = Text/snakeCase x.mapKey
 
         let expression =
-              renderPrefix ctx
-              ++  methodName
-              ++  "() "
-              ++  value.expression
+              renderPrefix ctx ++ methodName ++ "() " ++ value.expression
 
         in  expression
 
@@ -88,11 +85,7 @@ let renderInterfaceOptionalMethod
         let methodName = Text/snakeCase x.mapKey
 
         let expression =
-              renderPrefix ctx
-              ++  methodName
-              ++  "() "
-              ++  "*"
-              ++  value.expression
+              renderPrefix ctx ++ methodName ++ "() " ++ "*" ++ value.expression
 
         in  expression
 
@@ -112,27 +105,27 @@ let renderRecord
         let body =
               merge
                 { none =
-                    List/map
-                      { mapKey : Text, mapValue : RenderFragment }
-                      Text
-                      (renderRequiredRecordField ctx2)
-                      x.props.required
-                  # List/map
-                      { mapKey : Text, mapValue : RenderFragment }
-                      Text
-                      (renderOptionalRecordField ctx2)
-                      x.props.optional
+                      List/map
+                        { mapKey : Text, mapValue : RenderFragment }
+                        Text
+                        (renderRequiredRecordField ctx2)
+                        x.props.required
+                    # List/map
+                        { mapKey : Text, mapValue : RenderFragment }
+                        Text
+                        (renderOptionalRecordField ctx2)
+                        x.props.optional
                 , interface =
-                    List/map
-                      { mapKey : Text, mapValue : RenderFragment }
-                      Text
-                      (renderInterfaceRequiredMethod ctx2)
-                      x.props.required
-                  # List/map
-                      { mapKey : Text, mapValue : RenderFragment }
-                      Text
-                      (renderInterfaceOptionalMethod ctx2)
-                      x.props.optional
+                      List/map
+                        { mapKey : Text, mapValue : RenderFragment }
+                        Text
+                        (renderInterfaceRequiredMethod ctx2)
+                        x.props.required
+                    # List/map
+                        { mapKey : Text, mapValue : RenderFragment }
+                        Text
+                        (renderInterfaceOptionalMethod ctx2)
+                        x.props.optional
                 }
                 x.props.variant
 

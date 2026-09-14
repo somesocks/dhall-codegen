@@ -110,15 +110,18 @@ let renderTextPattern
                 { none = None Text
                 , email = None Text
                 , url = None Text
-                , base64 = Some "${p0}\"pattern\": \"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}(?:==)?|[A-Za-z0-9+/]{3}=?)?$\""
-                , base64url = Some "${p0}\"pattern\": \"^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$\""
-                , e164 = Some "${p0}\"pattern\": \"^[+][1-9][0-9]{0,14}$\""
+                , base64 = Some
+                    "${p0}\"pattern\": \"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}(?:==)?|[A-Za-z0-9+/]{3}=?)?\$\""
+                , base64url = Some
+                    "${p0}\"pattern\": \"^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?\$\""
+                , e164 = Some "${p0}\"pattern\": \"^[+][1-9][0-9]{0,14}\$\""
                 , ipv4 = None Text
                 , ipv6 = None Text
                 , isoDate = None Text
                 , isoDateTime = None Text
                 , isoDuration = None Text
-                , isoTime = Some "${p0}\"pattern\": \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
+                , isoTime = Some
+                    "${p0}\"pattern\": \"^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\\\s\\\\S])\""
                 , uuid = None Text
                 , literal = λ(x : Text) → None Text
                 }

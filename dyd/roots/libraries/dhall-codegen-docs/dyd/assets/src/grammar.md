@@ -249,19 +249,28 @@ let PersonRef =
 
 #### Optional
 
-Wraps a schema to indicate optionality.
+Wraps a schema with one of three absence/nullability variants:
+
+- `optional` (default): may be absent or `undefined`
+- `nullable`: may be `null`
+- `nullish`: may be absent/`undefined` or `null`
 
 ```dhall
 let MaybeName =
       s.optional.from
-        (s.optional.props::{ value = s.text.from s.text.props::{=} s.text.meta::{=} })
+        (s.optional.props::{
+        , value = s.text.from s.text.props::{=} s.text.meta::{=}
+        , variant = s.optional.variants.nullish
+        })
         s.optional.meta::{=}
 ```
 
 Notes:
 
-- In a `record`, optionality is typically expressed by placing the field in `record.props.optional`.
-- The **lift transformer** (used by most renderers) will “lift” an `optional` used under a record’s required fields into an optional field where possible.
+- In a `record`, `optional` affects property presence while `nullable` affects the value. This gives four property forms: required non-null, required nullable, optional non-null, and optional nullable.
+- The **lift transformer** (used by most renderers) moves an `optional` or `nullish` required field into `record.props.optional`. It retains a nullable value wrapper for `nullish`.
+- Nested wrappers are normalized: `Optional<Nullable<T>>` and `Nullable<Optional<T>>` become `Nullish<T>`.
+- Outside object properties, targets render the variants using their normal maybe-value representation. JSON codecs canonically project `undefined` to JSON `null` where JSON has no omission state.
 
 #### List
 

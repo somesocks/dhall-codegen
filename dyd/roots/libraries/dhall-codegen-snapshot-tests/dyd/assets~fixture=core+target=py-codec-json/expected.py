@@ -115,6 +115,9 @@ class ListTest2Values(BaseModel):# a record inside a list
 # list test 2
 ListTest2: TypeAlias = list[ListTest2Values]
 
+# list test 3
+ListTest3: TypeAlias = list[(str) | None]
+
 # tuple test 0
 TupleTest0: TypeAlias = tuple[str, int]
 
@@ -173,8 +176,8 @@ class RecordTest1(BaseModel):# a record
     name : str
 
 class RecordTest2Contact(BaseModel):
-    email : (str) | None
-    phone : (str) | None
+    email : (str) | None = None
+    phone : (str) | None = None
 
 # record test 2
 class RecordTest2(BaseModel):# a record with an embedded record
@@ -186,18 +189,29 @@ class RecordTest2(BaseModel):# a record with an embedded record
 # record test 3
 class RecordTest3(BaseModel):# a record with optional props
     name : str
-    age : (int) | None
-    deceased : (bool) | None
+    age : (int) | None = None
+    deceased : (bool) | None = None
 
 # record test 4
 class RecordTest4(Protocol):
     id : str
     status : str
-    age : (int) | None
+    age : (int) | None = None
 
 # record test 5
 class RecordTest5(BaseModel):# a record with a record map
     headers : dict[str, str]
+
+# record test 6
+class RecordTest6(BaseModel):# a record with optionality variants
+    nullable : (str) | None
+    nullableOptional : ((str) | None) | None = None
+    nullish : ((str) | None) | None = None
+    optional : (str) | None = None
+    optionalNullable : ((str) | None) | None = None
+    declaredNullable : ((str) | None) | None = None
+    declaredNullish : ((str) | None) | None = None
+    declaredOptional : (str) | None = None
 
 # time test 0
 TimeTest0: TypeAlias = datetime
@@ -271,6 +285,9 @@ OneOfTest5: TypeAlias = (OneOfTest5Option0 | OneOfTest5Option1)
 
 # oneOf test 6
 OneOfTest6: TypeAlias = ((str | int)) | None
+
+# oneOf test 7
+OneOfTest7: TypeAlias = ((str | int)) | None
 
 import base64
 import math
@@ -1046,6 +1063,35 @@ def decode_ListTest2(input: Any) -> ListTest2:
     return _decode_ListTest2_at(input, "$")
 
 
+def _encode_ListTest3_at(value: ListTest3, path: str) -> Any:
+    if not isinstance(value, list):
+        _fail("encode", path, "expected list")
+    result = []
+    for index, entry in enumerate(value):
+        if entry is None:
+            converted_ListTest3 = None
+        else:
+            converted_ListTest3 = _text("encode", entry, _index(path, index), "none")
+        result.append(converted_ListTest3)
+    return result
+
+def _decode_ListTest3_at(input: Any, path: str) -> ListTest3:
+    result = []
+    for index, entry in enumerate(_array("decode", input, path)):
+        if entry is None:
+            converted_ListTest3 = None
+        else:
+            converted_ListTest3 = _text("decode", entry, _index(path, index), "none")
+        result.append(converted_ListTest3)
+    return result
+
+def encode_ListTest3(value: ListTest3) -> Any:
+    return _encode_ListTest3_at(value, "$")
+
+def decode_ListTest3(input: Any) -> ListTest3:
+    return _decode_ListTest3_at(input, "$")
+
+
 def _encode_TupleTest0_at(value: TupleTest0, path: str) -> Any:
     entries = value
     if not isinstance(entries, (list, tuple)) or len(entries) != 2:
@@ -1545,14 +1591,16 @@ def _encode_RecordTest2Contact_at(value: RecordTest2Contact, path: str) -> Any:
 def _decode_RecordTest2Contact_at(input: Any, path: str) -> RecordTest2Contact:
     object = _object("decode", input, path)
     result = {}
-    if "email" in object and object["email"] is not None:
-        result["email"] = _text("decode", object["email"], _field(path, "email"), "none")
-    else:
-        result["email"] = None
-    if "phone" in object and object["phone"] is not None:
-        result["phone"] = _text("decode", object["phone"], _field(path, "phone"), "none")
-    else:
-        result["phone"] = None
+    if "email" in object:
+        if object["email"] is None:
+            result["email"] = None
+        else:
+            result["email"] = _text("decode", object["email"], _field(path, "email"), "none")
+    if "phone" in object:
+        if object["phone"] is None:
+            result["phone"] = None
+        else:
+            result["phone"] = _text("decode", object["phone"], _field(path, "phone"), "none")
     return RecordTest2Contact.model_construct(**result)
 
 def encode_RecordTest2Contact(value: RecordTest2Contact) -> Any:
@@ -1620,16 +1668,18 @@ def _decode_RecordTest3_at(input: Any, path: str) -> RecordTest3:
     if "name" not in object:
         _fail("decode", _field(path, "name"), "missing required field")
     result["name"] = _text("decode", object["name"], _field(path, "name"), "none")
-    if "age" in object and object["age"] is not None:
-        result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
-    else:
-        result["age"] = None
-    if "deceased" in object and object["deceased"] is not None:
-        if not isinstance(object["deceased"], bool):
-            _fail("decode", _field(path, "deceased"), "expected boolean")
-        result["deceased"] = object["deceased"]
-    else:
-        result["deceased"] = None
+    if "age" in object:
+        if object["age"] is None:
+            result["age"] = None
+        else:
+            result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
+    if "deceased" in object:
+        if object["deceased"] is None:
+            result["deceased"] = None
+        else:
+            if not isinstance(object["deceased"], bool):
+                _fail("decode", _field(path, "deceased"), "expected boolean")
+            result["deceased"] = object["deceased"]
     return RecordTest3.model_construct(**result)
 
 def encode_RecordTest3(value: RecordTest3) -> Any:
@@ -1662,10 +1712,11 @@ def _decode_RecordTest4_at(input: Any, path: str) -> RecordTest4:
     if "status" not in object:
         _fail("decode", _field(path, "status"), "missing required field")
     result["status"] = _text("decode", object["status"], _field(path, "status"), "none")
-    if "age" in object and object["age"] is not None:
-        result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
-    else:
-        result["age"] = None
+    if "age" in object:
+        if object["age"] is None:
+            result["age"] = None
+        else:
+            result["age"] = _number("decode", object["age"], _field(path, "age"), "natural")
     return _RecordTest4.model_construct(**result)
 
 def encode_RecordTest4(value: RecordTest4) -> Any:
@@ -1709,6 +1760,112 @@ def encode_RecordTest5(value: RecordTest5) -> Any:
 
 def decode_RecordTest5(input: Any) -> RecordTest5:
     return _decode_RecordTest5_at(input, "$")
+
+
+def _encode_RecordTest6_at(value: RecordTest6, path: str) -> Any:
+    result = {}
+    result["nullable"] = None
+    if value.nullable is None:
+        result["nullable"] = None
+    else:
+        result["nullable"] = _text("encode", value.nullable, _field(path, "nullable"), "none")
+    if value.nullableOptional is not None:
+        if value.nullableOptional is None:
+            result["nullableOptional"] = None
+        else:
+            result["nullableOptional"] = _text("encode", value.nullableOptional, _field(path, "nullableOptional"), "none")
+    if value.nullish is not None:
+        if value.nullish is None:
+            result["nullish"] = None
+        else:
+            result["nullish"] = _text("encode", value.nullish, _field(path, "nullish"), "none")
+    if value.optional is not None:
+        result["optional"] = _text("encode", value.optional, _field(path, "optional"), "none")
+    if value.optionalNullable is not None:
+        if value.optionalNullable is None:
+            result["optionalNullable"] = None
+        else:
+            result["optionalNullable"] = _text("encode", value.optionalNullable, _field(path, "optionalNullable"), "none")
+    if value.declaredNullable is not None:
+        if value.declaredNullable is None:
+            result["declaredNullable"] = None
+        else:
+            result["declaredNullable"] = _text("encode", value.declaredNullable, _field(path, "declaredNullable"), "none")
+    if value.declaredNullish is not None:
+        if value.declaredNullish is None:
+            result["declaredNullish"] = None
+        else:
+            result["declaredNullish"] = _text("encode", value.declaredNullish, _field(path, "declaredNullish"), "none")
+    if value.declaredOptional is not None:
+        result["declaredOptional"] = _text("encode", value.declaredOptional, _field(path, "declaredOptional"), "none")
+    return result
+
+def _decode_RecordTest6_at(input: Any, path: str) -> RecordTest6:
+    object = _object("decode", input, path)
+    result = {}
+    if "nullable" not in object:
+        _fail("decode", _field(path, "nullable"), "missing required field")
+    if object["nullable"] is None:
+        result["nullable"] = None
+    else:
+        result["nullable"] = _text("decode", object["nullable"], _field(path, "nullable"), "none")
+    if "nullableOptional" in object:
+        if object["nullableOptional"] is None:
+            result["nullableOptional"] = None
+        else:
+            if object["nullableOptional"] is None:
+                result["nullableOptional"] = None
+            else:
+                result["nullableOptional"] = _text("decode", object["nullableOptional"], _field(path, "nullableOptional"), "none")
+    if "nullish" in object:
+        if object["nullish"] is None:
+            result["nullish"] = None
+        else:
+            if object["nullish"] is None:
+                result["nullish"] = None
+            else:
+                result["nullish"] = _text("decode", object["nullish"], _field(path, "nullish"), "none")
+    if "optional" in object:
+        if object["optional"] is None:
+            result["optional"] = None
+        else:
+            result["optional"] = _text("decode", object["optional"], _field(path, "optional"), "none")
+    if "optionalNullable" in object:
+        if object["optionalNullable"] is None:
+            result["optionalNullable"] = None
+        else:
+            if object["optionalNullable"] is None:
+                result["optionalNullable"] = None
+            else:
+                result["optionalNullable"] = _text("decode", object["optionalNullable"], _field(path, "optionalNullable"), "none")
+    if "declaredNullable" in object:
+        if object["declaredNullable"] is None:
+            result["declaredNullable"] = None
+        else:
+            if object["declaredNullable"] is None:
+                result["declaredNullable"] = None
+            else:
+                result["declaredNullable"] = _text("decode", object["declaredNullable"], _field(path, "declaredNullable"), "none")
+    if "declaredNullish" in object:
+        if object["declaredNullish"] is None:
+            result["declaredNullish"] = None
+        else:
+            if object["declaredNullish"] is None:
+                result["declaredNullish"] = None
+            else:
+                result["declaredNullish"] = _text("decode", object["declaredNullish"], _field(path, "declaredNullish"), "none")
+    if "declaredOptional" in object:
+        if object["declaredOptional"] is None:
+            result["declaredOptional"] = None
+        else:
+            result["declaredOptional"] = _text("decode", object["declaredOptional"], _field(path, "declaredOptional"), "none")
+    return RecordTest6.model_construct(**result)
+
+def encode_RecordTest6(value: RecordTest6) -> Any:
+    return _encode_RecordTest6_at(value, "$")
+
+def decode_RecordTest6(input: Any) -> RecordTest6:
+    return _decode_RecordTest6_at(input, "$")
 
 
 def _encode_TimeTest0_at(value: TimeTest0, path: str) -> Any:
@@ -2341,3 +2498,52 @@ def encode_OneOfTest6(value: OneOfTest6) -> Any:
 
 def decode_OneOfTest6(input: Any) -> OneOfTest6:
     return _decode_OneOfTest6_at(input, "$")
+
+
+def _encode_OneOfTest7_at(value: OneOfTest7, path: str) -> Any:
+    if value is None:
+        result = None
+    else:
+        matched = False
+        if not matched:
+            try:
+                result = _text("encode", value, path, "none")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            try:
+                result = _number("encode", value, path, "natural")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            _fail("encode", path, "no OneOf option matched")
+    return result
+
+def _decode_OneOfTest7_at(input: Any, path: str) -> OneOfTest7:
+    if input is None:
+        result = None
+    else:
+        matched = False
+        if not matched:
+            try:
+                result = _text("decode", input, path, "none")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            try:
+                result = _number("decode", input, path, "natural")
+                matched = True
+            except CodecError:
+                pass
+        if not matched:
+            _fail("decode", path, "no OneOf option matched")
+    return result
+
+def encode_OneOfTest7(value: OneOfTest7) -> Any:
+    return _encode_OneOfTest7_at(value, "$")
+
+def decode_OneOfTest7(input: Any) -> OneOfTest7:
+    return _decode_OneOfTest7_at(input, "$")

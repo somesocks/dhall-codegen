@@ -279,6 +279,17 @@ export type ListTest2 =
 	>;
 
 
+/** list test 3 */
+export type ListTest3 =
+	/** a list of optional text */
+	Array<
+		(
+			string
+			| undefined
+		)
+	>;
+
+
 /** set test 0 */
 export type SetTest0 =
 	/** a set */
@@ -491,6 +502,19 @@ export type OneOfTest6 =
 		| undefined
 	);
 
+
+/** oneOf test 7 */
+export type OneOfTest7 =
+	(
+		/** nullable text or optional natural */
+		(
+			string |
+			number
+		)
+		| null
+		| undefined
+	);
+
 export type AllOfTest0Option0 =
 	{
 		bar :
@@ -625,6 +649,47 @@ export type RecordTest5 =
 				string,
 				string
 			>;
+	};
+
+
+/** record test 6 */
+export type RecordTest6 =
+	/** a record with optionality variants */
+	{
+		nullable :
+			(
+				string
+				| null
+			);
+		nullableOptional ?:
+			(
+				string
+				| null
+			);
+		nullish ?:
+			(
+				string
+				| null
+			);
+		optional ?:
+			string;
+		optionalNullable ?:
+			(
+				string
+				| null
+			);
+		declaredNullable ?:
+			(
+				string
+				| null
+			);
+		declaredNullish ?:
+			(
+				string
+				| null
+			);
+		declaredOptional ?:
+			string;
 	};
 
 

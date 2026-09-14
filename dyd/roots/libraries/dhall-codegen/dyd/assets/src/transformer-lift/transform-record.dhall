@@ -20,6 +20,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let recordValue = common.recordValue
+
 let RecordNode = (s.record.nodeF TransformFragment).Type
 
 let RecordFoldState
@@ -28,8 +30,22 @@ let RecordFoldState
       , optional : List { mapKey : Text, mapValue : s.type }
       , lifted : List s.root.type
       , index : Natural
-      , ctx : TransformContext
-      }
+       , ctx : TransformContext
+       }
+
+let optionalRecordValue
+    : TransformContext -> TransformNodeResult -> s.type
+    = \(ctx : TransformContext) ->
+      \(result : TransformNodeResult) ->
+        if    ctx.options.collapseOptionalRecordValues
+        then  merge
+                { optional = \(value : s.type) -> value
+                , required = \(value : s.type) -> value
+                , nullable = \(value : s.type) -> value
+                , nullish = \(value : s.type) -> value
+                }
+                result
+        else  recordValue result
 
 let foldRecordRequiredField =
       \(state : RecordFoldState) ->
@@ -49,10 +65,21 @@ let foldRecordRequiredField =
         let required =
               merge
                 { optional = \(result : s.type) -> state.required
+                , nullish = \(result : s.type) -> state.required
+                , nullable =
+                    \(result : s.type) ->
+                        state.required
+                      # [ { mapKey = x.mapKey
+                          , mapValue = recordValue node.result
+                          }
+                        ]
                 , required =
                     \(result : s.type) ->
                         state.required
-                      # [ { mapKey = x.mapKey, mapValue = result } ]
+                      # [ { mapKey = x.mapKey
+                          , mapValue = recordValue node.result
+                          }
+                        ]
                 }
                 node.result
 
@@ -61,7 +88,18 @@ let foldRecordRequiredField =
                 { optional =
                     \(result : s.type) ->
                         state.optional
-                      # [ { mapKey = x.mapKey, mapValue = result } ]
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
+                , nullish =
+                    \(result : s.type) ->
+                        state.optional
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
+                , nullable = \(result : s.type) -> state.optional
                 , required = \(result : s.type) -> state.optional
                 }
                 node.result
@@ -94,11 +132,31 @@ let foldRecordOptionalField =
                 { optional =
                     \(result : s.type) ->
                         state.optional
-                      # [ { mapKey = x.mapKey, mapValue = result } ]
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
+                , nullish =
+                    \(result : s.type) ->
+                        state.optional
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
+                , nullable =
+                    \(result : s.type) ->
+                        state.optional
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
                 , required =
                     \(result : s.type) ->
                         state.optional
-                      # [ { mapKey = x.mapKey, mapValue = result } ]
+                      # [ { mapKey = x.mapKey
+                          , mapValue = optionalRecordValue ctx node.result
+                          }
+                        ]
                 }
                 node.result
 

@@ -22,9 +22,12 @@ let renderTimeVariant
       \(variant : s.time.variants) ->
         merge
           { none = merge { LEGACY = "Date", TEMPORAL = "Temporal.Instant" } time
-          , date = merge { LEGACY = "Date", TEMPORAL = "Temporal.PlainDate" } time
-          , time = merge { LEGACY = "string", TEMPORAL = "Temporal.PlainTime" } time
-          , duration = merge { LEGACY = "string", TEMPORAL = "Temporal.Duration" } time
+          , date =
+              merge { LEGACY = "Date", TEMPORAL = "Temporal.PlainDate" } time
+          , time =
+              merge { LEGACY = "string", TEMPORAL = "Temporal.PlainTime" } time
+          , duration =
+              merge { LEGACY = "string", TEMPORAL = "Temporal.Duration" } time
           }
           variant
 
@@ -36,7 +39,8 @@ let renderTime
               (renderDescription node.meta.description ctx).expression
 
         let definition =
-              renderPrefix ctx ++ renderTimeVariant ctx.options.time node.props.variant
+                  renderPrefix ctx
+              ++  renderTimeVariant ctx.options.time node.props.variant
 
         let expression = description ++ definition
 

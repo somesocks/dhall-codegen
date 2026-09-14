@@ -43,7 +43,7 @@ let renderOptionalField
         let p0 = renderPrefix ctx
 
         let entry =
-              "${p0}${x.mapKey} : Optional ${(x.mapValue ctx1).expression}"
+              "${p0}${x.mapKey} : Optional${(x.mapValue ctx1).expression}"
 
         in  entry
 

@@ -38,7 +38,19 @@ let testSchema3 =
         }
         s.list.meta::{ description = Some "a list" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3 ]
+let testSchema4 =
+      s.list.from
+        s.list.props::{
+        , values =
+            s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{=}
+              }
+              s.optional.meta::{=}
+        }
+        s.list.meta::{ description = Some "a list of optional text" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4 ]
 
 let mapSchema =
       \(index : Natural) ->

@@ -122,7 +122,28 @@ let testSchema7 =
         }
         s.oneOf.meta::{ description = Some "optional text or natural" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7 ]
+let testSchema8 =
+      s.oneOf.from
+        s.oneOf.props::{
+        , options =
+          [ s.optional.from
+              s.optional.props::{
+              , value = s.text.from s.text.props::{=} s.text.meta::{ name = Some "NullableTextValue" }
+              , variant = s.optional.variants.nullable
+              }
+              s.optional.meta::{ name = Some "NullableTextValue" }
+          , s.optional.from
+              s.optional.props::{
+              , value = s.number.from
+                  s.number.props::{ variant = s.number.variants.natural }
+                  s.number.meta::{ name = Some "OptionalNaturalValue" }
+              }
+              s.optional.meta::{ name = Some "OptionalNaturalValue" }
+          ]
+        }
+        s.oneOf.meta::{ description = Some "nullable text or optional natural" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7, testSchema8 ]
 
 let mapSchema =
       \(index : Natural) ->

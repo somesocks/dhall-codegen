@@ -123,6 +123,9 @@ export type ListTest2Values = /** a record inside a list */ { foo : string; };
  /** list test 2 */
 export type ListTest2 = /** a list */ Array< /** a record inside a list */ ListTest2Values >;
 
+ /** list test 3 */
+export type ListTest3 = /** a list of optional text */ Array< ( string | undefined ) >;
+
  /** set test 0 */
 export type SetTest0 = /** a set */ Set< string >;
 
@@ -187,6 +190,9 @@ export type OneOfTest5 = /** base record before extended record */ ( OneOfTest5O
  /** oneOf test 6 */
 export type OneOfTest6 = ( /** optional text or natural */ ( string | number ) | undefined );
 
+ /** oneOf test 7 */
+export type OneOfTest7 = ( /** nullable text or optional natural */ ( string | number ) | null | undefined );
+
 export type AllOfTest0Option0 = { bar : number; };
 
 export type AllOfTest0Option1 = { foo : string; };
@@ -222,6 +228,9 @@ export type RecordTest4 = { id : string; status : string; age ?: number; };
 
  /** record test 5 */
 export type RecordTest5 = /** a record with a record map */ { headers : Record< string, string >; };
+
+ /** record test 6 */
+export type RecordTest6 = /** a record with optionality variants */ { nullable : ( string | null ); nullableOptional ?: ( string | null ); nullish ?: ( string | null ); optional ?: string; optionalNullable ?: ( string | null ); declaredNullable ?: ( string | null ); declaredNullish ?: ( string | null ); declaredOptional ?: string; };
 
  /** function test 0 */
 export type FunctionTest0 = ( ) =>  void;

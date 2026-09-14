@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+case "${DYD_LOG_LEVEL:-info}" in
+  debug|trace) set -x ;;
+  *) ;;
+esac
+
+fixture=$(cat "$DYD_STEM/dyd/traits/fixture")
+target=$(cat "$DYD_STEM/dyd/traits/target")
+
+if [ -e "$DYD_STEM/dyd/dependencies/fixture-output~fixture=$fixture+target=$target" ]; then
+  fixture_output="$DYD_STEM/dyd/dependencies/fixture-output~fixture=$fixture+target=$target"
+else
+  fixture_output="$DYD_STEM/dyd/dependencies/fixture-output"
+fi
+
+actual=$(find "$fixture_output/dyd/assets" -maxdepth 1 -type f -name 'out.*' | sort)
+expected=$(find "$DYD_STEM/dyd/assets" -maxdepth 1 -type f -name 'expected.*' | sort)
+
+if [ "$(printf '%s\n' "$actual" | wc -l)" -ne 1 ] || [ "$(printf '%s\n' "$expected" | wc -l)" -ne 1 ]; then
+  echo "expected one generated output and one snapshot for fixture=$fixture target=$target" >&2
+  exit 1
+fi
+
+cp "$actual" "$expected"

@@ -117,7 +117,54 @@ let testSchema6 =
         }
         s.record.meta::{ description = Some "a record with a record map" }
 
-let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6 ]
+let nullable =
+      \(value : s.type) ->
+        s.optional.from
+          s.optional.props::{ value, variant = s.optional.variants.nullable }
+          s.optional.meta::{=}
+
+let nullish =
+      \(value : s.type) ->
+        s.optional.from
+          s.optional.props::{ value, variant = s.optional.variants.nullish }
+          s.optional.meta::{=}
+
+let testSchema7 =
+      s.record.from
+        s.record.props::{
+        , required = toMap
+            { optional =
+                s.optional.from
+                  s.optional.props::{
+                  , value = s.text.from s.text.props::{=} s.text.meta::{=}
+                  }
+                  s.optional.meta::{=}
+            , nullable = nullable (s.text.from s.text.props::{=} s.text.meta::{=})
+            , nullish = nullish (s.text.from s.text.props::{=} s.text.meta::{=})
+            , optionalNullable =
+                s.optional.from
+                  s.optional.props::{
+                  , value = nullable (s.text.from s.text.props::{=} s.text.meta::{=})
+                  }
+                  s.optional.meta::{=}
+            , nullableOptional =
+                nullable
+                  ( s.optional.from
+                      s.optional.props::{
+                      , value = s.text.from s.text.props::{=} s.text.meta::{=}
+                      }
+                      s.optional.meta::{=}
+                  )
+            }
+        , optional = toMap
+            { declaredOptional = s.text.from s.text.props::{=} s.text.meta::{=}
+            , declaredNullable = nullable (s.text.from s.text.props::{=} s.text.meta::{=})
+            , declaredNullish = nullish (s.text.from s.text.props::{=} s.text.meta::{=})
+            }
+        }
+        s.record.meta::{ description = Some "a record with optionality variants" }
+
+let schemas = [ testSchema1, testSchema2, testSchema3, testSchema4, testSchema5, testSchema6, testSchema7 ]
 
 let mapSchema =
       \(index : Natural) ->

@@ -71,18 +71,18 @@ let renderRootSchema
         let comment =
               merge
                 { None = ""
-                , Some = \(desc : Text) -> (renderDescription (Some desc) ctx).expression ++ "\n"
+                , Some =
+                    \(desc : Text) ->
+                      (renderDescription (Some desc) ctx).expression ++ "\n"
                 }
                 root.meta.description
 
         let statement =
               merge
                 { None =
-                    comment
+                        comment
                     ++  "type ${ctx.options.prefix}${root.meta.name} ${definition.expression}"
-                , Some =
-                    \(name : Text) ->
-                      comment ++ definition.expression
+                , Some = \(name : Text) -> comment ++ definition.expression
                 }
                 ctxOneOf.oneOfName
 
@@ -94,7 +94,10 @@ let renderDocument
       \(d : Document.Type) ->
         let d =
               liftDefinitions.transform
-                liftDefinitions.options::{ liftOneOf = True }
+                liftDefinitions.options::{
+                , liftOneOf = True
+                , collapseOptionalRecordValues = True
+                }
                 d
 
         let ctx = { index = 0, depth = 0, options, oneOfName = None Text }
@@ -112,22 +115,15 @@ let renderDocument
                 )
                 collectImports.empty
 
-        let imports =
-              if    importInfo.usesTime
-              then  "import \"time\""
-              else  ""
+        let imports = if importInfo.usesTime then "import \"time\"" else ""
 
         let packageLine =
               merge
-                { None = ""
-                , Some = \(name : Text) -> "package ${name}"
-                }
+                { None = "", Some = \(name : Text) -> "package ${name}" }
                 options.package
 
         let packageBlock =
-              if    importInfo.usesTime
-              then  packageLine ++ "\n"
-              else  packageLine
+              if importInfo.usesTime then packageLine ++ "\n" else packageLine
 
         let renderSchemaLine =
               \(index : Natural) ->
@@ -152,7 +148,8 @@ let renderDocument
 
         let footer = ""
 
-        let parts = description # [ packageBlock, imports, headers, body, footer ]
+        let parts =
+              description # [ packageBlock, imports, headers, body, footer ]
 
         in  Text/concatSep "\n" parts
 

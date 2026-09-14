@@ -15,7 +15,7 @@ grace = Person(
     appointment_time=time(9, 0),
     binary_data="+/8=",
     birth_date="1906-12-09",
-    contact=PersonContact(phone_number="+442079460123", email=None),
+    contact=PersonContact(phone_number="+442079460123"),
     date_of_birth=date(1906, 12, 9),
     friends=[],
     id="123e4567-e89b-42d3-a456-426614174001",

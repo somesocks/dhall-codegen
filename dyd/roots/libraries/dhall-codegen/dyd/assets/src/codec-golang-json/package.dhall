@@ -23,9 +23,22 @@ let indent =
       \(body : Text) ->
         let marker = "<codec-golang-json-end>"
 
-        let body = Text/replace "\n${marker}" marker (body ++ marker)
+        let body =
+              Text/replace
+                ''
 
-        let body = prefix ++ Text/replace "\n" "\n${prefix}" body
+                ${marker}''
+                marker
+                (body ++ marker)
+
+        let body =
+                  prefix
+              ++  Text/replace
+                    "\n"
+                    ''
+
+                    ${prefix}''
+                    body
 
         in  Text/replace marker "" body
 
@@ -48,39 +61,52 @@ let renderRoot =
         let underlyingType = fragment.goType context
 
         let encodeBody =
-              indent "\t"
-                (fragment.encode context "(${underlyingType})(value)" "result" "path")
+              indent
+                "\t"
+                ( fragment.encode
+                    context
+                    "(${underlyingType})(value)"
+                    "result"
+                    "path"
+                )
 
         let decodeBody =
-              indent "\t"
-                ( "var decoded ${underlyingType}\n"
-                ++ fragment.decode context "input" "decoded" "path"
-                ++ "result = ${typeName}(decoded)\n"
+              indent
+                "\t"
+                (     ''
+                      var decoded ${underlyingType}
+                      ''
+                  ++  fragment.decode context "input" "decoded" "path"
+                  ++  ''
+                      result = ${typeName}(decoded)
+                      ''
                 )
 
         let statement =
               ''
-            func Encode${typeName}(value ${typeName}) (err error, result any) {
-            	return encode${typeName}At(value, "$")
-            }
+                          func Encode${typeName}(value ${typeName}) (err error, result any) {
+                          	return encode${typeName}At(value, "$")
+                          }
 
-            func encode${typeName}At(value ${typeName}, path string) (err error, result any) {
-            ${encodeBody}
-	return nil, result
-            }
+                          func encode${typeName}At(value ${typeName}, path string) (err error, result any) {
+                          ${encodeBody}
+              	return nil, result
+                          }
 
-            func Decode${typeName}(input any) (err error, result ${typeName}) {
-            	return decode${typeName}At(input, "$")
-            }
+                          func Decode${typeName}(input any) (err error, result ${typeName}) {
+                          	return decode${typeName}At(input, "$")
+                          }
 
-            func decode${typeName}At(input any, path string) (err error, result ${typeName}) {
-            ${decodeBody}
-	return nil, result
-            }''
+                          func decode${typeName}At(input any, path string) (err error, result ${typeName}) {
+                          ${decodeBody}
+              	return nil, result
+                          }''
 
         let statement =
               Text/replace
-                "\n            "
+                ''
+
+                ${"            "}''
                 "\n"
                 (Text/replace "            func" "func" statement)
 
@@ -94,7 +120,10 @@ let renderDocument
       \(document : Document.Type) ->
         let document =
               liftDefinitions.transform
-                liftDefinitions.options::{ liftOneOf = True }
+                liftDefinitions.options::{
+                , liftOneOf = True
+                , collapseOptionalRecordValues = True
+                }
                 document
 
         let document =
@@ -106,23 +135,36 @@ let renderDocument
 
         let types = renderTypes.render typeOptions document
 
-        let types = Text/replace "import \"time\"\n" "" types
+        let types =
+              Text/replace
+                ''
+                import "time"
+                ''
+                ""
+                types
 
         let packageLine =
               merge
-                { None = ""
-                , Some = \(name : Text) -> "package ${name}"
-                }
+                { None = "", Some = \(name : Text) -> "package ${name}" }
                 options.package
 
         let rootDefinitions =
               List/mapWithIndex
                 Schema.root.type
                 Text
-                (\(index : Natural) -> \(root : Schema.root.type) -> renderRoot index root options)
+                ( \(index : Natural) ->
+                  \(root : Schema.root.type) ->
+                    renderRoot index root options
+                )
                 document.schemas
 
-        in  Text/concatSep "\n\n" [ packageLine, renderPrelude, types, Text/concatSep "\n\n" rootDefinitions ]
+        in  Text/concatSep
+              "\n\n"
+              [ packageLine
+              , renderPrelude
+              , types
+              , Text/concatSep "\n\n" rootDefinitions
+              ]
 
 let options = renderTypes.options
 

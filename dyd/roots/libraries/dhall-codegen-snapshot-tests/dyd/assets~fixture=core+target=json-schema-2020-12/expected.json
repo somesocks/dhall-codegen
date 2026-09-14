@@ -309,6 +309,20 @@
 					},
 				"description" : "a list"
 			},
+		"ListTest3":
+			{
+				"type" : "array",
+				"items" :
+					{
+						"oneOf" : [
+							{
+								"type": "string"
+							},
+							{ "type": "null" }
+						]
+					},
+				"description" : "a list of optional text"
+			},
 		"SetTest0":
 			{
 				"type" : "array",
@@ -739,6 +753,23 @@
 					{ "type": "null" }
 				]
 			},
+		"OneOfTest7":
+			{
+				"oneOf" : [
+					{
+						"oneOf" : [
+							{
+								"type": "string"
+							},
+							{
+								"type": "integer"
+							}
+						],
+						"description" : "nullable text or optional natural"
+					},
+					{ "type": "null" }
+				]
+			},
 		"AllOfTest0Option0":
 			{
 				"type" : "object",
@@ -1009,6 +1040,79 @@
 				],
 				"additionalProperties" : false,
 				"description" : "a record with a record map"
+			},
+		"RecordTest6":
+			{
+				"type" : "object",
+				"properties" : {
+					"nullable" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"nullableOptional" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"nullish" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"optional" :
+						{
+							"type": "string"
+						},
+					"optionalNullable" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"declaredNullable" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"declaredNullish" :
+						{
+							"oneOf" : [
+								{
+									"type": "string"
+								},
+								{ "type": "null" }
+							]
+						},
+					"declaredOptional" :
+						{
+							"type": "string"
+						}
+				},
+				"required" : [
+					"nullable"
+				],
+				"additionalProperties" : false,
+				"description" : "a record with optionality variants"
 			},
 		"FunctionTest0":
 			{

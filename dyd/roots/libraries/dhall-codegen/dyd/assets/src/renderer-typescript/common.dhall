@@ -6,7 +6,8 @@ let s = Schema
 
 let TimeMode = < LEGACY | TEMPORAL >
 
-let RenderOptions = { indent : Text, break : Text, prefix : Text, time : TimeMode }
+let RenderOptions =
+      { indent : Text, break : Text, prefix : Text, time : TimeMode }
 
 let RenderContext =
       { index : Natural, depth : Natural, options : RenderOptions }

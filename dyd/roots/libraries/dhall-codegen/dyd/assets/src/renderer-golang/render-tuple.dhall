@@ -34,7 +34,7 @@ let renderTupleField
         let tag = "`json:\"${tag}\"`"
 
         let expression =
-              renderPrefix ctx
+                  renderPrefix ctx
               ++  name
               ++  " "
               ++  rendered.expression

@@ -56,15 +56,24 @@ let renderRootSchema
                 , TypeAlias =
                     Text/concatSep
                       "\n"
-                      (description # [ "${root.meta.name}: TypeAlias = ${definition.expression}" ])
+                      (   description
+                        # [ "${root.meta.name}: TypeAlias = ${definition.expression}"
+                          ]
+                      )
                 , Class =
                     Text/concatSep
                       "\n"
-                      (description # [ "class ${root.meta.name}(BaseModel):${definition.expression}" ])
+                      (   description
+                        # [ "class ${root.meta.name}(BaseModel):${definition.expression}"
+                          ]
+                      )
                 , Protocol =
                     Text/concatSep
                       "\n"
-                      (description # [ "class ${root.meta.name}(Protocol):${definition.expression}" ])
+                      (   description
+                        # [ "class ${root.meta.name}(Protocol):${definition.expression}"
+                          ]
+                      )
                 }
                 definition.type
 
@@ -115,7 +124,9 @@ let renderDocument
                 }
                 d.description
 
-        in  Text/concatSep "\n" (description # [ imports ] # d.headers # [ body ])
+        in  Text/concatSep
+              "\n"
+              (description # [ imports ] # d.headers # [ body ])
 
 in  { render =
         renderDocument { index = 0, depth = 0, indent = "    ", break = "\n" }

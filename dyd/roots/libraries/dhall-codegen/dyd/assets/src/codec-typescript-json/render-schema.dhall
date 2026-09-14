@@ -28,7 +28,9 @@ let RenderFragment
       , decodeBody : RenderContext -> Text -> Text -> Text -> Text
       }
 
-let quote : Text -> Text = \(value : Text) -> Text/show value
+let quote
+    : Text -> Text
+    = \(value : Text) -> Text/show value
 
 let renderSchema
     : s.typeF RenderFragment -> RenderFragment
@@ -36,19 +38,25 @@ let renderSchema
         let withBodies
             : ExpressionFragment -> RenderFragment
             = \(fragment : ExpressionFragment) ->
-                fragment
-              // { encodeBody =
-                     \(ctx : RenderContext) ->
-                     \(value : Text) ->
-                     \(path : Text) ->
-                        "${ctx.indentation}return ${fragment.encode ctx value path};"
-                 , decodeBody =
-                     \(ctx : RenderContext) ->
-                     \(value : Text) ->
-                     \(path : Text) ->
-                     \(typeName : Text) ->
-                        "${ctx.indentation}return ${fragment.decode ctx value path} as ${typeName};"
-                 }
+                    fragment
+                //  { encodeBody =
+                        \(ctx : RenderContext) ->
+                        \(value : Text) ->
+                        \(path : Text) ->
+                          "${ctx.indentation}return ${fragment.encode
+                                                        ctx
+                                                        value
+                                                        path};"
+                    , decodeBody =
+                        \(ctx : RenderContext) ->
+                        \(value : Text) ->
+                        \(path : Text) ->
+                        \(typeName : Text) ->
+                          "${ctx.indentation}return ${fragment.decode
+                                                        ctx
+                                                        value
+                                                        path} as ${typeName};"
+                    }
 
         let renderRequiredRecordField =
               \(encode : Bool) ->
@@ -94,7 +102,7 @@ let renderSchema
                 let condition =
                       if    encode
                       then  "hasOwn(object, ${key}) && object[${key}] !== undefined"
-                      else  "hasOwn(object, ${key}) && object[${key}] !== null"
+                      else  "hasOwn(object, ${key})"
 
                 in  "${indent}if (${condition}) result[${key}] = ${converted};${break}"
 
@@ -113,21 +121,28 @@ let renderSchema
 
                 let converted =
                       if    encode
-                      then  child.encode childContext "entries[index]" "pathIndex(path, index)"
-                      else  child.decode childContext "entries[index]" "pathIndex(path, index)"
+                      then  child.encode
+                              childContext
+                              "entries[index]"
+                              "pathIndex(path, index)"
+                      else  child.decode
+                              childContext
+                              "entries[index]"
+                              "pathIndex(path, index)"
 
                 let resultType = if encode then "JsonValue[]" else "unknown[]"
 
                 let break = ctx.options.break
 
-                in  "((input: unknown, path: string): ${resultType} => {${break}"
-                  ++ "${bodyIndent}const entries = asArray(${quote operation}, input, path);${break}"
-                  ++ "${bodyIndent}const result: ${resultType} = new Array(entries.length);${break}"
-                  ++ "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
-                  ++ "${loopIndent}result[index] = ${converted};${break}"
-                  ++ "${bodyIndent}}${break}"
-                  ++ "${bodyIndent}return result;${break}"
-                  ++ "${ctx.indentation}})(${value}, ${path})"
+                in      "((input: unknown, path: string): ${resultType} => {${break}"
+                    ++  "${bodyIndent}const entries = asArray(${quote
+                                                                  operation}, input, path);${break}"
+                    ++  "${bodyIndent}const result: ${resultType} = new Array(entries.length);${break}"
+                    ++  "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
+                    ++  "${loopIndent}result[index] = ${converted};${break}"
+                    ++  "${bodyIndent}}${break}"
+                    ++  "${bodyIndent}return result;${break}"
+                    ++  "${ctx.indentation}})(${value}, ${path})"
 
         let renderTuple =
               \(encode : Bool) ->
@@ -151,7 +166,8 @@ let renderSchema
                             then  child.encode childContext source itemPath
                             else  child.decode childContext source itemPath
 
-                let entries = List/mapWithIndex RenderFragment Text renderChild children
+                let entries =
+                      List/mapWithIndex RenderFragment Text renderChild children
 
                 let length = Natural/show (List/length RenderFragment children)
 
@@ -159,11 +175,15 @@ let renderSchema
 
                 let break = ctx.options.break
 
-                in  "((input: unknown, path: string): ${resultType} => {${break}"
-                  ++ "${bodyIndent}const entries = asArray(${quote operation}, input, path);${break}"
-                  ++ "${bodyIndent}if (entries.length !== ${length}) fail(${quote operation}, path, \"expected tuple of length ${length}\");${break}"
-                  ++ "${bodyIndent}return [${Text/concatSep ", " entries}];${break}"
-                  ++ "${ctx.indentation}})(${value}, ${path})"
+                in      "((input: unknown, path: string): ${resultType} => {${break}"
+                    ++  "${bodyIndent}const entries = asArray(${quote
+                                                                  operation}, input, path);${break}"
+                    ++  "${bodyIndent}if (entries.length !== ${length}) fail(${quote
+                                                                                 operation}, path, \"expected tuple of length ${length}\");${break}"
+                    ++  "${bodyIndent}return [${Text/concatSep
+                                                  ", "
+                                                  entries}];${break}"
+                    ++  "${ctx.indentation}})(${value}, ${path})"
 
         let renderRecordBody =
               \(encode : Bool) ->
@@ -176,20 +196,29 @@ let renderSchema
               \(optional : List { mapKey : Text, mapValue : RenderFragment }) ->
                 let renderRequired = renderRequiredRecordField encode ctx
 
-                let renderOptional = renderOptionalRecordField encode operation ctx
+                let renderOptional =
+                      renderOptionalRecordField encode operation ctx
 
                 let required =
                       List/map
                         { mapKey : Text, mapValue : RenderFragment }
                         Text
-                        (\(field : { mapKey : Text, mapValue : RenderFragment }) -> renderRequired field value path)
+                        ( \ ( field
+                            : { mapKey : Text, mapValue : RenderFragment }
+                            ) ->
+                            renderRequired field value path
+                        )
                         required
 
                 let optional =
                       List/map
                         { mapKey : Text, mapValue : RenderFragment }
                         Text
-                        (\(field : { mapKey : Text, mapValue : RenderFragment }) -> renderOptional field value path)
+                        ( \ ( field
+                            : { mapKey : Text, mapValue : RenderFragment }
+                            ) ->
+                            renderOptional field value path
+                        )
                         optional
 
                 let resultType =
@@ -201,10 +230,11 @@ let renderSchema
 
                 let indent = ctx.indentation
 
-                in  "${indent}const object = asObject(${quote operation}, ${value}, ${path});${break}"
-                  ++ "${indent}const result: ${resultType} = {};${break}"
-                  ++ Text/concatSep "" (required # optional)
-                  ++ "${indent}return result${returnSuffix};${break}"
+                in      "${indent}const object = asObject(${quote
+                                                              operation}, ${value}, ${path});${break}"
+                    ++  "${indent}const result: ${resultType} = {};${break}"
+                    ++  Text/concatSep "" (required # optional)
+                    ++  "${indent}return result${returnSuffix};${break}"
 
         let renderRecord =
               \(encode : Bool) ->
@@ -214,9 +244,21 @@ let renderSchema
               \(path : Text) ->
               \(required : List { mapKey : Text, mapValue : RenderFragment }) ->
               \(optional : List { mapKey : Text, mapValue : RenderFragment }) ->
-                let bodyContext = ctx // { indentation = ctx.indentation ++ ctx.options.indent }
+                let bodyContext =
+                          ctx
+                      //  { indentation = ctx.indentation ++ ctx.options.indent
+                          }
 
-                let body = renderRecordBody encode operation bodyContext "value" "path" "" required optional
+                let body =
+                      renderRecordBody
+                        encode
+                        operation
+                        bodyContext
+                        "value"
+                        "path"
+                        ""
+                        required
+                        optional
 
                 let resultType =
                       if    encode
@@ -225,9 +267,9 @@ let renderSchema
 
                 let break = ctx.options.break
 
-                  in  "((value: unknown, path: string): ${resultType} => {${break}"
-                  ++ body
-                  ++ "${ctx.indentation}})(${value}, ${path})"
+                in      "((value: unknown, path: string): ${resultType} => {${break}"
+                    ++  body
+                    ++  "${ctx.indentation}})(${value}, ${path})"
 
         let renderSet =
               \(encode : Bool) ->
@@ -245,34 +287,40 @@ let renderSchema
 
                 let converted =
                       if    encode
-                      then  child.encode childContext "entry" "pathIndex(path, index)"
-                      else  child.decode childContext "entries[index]" "pathIndex(path, index)"
+                      then  child.encode
+                              childContext
+                              "entry"
+                              "pathIndex(path, index)"
+                      else  child.decode
+                              childContext
+                              "entries[index]"
+                              "pathIndex(path, index)"
 
                 let break = ctx.options.break
 
                 in  if    encode
                     then  if    isSet
-                          then  "((value: unknown, path: string): JsonValue[] => {${break}"
-                        ++ "${bodyIndent}const entries = value instanceof Set ? value : fail(\"encode\", path, \"expected Set\");${break}"
-                        ++ "${bodyIndent}const result: JsonValue[] = new Array(entries.size);${break}"
-                        ++ "${bodyIndent}let index = 0;${break}"
-                        ++ "${bodyIndent}for (const entry of entries) {${break}"
-                        ++ "${loopIndent}result[index] = ${converted};${break}"
-                        ++ "${loopIndent}index += 1;${break}"
-                        ++ "${bodyIndent}}${break}"
-                        ++ "${bodyIndent}return result;${break}"
-                        ++ "${ctx.indentation}})(${value}, ${path})"
+                          then      "((value: unknown, path: string): JsonValue[] => {${break}"
+                                ++  "${bodyIndent}const entries = value instanceof Set ? value : fail(\"encode\", path, \"expected Set\");${break}"
+                                ++  "${bodyIndent}const result: JsonValue[] = new Array(entries.size);${break}"
+                                ++  "${bodyIndent}let index = 0;${break}"
+                                ++  "${bodyIndent}for (const entry of entries) {${break}"
+                                ++  "${loopIndent}result[index] = ${converted};${break}"
+                                ++  "${loopIndent}index += 1;${break}"
+                                ++  "${bodyIndent}}${break}"
+                                ++  "${bodyIndent}return result;${break}"
+                                ++  "${ctx.indentation}})(${value}, ${path})"
                           else  renderList encode operation ctx value path child
-                    else  if    isSet
-                          then  "((input: unknown, path: string): Set<unknown> => {${break}"
-                              ++ "${bodyIndent}const entries = asArray(\"decode\", input, path);${break}"
-                              ++ "${bodyIndent}const result = new Set<unknown>();${break}"
-                              ++ "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
-                              ++ "${loopIndent}result.add(${converted});${break}"
-                              ++ "${bodyIndent}}${break}"
-                              ++ "${bodyIndent}return result;${break}"
-                              ++ "${ctx.indentation}})(${value}, ${path})"
-                          else  renderList encode operation ctx value path child
+                    else  if isSet
+                    then      "((input: unknown, path: string): Set<unknown> => {${break}"
+                          ++  "${bodyIndent}const entries = asArray(\"decode\", input, path);${break}"
+                          ++  "${bodyIndent}const result = new Set<unknown>();${break}"
+                          ++  "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
+                          ++  "${loopIndent}result.add(${converted});${break}"
+                          ++  "${bodyIndent}}${break}"
+                          ++  "${bodyIndent}return result;${break}"
+                          ++  "${ctx.indentation}})(${value}, ${path})"
+                    else  renderList encode operation ctx value path child
 
         let renderMap =
               \(encode : Bool) ->
@@ -293,65 +341,97 @@ let renderSchema
 
                 in  if    isRecord
                     then  if    encode
-                          then  let wireKey = keys.encode childContext "key" "pathField(path, key)"
+                          then  let wireKey =
+                                      keys.encode
+                                        childContext
+                                        "key"
+                                        "pathField(path, key)"
 
-                          let wireValue = values.encode childContext "object[key]" "pathField(path, key)"
+                                let wireValue =
+                                      values.encode
+                                        childContext
+                                        "object[key]"
+                                        "pathField(path, key)"
 
-                          in  "((input: unknown, path: string): { [key: string]: JsonValue } => {${break}"
-                            ++ "${bodyIndent}const object = asObject(\"encode\", input, path);${break}"
-                            ++ "${bodyIndent}const result: { [key: string]: JsonValue } = {};${break}"
-                            ++ "${bodyIndent}for (const key in object) {${break}"
-                            ++ "${loopIndent}if (!hasOwn(object, key)) continue;${break}"
-                            ++ "${loopIndent}const wireKeyValue = ${wireKey};${break}"
-                            ++ "${loopIndent}const wireKey = typeof wireKeyValue === \"string\" ? wireKeyValue : fail(\"encode\", pathField(path, key), \"record map keys must encode as strings\");${break}"
-                            ++ "${loopIndent}result[wireKey] = ${wireValue};${break}"
-                            ++ "${bodyIndent}}${break}"
-                            ++ "${bodyIndent}return result;${break}"
-                            ++ "${ctx.indentation}})(${value}, ${path})"
-                          else  let domainKey = keys.decode childContext "key" "pathField(path, key)"
+                                in      "((input: unknown, path: string): { [key: string]: JsonValue } => {${break}"
+                                    ++  "${bodyIndent}const object = asObject(\"encode\", input, path);${break}"
+                                    ++  "${bodyIndent}const result: { [key: string]: JsonValue } = {};${break}"
+                                    ++  "${bodyIndent}for (const key in object) {${break}"
+                                    ++  "${loopIndent}if (!hasOwn(object, key)) continue;${break}"
+                                    ++  "${loopIndent}const wireKeyValue = ${wireKey};${break}"
+                                    ++  "${loopIndent}const wireKey = typeof wireKeyValue === \"string\" ? wireKeyValue : fail(\"encode\", pathField(path, key), \"record map keys must encode as strings\");${break}"
+                                    ++  "${loopIndent}result[wireKey] = ${wireValue};${break}"
+                                    ++  "${bodyIndent}}${break}"
+                                    ++  "${bodyIndent}return result;${break}"
+                                    ++  "${ctx.indentation}})(${value}, ${path})"
+                          else  let domainKey =
+                                      keys.decode
+                                        childContext
+                                        "key"
+                                        "pathField(path, key)"
 
-                                let domainValue = values.decode childContext "object[key]" "pathField(path, key)"
+                                let domainValue =
+                                      values.decode
+                                        childContext
+                                        "object[key]"
+                                        "pathField(path, key)"
 
-                                in  "((input: unknown, path: string): { [key: string]: unknown } => {${break}"
-                                  ++ "${bodyIndent}const object = asObject(\"decode\", input, path);${break}"
-                                  ++ "${bodyIndent}const result: { [key: string]: unknown } = {};${break}"
-                                  ++ "${bodyIndent}for (const key in object) {${break}"
-                                  ++ "${loopIndent}if (!hasOwn(object, key)) continue;${break}"
-                                  ++ "${loopIndent}const domainKeyValue = ${domainKey};${break}"
-                                  ++ "${loopIndent}const domainKey = typeof domainKeyValue === \"string\" ? domainKeyValue : fail(\"decode\", pathField(path, key), \"record map keys must decode as strings\");${break}"
-                                  ++ "${loopIndent}result[domainKey] = ${domainValue};${break}"
-                                  ++ "${bodyIndent}}${break}"
-                                  ++ "${bodyIndent}return result;${break}"
-                                  ++ "${ctx.indentation}})(${value}, ${path})"
-                    else  if    encode
-                          then  let wireKey = keys.encode childContext "entry[0]" "pathIndex(path, index)"
+                                in      "((input: unknown, path: string): { [key: string]: unknown } => {${break}"
+                                    ++  "${bodyIndent}const object = asObject(\"decode\", input, path);${break}"
+                                    ++  "${bodyIndent}const result: { [key: string]: unknown } = {};${break}"
+                                    ++  "${bodyIndent}for (const key in object) {${break}"
+                                    ++  "${loopIndent}if (!hasOwn(object, key)) continue;${break}"
+                                    ++  "${loopIndent}const domainKeyValue = ${domainKey};${break}"
+                                    ++  "${loopIndent}const domainKey = typeof domainKeyValue === \"string\" ? domainKeyValue : fail(\"decode\", pathField(path, key), \"record map keys must decode as strings\");${break}"
+                                    ++  "${loopIndent}result[domainKey] = ${domainValue};${break}"
+                                    ++  "${bodyIndent}}${break}"
+                                    ++  "${bodyIndent}return result;${break}"
+                                    ++  "${ctx.indentation}})(${value}, ${path})"
+                    else  if encode
+                    then  let wireKey =
+                                keys.encode
+                                  childContext
+                                  "entry[0]"
+                                  "pathIndex(path, index)"
 
-                                        let wireValue = values.encode childContext "entry[1]" "pathIndex(path, index)"
+                          let wireValue =
+                                values.encode
+                                  childContext
+                                  "entry[1]"
+                                  "pathIndex(path, index)"
 
-                                        in  "((value: unknown, path: string): JsonValue[] => {${break}"
-                                         ++ "${bodyIndent}const entries = value instanceof Map ? value : fail(\"encode\", path, \"expected Map\");${break}"
-                                         ++ "${bodyIndent}const result: JsonValue[] = new Array(entries.size);${break}"
-                                         ++ "${bodyIndent}let index = 0;${break}"
-                                         ++ "${bodyIndent}for (const entry of entries) {${break}"
-                                        ++ "${loopIndent}result[index] = { key: ${wireKey}, value: ${wireValue} };${break}"
-                                        ++ "${loopIndent}index += 1;${break}"
-                                        ++ "${bodyIndent}}${break}"
-                                        ++ "${bodyIndent}return result;${break}"
-                                        ++ "${ctx.indentation}})(${value}, ${path})"
-                          else  let domainKey = keys.decode childContext "entry[\"key\"]" "pathField(pathIndex(path, index), \"key\")"
+                          in      "((value: unknown, path: string): JsonValue[] => {${break}"
+                              ++  "${bodyIndent}const entries = value instanceof Map ? value : fail(\"encode\", path, \"expected Map\");${break}"
+                              ++  "${bodyIndent}const result: JsonValue[] = new Array(entries.size);${break}"
+                              ++  "${bodyIndent}let index = 0;${break}"
+                              ++  "${bodyIndent}for (const entry of entries) {${break}"
+                              ++  "${loopIndent}result[index] = { key: ${wireKey}, value: ${wireValue} };${break}"
+                              ++  "${loopIndent}index += 1;${break}"
+                              ++  "${bodyIndent}}${break}"
+                              ++  "${bodyIndent}return result;${break}"
+                              ++  "${ctx.indentation}})(${value}, ${path})"
+                    else  let domainKey =
+                                keys.decode
+                                  childContext
+                                  "entry[\"key\"]"
+                                  "pathField(pathIndex(path, index), \"key\")"
 
-                                       let domainValue = values.decode childContext "entry[\"value\"]" "pathField(pathIndex(path, index), \"value\")"
+                          let domainValue =
+                                values.decode
+                                  childContext
+                                  "entry[\"value\"]"
+                                  "pathField(pathIndex(path, index), \"value\")"
 
-                                       in  "((input: unknown, path: string): Map<unknown, unknown> => {${break}"
-                                        ++ "${bodyIndent}const entries = asArray(\"decode\", input, path);${break}"
-                                        ++ "${bodyIndent}const result = new Map<unknown, unknown>();${break}"
-                                        ++ "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
-                                        ++ "${loopIndent}const entry = asObject(\"decode\", entries[index], pathIndex(path, index));${break}"
-                                        ++ "${loopIndent}if (!hasOwn(entry, \"key\") || !hasOwn(entry, \"value\")) fail(\"decode\", pathIndex(path, index), \"expected map entry\");${break}"
-                                        ++ "${loopIndent}result.set(${domainKey}, ${domainValue});${break}"
-                                        ++ "${bodyIndent}}${break}"
-                                        ++ "${bodyIndent}return result;${break}"
-                                        ++ "${ctx.indentation}})(${value}, ${path})"
+                          in      "((input: unknown, path: string): Map<unknown, unknown> => {${break}"
+                              ++  "${bodyIndent}const entries = asArray(\"decode\", input, path);${break}"
+                              ++  "${bodyIndent}const result = new Map<unknown, unknown>();${break}"
+                              ++  "${bodyIndent}for (let index = 0; index < entries.length; index += 1) {${break}"
+                              ++  "${loopIndent}const entry = asObject(\"decode\", entries[index], pathIndex(path, index));${break}"
+                              ++  "${loopIndent}if (!hasOwn(entry, \"key\") || !hasOwn(entry, \"value\")) fail(\"decode\", pathIndex(path, index), \"expected map entry\");${break}"
+                              ++  "${loopIndent}result.set(${domainKey}, ${domainValue});${break}"
+                              ++  "${bodyIndent}}${break}"
+                              ++  "${bodyIndent}return result;${break}"
+                              ++  "${ctx.indentation}})(${value}, ${path})"
 
         let renderOneOf =
               \(encode : Bool) ->
@@ -372,11 +452,11 @@ let renderSchema
                               then  option.encode branchContext "value" "path"
                               else  option.decode branchContext "value" "path"
 
-                        in  "${bodyIndent}try {${ctx.options.break}"
-                          ++ "${tryIndent}return ${converted};${ctx.options.break}"
-                          ++ "${bodyIndent}} catch (error) {${ctx.options.break}"
-                          ++ "${tryIndent}if (!(error instanceof CodecError)) throw error;${ctx.options.break}"
-                          ++ "${bodyIndent}}${ctx.options.break}"
+                        in      "${bodyIndent}try {${ctx.options.break}"
+                            ++  "${tryIndent}return ${converted};${ctx.options.break}"
+                            ++  "${bodyIndent}} catch (error) {${ctx.options.break}"
+                            ++  "${tryIndent}if (!(error instanceof CodecError)) throw error;${ctx.options.break}"
+                            ++  "${bodyIndent}}${ctx.options.break}"
 
                 let attempts = List/map RenderFragment Text renderOption options
 
@@ -384,23 +464,42 @@ let renderSchema
 
                 let resultType = if encode then "JsonValue" else "unknown"
 
-                in  "((value: unknown, path: string): ${resultType} => {${ctx.options.break}"
-                  ++ Text/concatSep "" attempts
-                  ++ "${bodyIndent}return fail(${quote operation}, path, \"no OneOf option matched\");${ctx.options.break}"
-                  ++ "${ctx.indentation}})(${value}, ${path})"
+                in      "((value: unknown, path: string): ${resultType} => {${ctx.options.break}"
+                    ++  Text/concatSep "" attempts
+                    ++  "${bodyIndent}return fail(${quote
+                                                      operation}, path, \"no OneOf option matched\");${ctx.options.break}"
+                    ++  "${ctx.indentation}})(${value}, ${path})"
 
         let renderer =
               merge
                 { Any =
                     \(_ : s.any.node.Type) ->
-                      withBodies { encode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "encodeAny(${value}, ${path})"
-                      , decode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "decodeAny(${value}, ${path})"
-                      }
+                      withBodies
+                        { encode =
+                            \(_ : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "encodeAny(${value}, ${path})"
+                        , decode =
+                            \(_ : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "decodeAny(${value}, ${path})"
+                        }
                 , Boolean =
                     \(_ : s.boolean.node.Type) ->
-                      withBodies { encode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "encodeBoolean(${value}, ${path})"
-                      , decode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "decodeBoolean(${value}, ${path})"
-                      }
+                      withBodies
+                        { encode =
+                            \(_ : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "encodeBoolean(${value}, ${path})"
+                        , decode =
+                            \(_ : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "decodeBoolean(${value}, ${path})"
+                        }
                 , Number =
                     \(node : s.number.node.Type) ->
                       let variant =
@@ -412,9 +511,20 @@ let renderSchema
                               }
                               node.props.variant
 
-                      in  withBodies { encode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "encodeNumber(${quote variant}, ${value}, ${path})"
-                          , decode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "decodeNumber(${quote variant}, ${value}, ${path})"
-                          }
+                      in  withBodies
+                            { encode =
+                                \(_ : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "encodeNumber(${quote
+                                                    variant}, ${value}, ${path})"
+                            , decode =
+                                \(_ : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "decodeNumber(${quote
+                                                    variant}, ${value}, ${path})"
+                            }
                 , Text =
                     \(node : s.text.node.Type) ->
                       let variant =
@@ -436,9 +546,20 @@ let renderSchema
                               }
                               node.props.variant
 
-                      in  withBodies { encode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "encodeText(${quote variant}, ${value}, ${path})"
-                          , decode = \(_ : RenderContext) -> \(value : Text) -> \(path : Text) -> "decodeText(${quote variant}, ${value}, ${path})"
-                          }
+                      in  withBodies
+                            { encode =
+                                \(_ : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "encodeText(${quote
+                                                  variant}, ${value}, ${path})"
+                            , decode =
+                                \(_ : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "decodeText(${quote
+                                                  variant}, ${value}, ${path})"
+                            }
                 , Time =
                     \(node : s.time.node.Type) ->
                       let variant =
@@ -450,93 +571,322 @@ let renderSchema
                               }
                               node.props.variant
 
-                      in  withBodies { encode =
-                              \(ctx : RenderContext) ->
-                              \(value : Text) ->
-                              \(path : Text) ->
-                                "encodeTime(${quote variant}, ${value}, ${path})"
-                          , decode =
-                              \(ctx : RenderContext) ->
-                              \(value : Text) ->
-                              \(path : Text) ->
-                                "decodeTime(${quote variant}, ${value}, ${path})"
-                          }
+                      in  withBodies
+                            { encode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "encodeTime(${quote
+                                                  variant}, ${value}, ${path})"
+                            , decode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  "decodeTime(${quote
+                                                  variant}, ${value}, ${path})"
+                            }
                 , Reference =
                     \(node : s.reference.node.Type) ->
-                      withBodies { encode =
-                          \(ctx : RenderContext) ->
-                          \(value : Text) ->
-                          \(path : Text) ->
-                            "encode${ctx.options.prefix}${node.props.to}At(${value} as ${ctx.options.prefix}${node.props.to}, ${path})"
-                      , decode =
-                          \(ctx : RenderContext) ->
-                          \(value : Text) ->
-                          \(path : Text) ->
-                            "decode${ctx.options.prefix}${node.props.to}At(${value}, ${path})"
-                      }
+                      withBodies
+                        { encode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "encode${ctx.options.prefix}${node.props.to}At(${value} as ${ctx.options.prefix}${node.props.to}, ${path})"
+                        , decode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              "decode${ctx.options.prefix}${node.props.to}At(${value}, ${path})"
+                        }
                 , Optional =
                     \(node : (s.optional.nodeF RenderFragment).Type) ->
-                      withBodies { encode =
-                          \(ctx : RenderContext) ->
-                          \(value : Text) ->
-                          \(path : Text) ->
-                            "${value} === undefined || ${value} === null ? null : ${node.props.value.encode ctx value path}"
-                      , decode =
-                          \(ctx : RenderContext) ->
-                          \(value : Text) ->
-                          \(path : Text) ->
-                            "${value} === null ? undefined : ${node.props.value.decode ctx value path}"
-                      }
+                      merge
+                        { optional =
+                            withBodies
+                              { encode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === undefined ? null : ${node.props.value.encode
+                                                                         ctx
+                                                                         value
+                                                                         path}"
+                              , decode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === null ? undefined : ${node.props.value.decode
+                                                                         ctx
+                                                                         value
+                                                                         path}"
+                              }
+                        , nullable =
+                            withBodies
+                              { encode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === null ? null : ${node.props.value.encode
+                                                                    ctx
+                                                                    value
+                                                                    path}"
+                              , decode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === null ? null : ${node.props.value.decode
+                                                                    ctx
+                                                                    value
+                                                                    path}"
+                              }
+                        , nullish =
+                            withBodies
+                              { encode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === undefined || ${value} === null ? null : ${node.props.value.encode
+                                                                                              ctx
+                                                                                              value
+                                                                                              path}"
+                              , decode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    "${value} === null ? null : ${node.props.value.decode
+                                                                    ctx
+                                                                    value
+                                                                    path}"
+                              }
+                        }
+                        node.props.variant
                 , List =
                     \(node : (s.list.nodeF RenderFragment).Type) ->
-                      withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderList True "encode" ctx value path node.props.values
-                      , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderList False "decode" ctx value path node.props.values
-                      }
+                      withBodies
+                        { encode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderList
+                                True
+                                "encode"
+                                ctx
+                                value
+                                path
+                                node.props.values
+                        , decode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderList
+                                False
+                                "decode"
+                                ctx
+                                value
+                                path
+                                node.props.values
+                        }
                 , Set =
                     \(node : (s.set.nodeF RenderFragment).Type) ->
-                      let isSet = merge { none = True, list = False } node.props.variant
+                      let isSet =
+                            merge
+                              { none = True, list = False }
+                              node.props.variant
 
-                      in  withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderSet True isSet "encode" ctx value path node.props.values
-                          , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderSet False isSet "decode" ctx value path node.props.values
-                          }
+                      in  withBodies
+                            { encode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  renderSet
+                                    True
+                                    isSet
+                                    "encode"
+                                    ctx
+                                    value
+                                    path
+                                    node.props.values
+                            , decode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  renderSet
+                                    False
+                                    isSet
+                                    "decode"
+                                    ctx
+                                    value
+                                    path
+                                    node.props.values
+                            }
                 , Map =
                     \(node : (s.map.nodeF RenderFragment).Type) ->
-                      let isRecord = merge { none = False, record = True } node.props.variant
+                      let isRecord =
+                            merge
+                              { none = False, record = True }
+                              node.props.variant
 
-                      in  withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderMap True isRecord "encode" ctx value path node.props.keys node.props.values
-                          , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderMap False isRecord "decode" ctx value path node.props.keys node.props.values
-                          }
+                      in  withBodies
+                            { encode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  renderMap
+                                    True
+                                    isRecord
+                                    "encode"
+                                    ctx
+                                    value
+                                    path
+                                    node.props.keys
+                                    node.props.values
+                            , decode =
+                                \(ctx : RenderContext) ->
+                                \(value : Text) ->
+                                \(path : Text) ->
+                                  renderMap
+                                    False
+                                    isRecord
+                                    "decode"
+                                    ctx
+                                    value
+                                    path
+                                    node.props.keys
+                                    node.props.values
+                            }
                 , OneOf =
                     \(node : (s.oneOf.nodeF RenderFragment).Type) ->
-                      withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderOneOf True ctx value path node.props.options
-                      , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderOneOf False ctx value path node.props.options
-                      }
+                      withBodies
+                        { encode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderOneOf True ctx value path node.props.options
+                        , decode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderOneOf
+                                False
+                                ctx
+                                value
+                                path
+                                node.props.options
+                        }
                 , AllOf =
                     \(_ : (s.allOf.nodeF RenderFragment).Type) ->
-                      withBodies { encode = \(_ : RenderContext) -> \(_ : Text) -> \(path : Text) -> "unsupported(\"encode\", ${path}, \"AllOf\")"
-                      , decode = \(_ : RenderContext) -> \(_ : Text) -> \(path : Text) -> "unsupported(\"decode\", ${path}, \"AllOf\")"
-                      }
+                      withBodies
+                        { encode =
+                            \(_ : RenderContext) ->
+                            \(_ : Text) ->
+                            \(path : Text) ->
+                              "unsupported(\"encode\", ${path}, \"AllOf\")"
+                        , decode =
+                            \(_ : RenderContext) ->
+                            \(_ : Text) ->
+                            \(path : Text) ->
+                              "unsupported(\"decode\", ${path}, \"AllOf\")"
+                        }
                 , Tuple =
                     \(node : (s.tuple.nodeF RenderFragment).Type) ->
-                      withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderTuple True "encode" ctx value path node.props.values
-                      , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderTuple False "decode" ctx value path node.props.values
-                      }
+                      withBodies
+                        { encode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderTuple
+                                True
+                                "encode"
+                                ctx
+                                value
+                                path
+                                node.props.values
+                        , decode =
+                            \(ctx : RenderContext) ->
+                            \(value : Text) ->
+                            \(path : Text) ->
+                              renderTuple
+                                False
+                                "decode"
+                                ctx
+                                value
+                                path
+                                node.props.values
+                        }
                 , Record =
                     \(node : (s.record.nodeF RenderFragment).Type) ->
                       let fragment =
-                            withBodies { encode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderRecord True "encode" ctx value path node.props.required node.props.optional
-                      , decode = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderRecord False "decode" ctx value path node.props.required node.props.optional
-                      }
+                            withBodies
+                              { encode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    renderRecord
+                                      True
+                                      "encode"
+                                      ctx
+                                      value
+                                      path
+                                      node.props.required
+                                      node.props.optional
+                              , decode =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    renderRecord
+                                      False
+                                      "decode"
+                                      ctx
+                                      value
+                                      path
+                                      node.props.required
+                                      node.props.optional
+                              }
 
-                      in  fragment
-                        // { encodeBody = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> renderRecordBody True "encode" ctx value path "" node.props.required node.props.optional
-                           , decodeBody = \(ctx : RenderContext) -> \(value : Text) -> \(path : Text) -> \(typeName : Text) -> renderRecordBody False "decode" ctx value path " as ${typeName}" node.props.required node.props.optional
-                           }
+                      in      fragment
+                          //  { encodeBody =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                    renderRecordBody
+                                      True
+                                      "encode"
+                                      ctx
+                                      value
+                                      path
+                                      ""
+                                      node.props.required
+                                      node.props.optional
+                              , decodeBody =
+                                  \(ctx : RenderContext) ->
+                                  \(value : Text) ->
+                                  \(path : Text) ->
+                                  \(typeName : Text) ->
+                                    renderRecordBody
+                                      False
+                                      "decode"
+                                      ctx
+                                      value
+                                      path
+                                      " as ${typeName}"
+                                      node.props.required
+                                      node.props.optional
+                              }
                 , Function =
                     \(_ : (s.function.nodeF RenderFragment).Type) ->
-                      withBodies { encode = \(_ : RenderContext) -> \(_ : Text) -> \(path : Text) -> "unsupported(\"encode\", ${path}, \"Function\")"
-                      , decode = \(_ : RenderContext) -> \(_ : Text) -> \(path : Text) -> "unsupported(\"decode\", ${path}, \"Function\")"
-                      }
+                      withBodies
+                        { encode =
+                            \(_ : RenderContext) ->
+                            \(_ : Text) ->
+                            \(path : Text) ->
+                              "unsupported(\"encode\", ${path}, \"Function\")"
+                        , decode =
+                            \(_ : RenderContext) ->
+                            \(_ : Text) ->
+                            \(path : Text) ->
+                              "unsupported(\"decode\", ${path}, \"Function\")"
+                        }
                 }
                 layer
 

@@ -206,6 +206,16 @@ let ListTest2 =
       ListTest2Values
   )
 
+let ListTest3 =
+  (
+    {- a list of optional text -}
+    List
+      (
+        Optional
+          Text
+      )
+  )
+
 let SetTest0 =
   (
     {- a set -}
@@ -335,7 +345,7 @@ let MapTest4Values =
   {
     key :
       Text,
-    value : Optional 
+    value : Optional
       Text
   }
 
@@ -449,6 +459,18 @@ let OneOfTest6 =
       >
   )
 
+let OneOfTest7 =
+  (
+    Optional
+        {- nullable text or optional natural -}
+      <
+        NullableTextValue :
+          Text |
+        OptionalNaturalValue :
+          Natural
+      >
+  )
+
 let AllOfTest0Option0 =
   {
     bar :
@@ -523,9 +545,9 @@ let RecordTest1 =
 
 let RecordTest2Contact =
   {
-    email : Optional 
+    email : Optional
       Text,
-    phone : Optional 
+    phone : Optional
       Text
   }
 
@@ -547,9 +569,9 @@ let RecordTest3 =
     {- a record with optional props -}
     name :
       Text,
-    age : Optional 
+    age : Optional
       Natural,
-    deceased : Optional 
+    deceased : Optional
       Bool
   }
 
@@ -559,7 +581,7 @@ let RecordTest4 =
       Text,
     status :
       Text,
-    age : Optional 
+    age : Optional
       Natural
   }
 
@@ -579,6 +601,45 @@ let RecordTest5 =
         List
           RecordTest5HeadersValues
       )
+  }
+
+let RecordTest6 =
+  {
+    {- a record with optionality variants -}
+    nullable :
+      (
+        Optional
+          Text
+      ),
+    nullableOptional : Optional
+      (
+        Optional
+          Text
+      ),
+    nullish : Optional
+      (
+        Optional
+          Text
+      ),
+    optional : Optional
+      Text,
+    optionalNullable : Optional
+      (
+        Optional
+          Text
+      ),
+    declaredNullable : Optional
+      (
+        Optional
+          Text
+      ),
+    declaredNullish : Optional
+      (
+        Optional
+          Text
+      ),
+    declaredOptional : Optional
+      Text
   }
 
 let FunctionTest0 =
@@ -925,6 +986,7 @@ in {
   ListTest1,
   ListTest2Values,
   ListTest2,
+  ListTest3,
   SetTest0,
   SetTest1,
   SetTest2,
@@ -955,6 +1017,7 @@ in {
   OneOfTest5Option1,
   OneOfTest5,
   OneOfTest6,
+  OneOfTest7,
   AllOfTest0Option0,
   AllOfTest0Option1,
   AllOfTest0,
@@ -969,6 +1032,7 @@ in {
   RecordTest4,
   RecordTest5HeadersValues,
   RecordTest5,
+  RecordTest6,
   FunctionTest0,
   FunctionTest1,
   FunctionTest2,

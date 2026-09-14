@@ -5,10 +5,7 @@ let Schema = Grammar.Schema
 let s = Schema
 
 let RenderOptions =
-      { prefix : Text
-      , package : Optional Text
-      , emitDescriptions : Bool
-      }
+      { prefix : Text, package : Optional Text, emitDescriptions : Bool }
 
 let RenderContext =
       { index : Natural

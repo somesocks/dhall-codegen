@@ -21,15 +21,18 @@ let renderZod3TextVariant
           { none = "z.string()"
           , email = "z.string().email()"
           , url = "z.string().url()"
-          , base64 = "z.string().regex(/^(?:[A-Za-z0-9+\\u002F]{4})*(?:[A-Za-z0-9+\\u002F]{2}(?:==)?|[A-Za-z0-9+\\u002F]{3}=?)?$/)"
-          , base64url = "z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$/)"
-          , e164 = "z.string().regex(/^[+][1-9][0-9]{0,14}$/)"
+          , base64 =
+              "z.string().regex(/^(?:[A-Za-z0-9+\\u002F]{4})*(?:[A-Za-z0-9+\\u002F]{2}(?:==)?|[A-Za-z0-9+\\u002F]{3}=?)?\$/)"
+          , base64url =
+              "z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?\$/)"
+          , e164 = "z.string().regex(/^[+][1-9][0-9]{0,14}\$/)"
           , ipv4 = "z.string().ip({ version: \"v4\" })"
           , ipv6 = "z.string().ip({ version: \"v6\" })"
           , isoDate = "z.string().date()"
           , isoDateTime = "z.string().datetime({ offset: true })"
           , isoDuration = "z.string().duration()"
-          , isoTime = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+          , isoTime =
+              "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
           , uuid = "z.string().uuid()"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }
@@ -42,15 +45,18 @@ let renderZod4TextVariant
           { none = "z.string()"
           , email = "z.email()"
           , url = "z.url()"
-          , base64 = "z.string().regex(/^(?:[A-Za-z0-9+\\u002F]{4})*(?:[A-Za-z0-9+\\u002F]{2}(?:==)?|[A-Za-z0-9+\\u002F]{3}=?)?$/)"
-          , base64url = "z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?$/)"
-          , e164 = "z.string().regex(/^[+][1-9][0-9]{0,14}$/)"
+          , base64 =
+              "z.string().regex(/^(?:[A-Za-z0-9+\\u002F]{4})*(?:[A-Za-z0-9+\\u002F]{2}(?:==)?|[A-Za-z0-9+\\u002F]{3}=?)?\$/)"
+          , base64url =
+              "z.string().regex(/^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?\$/)"
+          , e164 = "z.string().regex(/^[+][1-9][0-9]{0,14}\$/)"
           , ipv4 = "z.ipv4()"
           , ipv6 = "z.ipv6()"
           , isoDate = "z.iso.date()"
           , isoDateTime = "z.iso.datetime({ offset: true })"
           , isoDuration = "z.iso.duration()"
-          , isoTime = "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
+          , isoTime =
+              "z.string().regex(/^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:[.][0-9]+)?(?![\\s\\S])/)"
           , uuid = "z.uuid()"
           , literal = \(x : Text) -> "z.literal(\"${x}\")"
           }

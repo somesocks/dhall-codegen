@@ -24,7 +24,13 @@ let renderOptional
 
         let ctx2 = ctx // { depth = ctx.depth }
 
-        let definition = (node.props.value ctx2).expression ++ ".optional()"
+        let definition =
+              merge
+                { optional = (node.props.value ctx2).expression ++ ".optional()"
+                , nullable = (node.props.value ctx2).expression ++ ".nullable()"
+                , nullish = (node.props.value ctx2).expression ++ ".nullish()"
+                }
+                node.props.variant
 
         let expression = definition ++ description
 

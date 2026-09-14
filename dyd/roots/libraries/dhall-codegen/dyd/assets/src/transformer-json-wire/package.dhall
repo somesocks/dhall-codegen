@@ -22,16 +22,28 @@ let transformDocument
         let transformRoot =
               \(state : FoldState) ->
               \(root : s.root.type) ->
-                let transformed = transformSchema root.contains { index = state.index, depth = 0 }
+                let transformed =
+                      transformSchema
+                        root.contains
+                        { index = state.index, depth = 0 }
 
-                in  { schemas = state.schemas # [ s.root.from transformed.result root.meta ]
+                in  { schemas =
+                          state.schemas
+                        # [ s.root.from transformed.result root.meta ]
                     , index = state.index + 1
                     }
 
-        let initial : FoldState = { schemas = [] : List s.root.type, index = 0 }
+        let initial
+            : FoldState
+            = { schemas = [] : List s.root.type, index = 0 }
 
         let transformed =
-              List/foldLeft s.root.type document.schemas FoldState transformRoot initial
+              List/foldLeft
+                s.root.type
+                document.schemas
+                FoldState
+                transformRoot
+                initial
 
         in  document // { schemas = transformed.schemas }
 

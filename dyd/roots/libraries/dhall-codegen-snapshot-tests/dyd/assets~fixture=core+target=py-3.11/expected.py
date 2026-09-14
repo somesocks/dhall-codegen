@@ -145,6 +145,9 @@ class ListTest2Values(BaseModel):# a record inside a list
 # list test 2
 ListTest2: TypeAlias = list[ListTest2Values]
 
+# list test 3
+ListTest3: TypeAlias = list[(str) | None]
+
 # set test 0
 SetTest0: TypeAlias = set[str]
 
@@ -220,6 +223,9 @@ OneOfTest5: TypeAlias = (OneOfTest5Option0 | OneOfTest5Option1)
 # oneOf test 6
 OneOfTest6: TypeAlias = ((str | int)) | None
 
+# oneOf test 7
+OneOfTest7: TypeAlias = ((str | int)) | None
+
 class AllOfTest0Option0(BaseModel):
     bar : float
 
@@ -251,8 +257,8 @@ class RecordTest1(BaseModel):# a record
     name : str
 
 class RecordTest2Contact(BaseModel):
-    email : (str) | None
-    phone : (str) | None
+    email : (str) | None = None
+    phone : (str) | None = None
 
 # record test 2
 class RecordTest2(BaseModel):# a record with an embedded record
@@ -264,18 +270,29 @@ class RecordTest2(BaseModel):# a record with an embedded record
 # record test 3
 class RecordTest3(BaseModel):# a record with optional props
     name : str
-    age : (int) | None
-    deceased : (bool) | None
+    age : (int) | None = None
+    deceased : (bool) | None = None
 
 # record test 4
 class RecordTest4(Protocol):
     id : str
     status : str
-    age : (int) | None
+    age : (int) | None = None
 
 # record test 5
 class RecordTest5(BaseModel):# a record with a record map
     headers : dict[str, str]
+
+# record test 6
+class RecordTest6(BaseModel):# a record with optionality variants
+    nullable : (str) | None
+    nullableOptional : ((str) | None) | None = None
+    nullish : ((str) | None) | None = None
+    optional : (str) | None = None
+    optionalNullable : ((str) | None) | None = None
+    declaredNullable : ((str) | None) | None = None
+    declaredNullish : ((str) | None) | None = None
+    declaredOptional : (str) | None = None
 
 # function test 0
 FunctionTest0: TypeAlias = Callable[[], None]

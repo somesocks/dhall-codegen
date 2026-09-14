@@ -40,6 +40,7 @@ let renderOptionalRecordField
               ++  x.mapKey
               ++  " : "
               ++  "(${value.expression}) | None"
+              ++  " = None"
 
         in  expression
 

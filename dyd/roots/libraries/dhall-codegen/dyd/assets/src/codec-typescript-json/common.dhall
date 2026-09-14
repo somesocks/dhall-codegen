@@ -6,6 +6,8 @@ let TimeMode = typescript.TimeMode
 
 let RenderContext = { options : RenderOptions, indentation : Text }
 
-let RenderFragment : Type = RenderContext -> Text
+let RenderFragment
+    : Type
+    = RenderContext -> Text
 
 in  { RenderOptions, TimeMode, RenderContext, RenderFragment }

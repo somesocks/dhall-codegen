@@ -18,6 +18,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let materialize = common.materialize
+
 let MapNode = (s.map.nodeF TransformFragment).Type
 
 let transformMap
@@ -46,27 +48,9 @@ let transformMap
 
         let lifted = keys.lifted # values.lifted
 
-        let keys =
-              merge
-                { optional =
-                    \(result : s.type) ->
-                      s.optional.from
-                        s.optional.props::{ value = result }
-                        s.optional.meta::{=}
-                , required = \(result : s.type) -> result
-                }
-                keys.result
+        let keys = materialize keys.result
 
-        let values =
-              merge
-                { optional =
-                    \(result : s.type) ->
-                      s.optional.from
-                        s.optional.props::{ value = result }
-                        s.optional.meta::{=}
-                , required = \(result : s.type) -> result
-                }
-                values.result
+        let values = materialize values.result
 
         let result =
               s.map.from

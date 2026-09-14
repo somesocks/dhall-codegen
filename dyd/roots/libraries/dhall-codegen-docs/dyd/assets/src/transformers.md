@@ -51,13 +51,13 @@ The default `utils/Text/snakeCase.dhall` actually produces **PascalCase** segmen
 
 ### Optional lifting rules
 
-The transformer represents “optionalness” as a separate signal while walking the tree.
+The transformer carries optionality and nullability through nested wrappers, normalizing them to `optional`, `nullable`, or `nullish`.
 
 Key behaviors:
 
-- **Under a record:** an `optional` value on a required field becomes an optional field (`field?: …`) instead of a nested `optional` wrapper.
-- **Through `oneOf`:** if any option is optional, the entire `oneOf` becomes optional.
-- **Not through `allOf`, `list`, `set`, `map`, `tuple`:** optional children are re-wrapped with `optional` inside those nodes.
+- **Under a record:** a required `optional` value becomes an optional field (`field?: T`); a `nullable` value remains required (`field: T | null`); and a `nullish` value becomes an optional nullable field (`field?: T | null`).
+- **Through `oneOf`:** optionality/nullability from alternatives are combined, so a nullable and an optional alternative produce a nullish result.
+- **Through `allOf`, `list`, `set`, `map`, `tuple`, and functions:** child wrappers are re-materialized with their exact variants because these positions do not have an object-property omission slot.
 
 These rules are implemented in the per-node transforms under `dhall-codegen/transformer-lift/transform-*.dhall`.
 

@@ -41,18 +41,18 @@ let renderRootSchema =
 
         let indent = options.indent
 
-        in  "function encode${typeName}At(value: ${typeName}, path: string): JsonValue {${break}"
-          ++ encodeBody
-          ++ "}${break}${break}"
-          ++ "function decode${typeName}At(input: unknown, path: string): ${typeName} {${break}"
-          ++ decodeBody
-          ++ "}${break}${break}"
-          ++ "export function encode${typeName}(value: ${typeName}): JsonValue {${break}"
-          ++ "${indent}return encode${typeName}At(value, \"$\");${break}"
-          ++ "}${break}${break}"
-          ++ "export function decode${typeName}(input: unknown): ${typeName} {${break}"
-          ++ "${indent}return decode${typeName}At(input, \"$\");${break}"
-          ++ "}"
+        in      "function encode${typeName}At(value: ${typeName}, path: string): JsonValue {${break}"
+            ++  encodeBody
+            ++  "}${break}${break}"
+            ++  "function decode${typeName}At(input: unknown, path: string): ${typeName} {${break}"
+            ++  decodeBody
+            ++  "}${break}${break}"
+            ++  "export function encode${typeName}(value: ${typeName}): JsonValue {${break}"
+            ++  "${indent}return encode${typeName}At(value, \"\$\");${break}"
+            ++  "}${break}${break}"
+            ++  "export function decode${typeName}(input: unknown): ${typeName} {${break}"
+            ++  "${indent}return decode${typeName}At(input, \"\$\");${break}"
+            ++  "}"
 
 let renderDocument
     : RenderOptions -> Document.Type -> Text
@@ -64,13 +64,23 @@ let renderDocument
         let types = renderTypes.render options document
 
         let rootDefinitions =
-              List/map Schema.root.type Text (\(root : Schema.root.type) -> renderRootSchema root options) document.schemas
+              List/map
+                Schema.root.type
+                Text
+                (\(root : Schema.root.type) -> renderRootSchema root options)
+                document.schemas
 
-        in  Text/concatSep "\n\n" [ types, renderPrelude options.time, Text/concatSep "\n\n" rootDefinitions ]
+        in  Text/concatSep
+              "\n\n"
+              [ types
+              , renderPrelude options.time
+              , Text/concatSep "\n\n" rootDefinitions
+              ]
 
 let options =
       { Type = RenderOptions
-      , default = { indent = "\t", break = "\n", prefix = "", time = TimeMode.LEGACY }
+      , default =
+        { indent = "\t", break = "\n", prefix = "", time = TimeMode.LEGACY }
       }
 
 in  { render = renderDocument, options, time = TimeMode }

@@ -14,7 +14,14 @@ let renderDescription = ./render-description.dhall
 
 let renderTimeVariant
     : s.time.variants -> Text
-    = \(variant : s.time.variants) -> merge { none = "time.Time", date = "time.Time", time = "time.Time", duration = "string" } variant
+    = \(variant : s.time.variants) ->
+        merge
+          { none = "time.Time"
+          , date = "time.Time"
+          , time = "time.Time"
+          , duration = "string"
+          }
+          variant
 
 let renderTime
     : s.time.node.Type -> RenderFragment

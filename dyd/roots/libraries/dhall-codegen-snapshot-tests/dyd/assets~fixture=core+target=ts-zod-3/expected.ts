@@ -284,6 +284,14 @@ export const ListTest2 =
 export type TListTest2 = z.infer<typeof ListTest2>
 
 
+	/** list test 3 */
+export const ListTest3 =
+	z.array(
+		z.string().optional()
+	).describe("a list of optional text");
+export type TListTest3 = z.infer<typeof ListTest3>
+
+
 	/** set test 0 */
 export const SetTest0 =
 	z.set(
@@ -500,6 +508,15 @@ export const OneOfTest6 =
 export type TOneOfTest6 = z.infer<typeof OneOfTest6>
 
 
+	/** oneOf test 7 */
+export const OneOfTest7 =
+	z.union([
+		z.string(),
+		z.number().int().nonnegative()
+	]).describe("nullable text or optional natural").nullish();
+export type TOneOfTest7 = z.infer<typeof OneOfTest7>
+
+
 export const AllOfTest0Option0 =
 	z.object({
 		bar :
@@ -642,6 +659,29 @@ export const RecordTest5 =
 			),
 	}).describe("a record with a record map");
 export type TRecordTest5 = z.infer<typeof RecordTest5>
+
+
+	/** record test 6 */
+export const RecordTest6 =
+	z.object({
+		nullable :
+			z.string().nullable(),
+		nullableOptional :
+			z.string().nullable().optional(),
+		nullish :
+			z.string().nullable().optional(),
+		optional :
+			z.string().optional(),
+		optionalNullable :
+			z.string().nullable().optional(),
+		declaredNullable :
+			z.string().nullable().optional(),
+		declaredNullish :
+			z.string().nullable().optional(),
+		declaredOptional :
+			z.string().optional(),
+	}).describe("a record with optionality variants");
+export type TRecordTest6 = z.infer<typeof RecordTest6>
 
 
 	/** function test 0 */

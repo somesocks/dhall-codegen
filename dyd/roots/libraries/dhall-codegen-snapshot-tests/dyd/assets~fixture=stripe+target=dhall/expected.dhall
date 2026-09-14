@@ -3,17 +3,17 @@ let Any : Type = ∀(R : Type) → (∀(A : Type) → A → R) → R
 
 let StripeAddress =
   {
-    city : Optional 
+    city : Optional
       Text,
-    country : Optional 
+    country : Optional
       Text,
-    line1 : Optional 
+    line1 : Optional
       Text,
-    line2 : Optional 
+    line2 : Optional
       Text,
-    postal_code : Optional 
+    postal_code : Optional
       Text,
-    state : Optional 
+    state : Optional
       Text
   }
 
@@ -28,31 +28,31 @@ let StripeCustomer =
     object :
       {- must be string 'customer' -}
       Text,
-    address : Optional 
+    address : Optional
       StripeAddress,
-    currency : Optional 
+    currency : Optional
       Text,
-    description : Optional 
+    description : Optional
       Text,
-    email : Optional 
+    email : Optional
       {- email address -}
       Text,
-    name : Optional 
+    name : Optional
       {- customer name -}
       Text
   }
 
 let StripeChargeBillingDetails =
   {
-    address : Optional 
+    address : Optional
       StripeAddress,
-    email : Optional 
+    email : Optional
       {- email address -}
       Text,
-    name : Optional 
+    name : Optional
       {- customer name -}
       Text,
-    phone : Optional 
+    phone : Optional
       Text
   }
 
@@ -60,23 +60,23 @@ let StripeChargeOutcomeValue =
   {
     type :
       Text,
-    advice_code : Optional 
+    advice_code : Optional
       Text,
-    network_advice_code : Optional 
+    network_advice_code : Optional
       Text,
-    network_decline_code : Optional 
+    network_decline_code : Optional
       Text,
-    network_status : Optional 
+    network_status : Optional
       Text,
-    reason : Optional 
+    reason : Optional
       Text,
-    risk_level : Optional 
+    risk_level : Optional
       Text,
-    risk_score : Optional 
+    risk_score : Optional
       Integer,
-    rule : Optional 
+    rule : Optional
       Text,
-    seller_message : Optional 
+    seller_message : Optional
       Text
   }
 
@@ -100,11 +100,11 @@ let StripeCharge =
     object :
       {- must be string 'charge' -}
       Text,
-    currency : Optional 
+    currency : Optional
       Text,
-    outcome : Optional 
+    outcome : Optional
       StripeChargeOutcomeValue,
-    refunds : Optional 
+    refunds : Optional
       <
         Option0 :
           (

@@ -30,7 +30,7 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 class PersonContact(BaseModel):# contact details
     phone_number : str
-    email : Optional[str]
+    email : Optional[str] = None
 
 class Person(BaseModel):
     appointment_time : time

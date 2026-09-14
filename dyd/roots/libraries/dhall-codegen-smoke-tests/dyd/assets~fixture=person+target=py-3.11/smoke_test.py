@@ -7,7 +7,7 @@ grace = Person(
     appointment_time=time(9, 0),
     binary_data="+/8",
     birth_date="1906-12-09",
-    contact=PersonContact(phone_number="+442079460123", email=None),
+    contact=PersonContact(phone_number="+442079460123"),
     date_of_birth=date(1906, 12, 9),
     friends=[],
     id="123e4567-e89b-42d3-a456-426614174001",
@@ -18,6 +18,9 @@ grace = Person(
     token="-_8",
     created_at="1906-12-09T00:00:00Z",
 )
+
+null_email_contact = PersonContact(phone_number="+442079460124", email=None)
+assert null_email_contact.email is None
 
 ada = Person(
     appointment_time=time(14, 30, 0, 123000),

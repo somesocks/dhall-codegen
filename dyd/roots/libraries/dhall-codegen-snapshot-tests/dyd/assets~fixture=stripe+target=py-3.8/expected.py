@@ -29,41 +29,41 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
 
 
 class StripeAddress(BaseModel):
-    city : Optional[str]
-    country : Optional[str]
-    line1 : Optional[str]
-    line2 : Optional[str]
-    postal_code : Optional[str]
-    state : Optional[str]
+    city : Optional[str] = None
+    country : Optional[str] = None
+    line1 : Optional[str] = None
+    line2 : Optional[str] = None
+    postal_code : Optional[str] = None
+    state : Optional[str] = None
 
 class StripeCustomer(BaseModel):
     balance : int
     created : int
     id : str
     object : str
-    address : Optional[StripeAddress]
-    currency : Optional[str]
-    description : Optional[str]
-    email : Optional[str]
-    name : Optional[str]
+    address : Optional[StripeAddress] = None
+    currency : Optional[str] = None
+    description : Optional[str] = None
+    email : Optional[str] = None
+    name : Optional[str] = None
 
 class StripeChargeBillingDetails(BaseModel):
-    address : Optional[StripeAddress]
-    email : Optional[str]
-    name : Optional[str]
-    phone : Optional[str]
+    address : Optional[StripeAddress] = None
+    email : Optional[str] = None
+    name : Optional[str] = None
+    phone : Optional[str] = None
 
 class StripeChargeOutcomeValue(BaseModel):
     type : str
-    advice_code : Optional[str]
-    network_advice_code : Optional[str]
-    network_decline_code : Optional[str]
-    network_status : Optional[str]
-    reason : Optional[str]
-    risk_level : Optional[str]
-    risk_score : Optional[int]
-    rule : Optional[str]
-    seller_message : Optional[str]
+    advice_code : Optional[str] = None
+    network_advice_code : Optional[str] = None
+    network_decline_code : Optional[str] = None
+    network_status : Optional[str] = None
+    reason : Optional[str] = None
+    risk_level : Optional[str] = None
+    risk_score : Optional[int] = None
+    rule : Optional[str] = None
+    seller_message : Optional[str] = None
 
 class StripeCharge(BaseModel):
     amount : int
@@ -74,9 +74,9 @@ class StripeCharge(BaseModel):
     created : int
     id : str
     object : str
-    currency : Optional[str]
-    outcome : Optional[StripeChargeOutcomeValue]
-    refunds : Optional[Union[List[str],List[StripeRefund]]]
+    currency : Optional[str] = None
+    outcome : Optional[StripeChargeOutcomeValue] = None
+    refunds : Optional[Union[List[str],List[StripeRefund]]] = None
 
 class StripeRefund(BaseModel):
     amount : int

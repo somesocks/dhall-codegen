@@ -39,31 +39,46 @@ let renderRoot =
         in  Text/concatSep
               "\n"
               [ implementation
-              , "def _encode_${name}_at(value: ${name}, path: str) -> Any:\n${encode}    return result\n"
-              , "def _decode_${name}_at(input: Any, path: str) -> ${name}:\n${decode}    ${rootDecode}"
-              , "def encode_${name}(value: ${name}) -> Any:\n    return _encode_${name}_at(value, \"$\")\n"
-              , "def decode_${name}(input: Any) -> ${name}:\n    return _decode_${name}_at(input, \"$\")"
+              , ''
+                def _encode_${name}_at(value: ${name}, path: str) -> Any:
+                ${encode}    return result
+                ''
+              , ''
+                def _decode_${name}_at(input: Any, path: str) -> ${name}:
+                ${decode}    ${rootDecode}''
+              , ''
+                def encode_${name}(value: ${name}) -> Any:
+                    return _encode_${name}_at(value, "$")
+                ''
+              , ''
+                def decode_${name}(input: Any) -> ${name}:
+                    return _decode_${name}_at(input, "$")''
               ]
 
-let imports = ''
-import base64
-import math
-import re
-from datetime import date, datetime, time
-from ipaddress import IPv4Address, IPv6Address, ip_address
-from typing import Any
-from urllib.parse import urlparse
-from uuid import UUID
-''
+let imports =
+      ''
+      import base64
+      import math
+      import re
+      from datetime import date, datetime, time
+      from ipaddress import IPv4Address, IPv6Address, ip_address
+      from typing import Any
+      from urllib.parse import urlparse
+      from uuid import UUID
+      ''
 
-let render : Document.Type -> Text =
-      \(document : Document.Type) ->
-        let document = liftDefinitions.transform liftDefinitions.options::{=} document
+let render
+    : Document.Type -> Text
+    = \(document : Document.Type) ->
+        let document =
+              liftDefinitions.transform liftDefinitions.options::{=} document
 
         let types = renderTypes.render document
 
         let roots = List/map Schema.root.type Text renderRoot document.schemas
 
-        in  Text/concatSep "\n\n" [ types, imports, renderPrelude, Text/concatSep "\n\n" roots ]
+        in  Text/concatSep
+              "\n\n"
+              [ types, imports, renderPrelude, Text/concatSep "\n\n" roots ]
 
 in  { render }

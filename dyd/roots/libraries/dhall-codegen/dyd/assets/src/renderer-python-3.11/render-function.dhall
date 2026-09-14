@@ -69,7 +69,9 @@ let renderFunctionOutputMany
         let ctx2 = ctx // { depth = ctx.depth + 1 }
 
         let header =
-              merge { none = "tuple[", async = "Awaitable[tuple[" } node.props.variant
+              merge
+                { none = "tuple[", async = "Awaitable[tuple[" }
+                node.props.variant
 
         let renderBodyLine = \(x : RenderFragment) -> (x ctx2).expression
 

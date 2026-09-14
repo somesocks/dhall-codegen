@@ -18,6 +18,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let materialize = common.materialize
+
 let OptionalNode = (s.optional.nodeF TransformFragment).Type
 
 let transformOptional
@@ -37,11 +39,55 @@ let transformOptional
         let result =
               merge
                 { optional =
-                    \(result : s.type) -> TransformNodeResult.optional result
-                , required =
-                    \(result : s.type) -> TransformNodeResult.optional result
+                    merge
+                      { optional =
+                          \(result : s.type) ->
+                            TransformNodeResult.optional result
+                      , required =
+                          \(result : s.type) ->
+                            TransformNodeResult.optional result
+                      , nullable =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      , nullish =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      }
+                      value.result
+                , nullable =
+                    merge
+                      { optional =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      , required =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullable result
+                      , nullable =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullable result
+                      , nullish =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      }
+                      value.result
+                , nullish =
+                    merge
+                      { optional =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      , required =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      , nullable =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      , nullish =
+                          \(result : s.type) ->
+                            TransformNodeResult.nullish result
+                      }
+                      value.result
                 }
-                value.result
+                node.props.variant
 
         let lifted = value.lifted
 

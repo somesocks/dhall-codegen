@@ -211,6 +211,17 @@ export type ListTest2 =
 	>;
 
 
+/** list test 3 */
+export type ListTest3 =
+	/** a list of optional text */
+	Array<
+		(
+			string
+			| undefined
+		)
+	>;
+
+
 /** tuple test 0 */
 export type TupleTest0 =
 	[
@@ -437,6 +448,47 @@ export type RecordTest5 =
 	};
 
 
+/** record test 6 */
+export type RecordTest6 =
+	/** a record with optionality variants */
+	{
+		nullable :
+			(
+				string
+				| null
+			);
+		nullableOptional ?:
+			(
+				string
+				| null
+			);
+		nullish ?:
+			(
+				string
+				| null
+			);
+		optional ?:
+			string;
+		optionalNullable ?:
+			(
+				string
+				| null
+			);
+		declaredNullable ?:
+			(
+				string
+				| null
+			);
+		declaredNullish ?:
+			(
+				string
+				| null
+			);
+		declaredOptional ?:
+			string;
+	};
+
+
 /** time test 0 */
 export type TimeTest0 =
 	Date;
@@ -603,6 +655,19 @@ export type OneOfTest6 =
 			string |
 			number
 		)
+		| undefined
+	);
+
+
+/** oneOf test 7 */
+export type OneOfTest7 =
+	(
+		/** nullable text or optional natural */
+		(
+			string |
+			number
+		)
+		| null
 		| undefined
 	);
 
@@ -1122,7 +1187,7 @@ export function decodeTextTest14(input: unknown): TextTest14 {
 }
 
 function encodeOptionalTest0At(value: OptionalTest0, path: string): JsonValue {
-	return value === undefined || value === null ? null : encodeText("none", value, path);}
+	return value === undefined ? null : encodeText("none", value, path);}
 
 function decodeOptionalTest0At(input: unknown, path: string): OptionalTest0 {
 	return input === null ? undefined : decodeText("none", input, path) as OptionalTest0;}
@@ -1158,7 +1223,7 @@ export function decodeOptionalTest1Value(input: unknown): OptionalTest1Value {
 }
 
 function encodeOptionalTest1At(value: OptionalTest1, path: string): JsonValue {
-	return value === undefined || value === null ? null : encodeOptionalTest1ValueAt(value as OptionalTest1Value, path);}
+	return value === undefined ? null : encodeOptionalTest1ValueAt(value as OptionalTest1Value, path);}
 
 function decodeOptionalTest1At(input: unknown, path: string): OptionalTest1 {
 	return input === null ? undefined : decodeOptionalTest1ValueAt(input, path) as OptionalTest1;}
@@ -1172,7 +1237,7 @@ export function decodeOptionalTest1(input: unknown): OptionalTest1 {
 }
 
 function encodeOptionalTest2At(value: OptionalTest2, path: string): JsonValue {
-	return value === undefined || value === null ? null : encodeText("none", value, path);}
+	return value === undefined ? null : encodeText("none", value, path);}
 
 function decodeOptionalTest2At(input: unknown, path: string): OptionalTest2 {
 	return input === null ? undefined : decodeText("none", input, path) as OptionalTest2;}
@@ -1186,7 +1251,7 @@ export function decodeOptionalTest2(input: unknown): OptionalTest2 {
 }
 
 function encodeOptionalTest3At(value: OptionalTest3, path: string): JsonValue {
-	return value === undefined || value === null ? null : ((input: unknown, path: string): JsonValue[] => {
+	return value === undefined ? null : ((input: unknown, path: string): JsonValue[] => {
 		const entries = asArray("encode", input, path);
 		if (entries.length !== 2) fail("encode", path, "expected tuple of length 2");
 		return [encodeText("none", entries[0], pathIndex(path, 0)), encodeNumber("natural", entries[1], pathIndex(path, 1))];
@@ -1325,6 +1390,34 @@ export function encodeListTest2(value: ListTest2): JsonValue {
 
 export function decodeListTest2(input: unknown): ListTest2 {
 	return decodeListTest2At(input, "$");
+}
+
+function encodeListTest3At(value: ListTest3, path: string): JsonValue {
+	return ((input: unknown, path: string): JsonValue[] => {
+		const entries = asArray("encode", input, path);
+		const result: JsonValue[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === undefined ? null : encodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(value, path);}
+
+function decodeListTest3At(input: unknown, path: string): ListTest3 {
+	return ((input: unknown, path: string): unknown[] => {
+		const entries = asArray("decode", input, path);
+		const result: unknown[] = new Array(entries.length);
+		for (let index = 0; index < entries.length; index += 1) {
+			result[index] = entries[index] === null ? undefined : decodeText("none", entries[index], pathIndex(path, index));
+		}
+		return result;
+	})(input, path) as ListTest3;}
+
+export function encodeListTest3(value: ListTest3): JsonValue {
+	return encodeListTest3At(value, "$");
+}
+
+export function decodeListTest3(input: unknown): ListTest3 {
+	return decodeListTest3At(input, "$");
 }
 
 function encodeTupleTest0At(value: TupleTest0, path: string): JsonValue {
@@ -1755,7 +1848,7 @@ function encodeMapTest4At(value: MapTest4, path: string): JsonValue {
 		const result: JsonValue[] = new Array(entries.size);
 		let index = 0;
 		for (const entry of entries) {
-			result[index] = { key: encodeText("none", entry[0], pathIndex(path, index)), value: entry[1] === undefined || entry[1] === null ? null : encodeText("none", entry[1], pathIndex(path, index)) };
+			result[index] = { key: encodeText("none", entry[0], pathIndex(path, index)), value: entry[1] === undefined ? null : encodeText("none", entry[1], pathIndex(path, index)) };
 			index += 1;
 		}
 		return result;
@@ -1844,8 +1937,8 @@ function encodeRecordTest2ContactAt(value: RecordTest2Contact, path: string): Js
 function decodeRecordTest2ContactAt(input: unknown, path: string): RecordTest2Contact {
 	const object = asObject("decode", input, path);
 	const result: { [key: string]: unknown } = {};
-	if (hasOwn(object, "email") && object["email"] !== null) result["email"] = decodeText("none", object["email"], pathField(path, "email"));
-	if (hasOwn(object, "phone") && object["phone"] !== null) result["phone"] = decodeText("none", object["phone"], pathField(path, "phone"));
+	if (hasOwn(object, "email")) result["email"] = decodeText("none", object["email"], pathField(path, "email"));
+	if (hasOwn(object, "phone")) result["phone"] = decodeText("none", object["phone"], pathField(path, "phone"));
 	return result as RecordTest2Contact;
 }
 
@@ -1898,8 +1991,8 @@ function decodeRecordTest3At(input: unknown, path: string): RecordTest3 {
 	const object = asObject("decode", input, path);
 	const result: { [key: string]: unknown } = {};
 	result["name"] = decodeText("none", object["name"], pathField(path, "name"));
-	if (hasOwn(object, "age") && object["age"] !== null) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
-	if (hasOwn(object, "deceased") && object["deceased"] !== null) result["deceased"] = decodeBoolean(object["deceased"], pathField(path, "deceased"));
+	if (hasOwn(object, "age")) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
+	if (hasOwn(object, "deceased")) result["deceased"] = decodeBoolean(object["deceased"], pathField(path, "deceased"));
 	return result as RecordTest3;
 }
 
@@ -1925,7 +2018,7 @@ function decodeRecordTest4At(input: unknown, path: string): RecordTest4 {
 	const result: { [key: string]: unknown } = {};
 	result["id"] = decodeText("none", object["id"], pathField(path, "id"));
 	result["status"] = decodeText("none", object["status"], pathField(path, "status"));
-	if (hasOwn(object, "age") && object["age"] !== null) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
+	if (hasOwn(object, "age")) result["age"] = decodeNumber("natural", object["age"], pathField(path, "age"));
 	return result as RecordTest4;
 }
 
@@ -1977,6 +2070,42 @@ export function encodeRecordTest5(value: RecordTest5): JsonValue {
 
 export function decodeRecordTest5(input: unknown): RecordTest5 {
 	return decodeRecordTest5At(input, "$");
+}
+
+function encodeRecordTest6At(value: RecordTest6, path: string): JsonValue {
+	const object = asObject("encode", value, path);
+	const result: { [key: string]: JsonValue } = {};
+	result["nullable"] = object["nullable"] === null ? null : encodeText("none", object["nullable"], pathField(path, "nullable"));
+	if (hasOwn(object, "nullableOptional") && object["nullableOptional"] !== undefined) result["nullableOptional"] = object["nullableOptional"] === null ? null : encodeText("none", object["nullableOptional"], pathField(path, "nullableOptional"));
+	if (hasOwn(object, "nullish") && object["nullish"] !== undefined) result["nullish"] = object["nullish"] === null ? null : encodeText("none", object["nullish"], pathField(path, "nullish"));
+	if (hasOwn(object, "optional") && object["optional"] !== undefined) result["optional"] = encodeText("none", object["optional"], pathField(path, "optional"));
+	if (hasOwn(object, "optionalNullable") && object["optionalNullable"] !== undefined) result["optionalNullable"] = object["optionalNullable"] === null ? null : encodeText("none", object["optionalNullable"], pathField(path, "optionalNullable"));
+	if (hasOwn(object, "declaredNullable") && object["declaredNullable"] !== undefined) result["declaredNullable"] = object["declaredNullable"] === null ? null : encodeText("none", object["declaredNullable"], pathField(path, "declaredNullable"));
+	if (hasOwn(object, "declaredNullish") && object["declaredNullish"] !== undefined) result["declaredNullish"] = object["declaredNullish"] === null ? null : encodeText("none", object["declaredNullish"], pathField(path, "declaredNullish"));
+	if (hasOwn(object, "declaredOptional") && object["declaredOptional"] !== undefined) result["declaredOptional"] = encodeText("none", object["declaredOptional"], pathField(path, "declaredOptional"));
+	return result;
+}
+
+function decodeRecordTest6At(input: unknown, path: string): RecordTest6 {
+	const object = asObject("decode", input, path);
+	const result: { [key: string]: unknown } = {};
+	result["nullable"] = object["nullable"] === null ? null : decodeText("none", object["nullable"], pathField(path, "nullable"));
+	if (hasOwn(object, "nullableOptional")) result["nullableOptional"] = object["nullableOptional"] === null ? null : decodeText("none", object["nullableOptional"], pathField(path, "nullableOptional"));
+	if (hasOwn(object, "nullish")) result["nullish"] = object["nullish"] === null ? null : decodeText("none", object["nullish"], pathField(path, "nullish"));
+	if (hasOwn(object, "optional")) result["optional"] = decodeText("none", object["optional"], pathField(path, "optional"));
+	if (hasOwn(object, "optionalNullable")) result["optionalNullable"] = object["optionalNullable"] === null ? null : decodeText("none", object["optionalNullable"], pathField(path, "optionalNullable"));
+	if (hasOwn(object, "declaredNullable")) result["declaredNullable"] = object["declaredNullable"] === null ? null : decodeText("none", object["declaredNullable"], pathField(path, "declaredNullable"));
+	if (hasOwn(object, "declaredNullish")) result["declaredNullish"] = object["declaredNullish"] === null ? null : decodeText("none", object["declaredNullish"], pathField(path, "declaredNullish"));
+	if (hasOwn(object, "declaredOptional")) result["declaredOptional"] = decodeText("none", object["declaredOptional"], pathField(path, "declaredOptional"));
+	return result as RecordTest6;
+}
+
+export function encodeRecordTest6(value: RecordTest6): JsonValue {
+	return encodeRecordTest6At(value, "$");
+}
+
+export function decodeRecordTest6(input: unknown): RecordTest6 {
+	return decodeRecordTest6At(input, "$");
 }
 
 function encodeTimeTest0At(value: TimeTest0, path: string): JsonValue {
@@ -2514,7 +2643,7 @@ export function decodeOneOfTest5(input: unknown): OneOfTest5 {
 }
 
 function encodeOneOfTest6At(value: OneOfTest6, path: string): JsonValue {
-	return value === undefined || value === null ? null : ((value: unknown, path: string): JsonValue => {
+	return value === undefined ? null : ((value: unknown, path: string): JsonValue => {
 		try {
 			return encodeText("none", value, path);
 		} catch (error) {
@@ -2549,6 +2678,44 @@ export function encodeOneOfTest6(value: OneOfTest6): JsonValue {
 
 export function decodeOneOfTest6(input: unknown): OneOfTest6 {
 	return decodeOneOfTest6At(input, "$");
+}
+
+function encodeOneOfTest7At(value: OneOfTest7, path: string): JsonValue {
+	return value === undefined || value === null ? null : ((value: unknown, path: string): JsonValue => {
+		try {
+			return encodeText("none", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		try {
+			return encodeNumber("natural", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		return fail("encode", path, "no OneOf option matched");
+	})(value, path);}
+
+function decodeOneOfTest7At(input: unknown, path: string): OneOfTest7 {
+	return input === null ? null : ((value: unknown, path: string): unknown => {
+		try {
+			return decodeText("none", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		try {
+			return decodeNumber("natural", value, path);
+		} catch (error) {
+			if (!(error instanceof CodecError)) throw error;
+		}
+		return fail("decode", path, "no OneOf option matched");
+	})(input, path) as OneOfTest7;}
+
+export function encodeOneOfTest7(value: OneOfTest7): JsonValue {
+	return encodeOneOfTest7At(value, "$");
+}
+
+export function decodeOneOfTest7(input: unknown): OneOfTest7 {
+	return decodeOneOfTest7At(input, "$");
 }
 
 function encodeFooAt(value: Foo, path: string): JsonValue {

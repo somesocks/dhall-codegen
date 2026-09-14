@@ -34,19 +34,19 @@ let renderOneOf
 
         let p1 = renderPrefix ctx1
 
-let renderOptionLine =
-      λ(index : Natural) →
-      λ(x : RenderFragment) →
-        let rendered = x ctx2
+        let renderOptionLine =
+              λ(index : Natural) →
+              λ(x : RenderFragment) →
+                let rendered = x ctx2
 
-        let optionName =
-              merge
-                { None = "Option${Natural/show index}"
-                , Some = \(name : Text) -> name
-                }
-                rendered.name
+                let optionName =
+                      merge
+                        { None = "Option${Natural/show index}"
+                        , Some = λ(name : Text) → name
+                        }
+                        rendered.name
 
-        in  "${p1}${optionName} :${rendered.expression}"
+                in  "${p1}${optionName} :${rendered.expression}"
 
         let oneOfStart = "${p0}<"
 

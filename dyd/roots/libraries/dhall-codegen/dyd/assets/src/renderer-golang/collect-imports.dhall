@@ -8,7 +8,9 @@ let s = Schema
 
 let ImportInfo = { usesTime : Bool }
 
-let empty : ImportInfo = { usesTime = False }
+let empty
+    : ImportInfo
+    = { usesTime = False }
 
 let mergeImports
     : ImportInfo -> ImportInfo -> ImportInfo
@@ -30,7 +32,8 @@ let collectSchema
               , Text = \(x : s.text.node.Type) -> empty
               , Time = \(x : s.time.node.Type) -> { usesTime = True }
               , Reference = \(x : s.reference.node.Type) -> empty
-              , Optional = \(x : (s.optional.nodeF ImportInfo).Type) -> x.props.value
+              , Optional =
+                  \(x : (s.optional.nodeF ImportInfo).Type) -> x.props.value
               , List = \(x : (s.list.nodeF ImportInfo).Type) -> x.props.values
               , Set = \(x : (s.set.nodeF ImportInfo).Type) -> x.props.values
               , Map =
@@ -52,7 +55,9 @@ let collectSchema
                             { mapKey : Text, mapValue : ImportInfo }
                             x.props.required
                             ImportInfo
-                            ( \(field : { mapKey : Text, mapValue : ImportInfo }) ->
+                            ( \ ( field
+                                : { mapKey : Text, mapValue : ImportInfo }
+                                ) ->
                               \(state : ImportInfo) ->
                                 mergeImports state field.mapValue
                             )
@@ -63,7 +68,9 @@ let collectSchema
                             { mapKey : Text, mapValue : ImportInfo }
                             x.props.optional
                             ImportInfo
-                            ( \(field : { mapKey : Text, mapValue : ImportInfo }) ->
+                            ( \ ( field
+                                : { mapKey : Text, mapValue : ImportInfo }
+                                ) ->
                               \(state : ImportInfo) ->
                                 mergeImports state field.mapValue
                             )

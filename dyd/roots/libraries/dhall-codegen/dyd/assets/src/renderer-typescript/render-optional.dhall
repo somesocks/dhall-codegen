@@ -31,7 +31,13 @@ let renderOptional
 
         let e1 = (node.props.value ctx2).expression
 
-        let definition = "${p1}(${e1}${p2}| undefined${p1})"
+        let definition =
+              merge
+                { optional = "${p1}(${e1}${p2}| undefined${p1})"
+                , nullable = "${p1}(${e1}${p2}| null${p1})"
+                , nullish = "${p1}(${e1}${p2}| null${p2}| undefined${p1})"
+                }
+                node.props.variant
 
         let expression = description ++ definition
 

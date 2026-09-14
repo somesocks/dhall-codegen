@@ -7,7 +7,7 @@ let PersonContact =
     phone_number :
       {- E.164 telephone number -}
       Text,
-    email : Optional 
+    email : Optional
       {- contact email -}
       Text
   }

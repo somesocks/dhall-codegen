@@ -129,6 +129,12 @@ dryad root develop start dyd/roots/libraries/dhall-codegen-smoke-tests~fixture=p
 
 When a renderer, codec, transformer, or grammar change intentionally changes generated output, update the matching snapshot output files and review the diffs.
 
+Regenerate one snapshot from its selected development environment:
+
+```bash
+dryad root develop start dyd/roots/libraries/dhall-codegen-snapshot-tests~fixture=core+target=<target> --scope=none --on-exit=save -- z-update-snapshot
+```
+
 ## Adding a Test Case
 
 The fastest way to add a new test case is to copy an existing fixture variant. `fixture=person` is a small, representative example.

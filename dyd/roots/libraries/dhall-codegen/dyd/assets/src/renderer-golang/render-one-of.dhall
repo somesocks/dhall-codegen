@@ -50,7 +50,7 @@ let renderOptionField
         let fieldName = Text/snakeCase name
 
         let expression =
-              renderPrefix ctx
+                  renderPrefix ctx
               ++  fieldName
               ++  " "
               ++  "*"
@@ -77,8 +77,7 @@ let renderOneOf
                 }
                 ctx.oneOfName
 
-        let kindField =
-              renderPrefix ctx2 ++ "Kind ${kindType} `json:\"kind\"`"
+        let kindField = renderPrefix ctx2 ++ "Kind ${kindType} `json:\"kind\"`"
 
         let optionFields =
               List/mapWithIndex
@@ -147,6 +146,7 @@ let renderOneOf
                           ''
                 }
                 ctx.oneOfName
+
         let definition =
               merge
                 { None = structDef

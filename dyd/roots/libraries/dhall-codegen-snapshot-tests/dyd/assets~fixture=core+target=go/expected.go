@@ -138,6 +138,9 @@ type ListTest2Values struct {
 // list test 2
 type ListTest2 []ListTest2Values
 
+// list test 3
+type ListTest3 []*string
+
 // set test 0
 type SetTest0 []string
 
@@ -293,6 +296,13 @@ type OneOfTest6 *struct {
 	NaturalValue *int `json:"NaturalValue,omitempty"`
 }
 
+// oneOf test 7
+type OneOfTest7 *struct {
+	Kind string `json:"kind"`
+	NullableTextValue *string `json:"NullableTextValue,omitempty"`
+	OptionalNaturalValue *int `json:"OptionalNaturalValue,omitempty"`
+}
+
 type AllOfTest0Option0 struct {
 	Bar float64 `json:"bar"`
 }
@@ -372,6 +382,18 @@ type RecordTest4 interface {
 // record test 5
 type RecordTest5 struct {
 	Headers map[string]string `json:"headers"`
+}
+
+// record test 6
+type RecordTest6 struct {
+	Nullable *string `json:"nullable"`
+	NullableOptional *string `json:"nullableOptional,omitempty"`
+	Nullish *string `json:"nullish,omitempty"`
+	Optional *string `json:"optional,omitempty"`
+	OptionalNullable *string `json:"optionalNullable,omitempty"`
+	DeclaredNullable *string `json:"declaredNullable,omitempty"`
+	DeclaredNullish *string `json:"declaredNullish,omitempty"`
+	DeclaredOptional *string `json:"declaredOptional,omitempty"`
 }
 
 // function test 0

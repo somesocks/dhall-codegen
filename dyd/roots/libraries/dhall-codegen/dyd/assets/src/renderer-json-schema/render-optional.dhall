@@ -49,7 +49,13 @@ let renderOptional
 
         let oneOf = oneOfStart ++ oneOf ++ oneOfEnd
 
-        let oneOf = Some oneOf
+        let oneOf =
+              merge
+                { optional = Some oneOf
+                , nullable = Some oneOf
+                , nullish = Some oneOf
+                }
+                node.props.variant
 
         let description = renderDescription2 node.meta.description ctx1
 

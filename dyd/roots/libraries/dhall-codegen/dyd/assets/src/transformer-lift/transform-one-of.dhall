@@ -32,6 +32,7 @@ let transformOneOf
               , lifted : List s.root.type
               , index : Natural
               , optional : Bool
+              , nullable : Bool
               }
 
         let foldOptions =
@@ -56,6 +57,8 @@ let transformOneOf
                       merge
                         { optional = \(result : s.type) -> result
                         , required = \(result : s.type) -> result
+                        , nullable = \(result : s.type) -> result
+                        , nullish = \(result : s.type) -> result
                         }
                         node.result
 
@@ -63,16 +66,29 @@ let transformOneOf
                       merge
                         { optional = \(result : s.type) -> True
                         , required = \(result : s.type) -> False
+                        , nullable = \(result : s.type) -> False
+                        , nullish = \(result : s.type) -> True
                         }
                         node.result
 
                 let optional = optional || state.optional
 
+                let nullable =
+                      merge
+                        { optional = \(result : s.type) -> False
+                        , required = \(result : s.type) -> False
+                        , nullable = \(result : s.type) -> True
+                        , nullish = \(result : s.type) -> True
+                        }
+                        node.result
+
+                let nullable = nullable || state.nullable
+
                 let options = state.options # [ result ]
 
                 let index = index + 1
 
-                in  { options, lifted, index, optional }
+                in  { options, lifted, index, optional, nullable }
 
         let folded
             : FoldState
@@ -80,6 +96,7 @@ let transformOneOf
               , lifted = [] : List s.root.type
               , index = 0
               , optional = False
+              , nullable = False
               }
 
         let folded =
@@ -96,14 +113,15 @@ let transformOneOf
 
         let base = Natural/isZero ctx.depth
 
-        let shouldLift =
-              if    base
-              then  False
-              else  ctx.options.liftOneOf
+        let shouldLift = if base then False else ctx.options.liftOneOf
 
         let lifted =
               if    shouldLift
-              then  folded.lifted # [ s.root.from resultSchema s.root.meta::{ name = ctx.altName } ]
+              then    folded.lifted
+                    # [ s.root.from
+                          resultSchema
+                          s.root.meta::{ name = ctx.altName }
+                      ]
               else  folded.lifted
 
         let resultSchema =
@@ -113,7 +131,11 @@ let transformOneOf
 
         let result =
               if    folded.optional
-              then  TransformNodeResult.optional resultSchema
+              then  if    folded.nullable
+                    then  TransformNodeResult.nullish resultSchema
+                    else  TransformNodeResult.optional resultSchema
+              else  if folded.nullable
+              then  TransformNodeResult.nullable resultSchema
               else  TransformNodeResult.required resultSchema
 
         in  { result, lifted }

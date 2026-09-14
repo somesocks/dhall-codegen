@@ -26,6 +26,8 @@ let TransformNode = common.TransformNode
 
 let TransformFragment = common.TransformFragment
 
+let materialize = common.materialize
+
 let transformSchema = ./transform-schema.dhall
 
 let transformDocument
@@ -55,16 +57,7 @@ let transformDocument
 
                 let lifted = transformed.lifted
 
-                let result =
-                      merge
-                        { optional =
-                            \(result : s.type) ->
-                              s.optional.from
-                                s.optional.props::{ value = result }
-                                s.optional.meta::{=}
-                        , required = \(result : s.type) -> result
-                        }
-                        transformed.result
+                let result = materialize transformed.result
 
                 let schemas = y.schemas # lifted # [ s.root.from result x.meta ]
 
@@ -83,9 +76,10 @@ let transformDocument
         in  result
 
 let options =
-      { Type = TransformOptions
-      , default.nameSegmentTransformer = Text/snakeCase
-      , default.liftOneOf = False
-      }
+       { Type = TransformOptions
+       , default.nameSegmentTransformer = Text/snakeCase
+       , default.liftOneOf = False
+       , default.collapseOptionalRecordValues = False
+       }
 
 in  { transform = transformDocument, options }

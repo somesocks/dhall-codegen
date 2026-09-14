@@ -24,17 +24,13 @@ let FunctionNode = (Schema.function.nodeF RenderFragment).Type
 
 let renderFunctionOutputZero
     : RenderContext -> {} -> Text
-    = \(ctx : RenderContext) ->
-      \(_ : {}) ->
-        ""
+    = \(ctx : RenderContext) -> \(_ : {}) -> ""
 
 let renderFunctionOutputOne
     : RenderContext -> RenderFragment -> Text
     = \(ctx : RenderContext) ->
       \(output : RenderFragment) ->
-        let value = (output ctx).expression
-
-        in  " " ++ value
+        let value = (output ctx).expression in " " ++ value
 
 let renderFunctionOutputMany
     : RenderContext -> List RenderFragment -> Text
@@ -42,7 +38,10 @@ let renderFunctionOutputMany
       \(outputs : List RenderFragment) ->
         let renderOut = \(x : RenderFragment) -> (x ctx).expression
 
-        let body = Text/concatSep ", " (List/map RenderFragment Text renderOut outputs)
+        let body =
+              Text/concatSep
+                ", "
+                (List/map RenderFragment Text renderOut outputs)
 
         in  " (" ++ body ++ ")"
 
@@ -68,14 +67,17 @@ let renderFunction
         let renderArg =
               \(index : Natural) ->
               \(x : RenderFragment) ->
-                let arg = (x ctx).expression
-
-                in  "x${Natural/show index} " ++ arg
+                let arg = (x ctx).expression in "x${Natural/show index} " ++ arg
 
         let args =
               Text/concatSep
                 ", "
-                (List/mapWithIndex RenderFragment Text renderArg node.props.input)
+                ( List/mapWithIndex
+                    RenderFragment
+                    Text
+                    renderArg
+                    node.props.input
+                )
 
         let output = renderFunctionOutput ctx node
 
