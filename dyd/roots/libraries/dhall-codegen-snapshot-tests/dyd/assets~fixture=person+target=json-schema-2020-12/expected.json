@@ -2,6 +2,24 @@
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "https://example.com/schemas/your-file.json",
 	"$defs": {
+		"EmptyRecord":
+			{
+				"type" : "object",
+				"properties" : {
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
+		"EmptyInterfaceRecord":
+			{
+				"type" : "object",
+				"properties" : {
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
 		"PersonContact":
 			{
 				"type" : "object",

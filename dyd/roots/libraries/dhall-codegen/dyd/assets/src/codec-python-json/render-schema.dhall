@@ -30,9 +30,26 @@ let renderInterfaceImplementation =
 
                 in  ''
                         ${entry.mapKey}: ${typ}${if    optional
-                                                 then  " | None = None"
-                                                 else  ""}
+                                                  then  " | None = None"
+                                                  else  ""}
                     ''
+
+        let fields =
+                List/map
+                  { mapKey : Text, mapValue : Fragment }
+                  Text
+                  (field False)
+                  node.props.required
+              # List/map
+                  { mapKey : Text, mapValue : Fragment }
+                  Text
+                  (field True)
+                  node.props.optional
+
+        let fields =
+              if    Natural/isZero (List/length Text fields)
+              then  [ "\n    pass" ]
+              else  fields
 
         in  merge
               { none = ""
@@ -40,20 +57,7 @@ let renderInterfaceImplementation =
                       ''
                       class _${name}(BaseModel):
                       ''
-                  ++  Text/concat
-                        ( List/map
-                            { mapKey : Text, mapValue : Fragment }
-                            Text
-                            (field False)
-                            node.props.required
-                        )
-                  ++  Text/concat
-                        ( List/map
-                            { mapKey : Text, mapValue : Fragment }
-                            Text
-                            (field True)
-                            node.props.optional
-                        )
+                  ++  Text/concat fields
               }
               node.props.variant
 

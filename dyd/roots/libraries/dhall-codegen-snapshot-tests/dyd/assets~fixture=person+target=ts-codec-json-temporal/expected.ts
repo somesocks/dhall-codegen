@@ -1,4 +1,12 @@
 import { Temporal } from "@js-temporal/polyfill";
+export type EmptyRecord =
+	{
+	};
+
+export type EmptyInterfaceRecord =
+	{
+	};
+
 export type PersonContact =
 	/** contact details */
 	{
@@ -236,6 +244,46 @@ const decodeTime = (variant: string, value: unknown, path: string): unknown => {
 };
 
 
+
+function encodeEmptyRecordAt(value: EmptyRecord, path: string): JsonValue {
+	const object = asObject("encode", value, path);
+	const result: { [key: string]: JsonValue } = {};
+	return result;
+}
+
+function decodeEmptyRecordAt(input: unknown, path: string): EmptyRecord {
+	const object = asObject("decode", input, path);
+	const result: { [key: string]: unknown } = {};
+	return result as EmptyRecord;
+}
+
+export function encodeEmptyRecord(value: EmptyRecord): JsonValue {
+	return encodeEmptyRecordAt(value, "$");
+}
+
+export function decodeEmptyRecord(input: unknown): EmptyRecord {
+	return decodeEmptyRecordAt(input, "$");
+}
+
+function encodeEmptyInterfaceRecordAt(value: EmptyInterfaceRecord, path: string): JsonValue {
+	const object = asObject("encode", value, path);
+	const result: { [key: string]: JsonValue } = {};
+	return result;
+}
+
+function decodeEmptyInterfaceRecordAt(input: unknown, path: string): EmptyInterfaceRecord {
+	const object = asObject("decode", input, path);
+	const result: { [key: string]: unknown } = {};
+	return result as EmptyInterfaceRecord;
+}
+
+export function encodeEmptyInterfaceRecord(value: EmptyInterfaceRecord): JsonValue {
+	return encodeEmptyInterfaceRecordAt(value, "$");
+}
+
+export function decodeEmptyInterfaceRecord(input: unknown): EmptyInterfaceRecord {
+	return decodeEmptyInterfaceRecordAt(input, "$");
+}
 
 function encodePersonContactAt(value: PersonContact, path: string): JsonValue {
 	const object = asObject("encode", value, path);

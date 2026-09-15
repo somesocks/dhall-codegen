@@ -15,6 +15,12 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
+class EmptyRecord(BaseModel):
+    pass
+
+class EmptyInterfaceRecord(Protocol):
+    pass
+
 class PersonContact(BaseModel):# contact details
     phone_number : str
     email : (str) | None = None
@@ -205,6 +211,40 @@ def _time(operation: str, value: Any, path: str, variant: str) -> Any:
             _fail(operation, path, "expected ISO time")
     return _text(operation, value, path, "isoDuration")
 
+
+
+def _encode_EmptyRecord_at(value: EmptyRecord, path: str) -> Any:
+    result = {}
+    return result
+
+def _decode_EmptyRecord_at(input: Any, path: str) -> EmptyRecord:
+    object = _object("decode", input, path)
+    result = {}
+    return EmptyRecord.model_construct(**result)
+
+def encode_EmptyRecord(value: EmptyRecord) -> Any:
+    return _encode_EmptyRecord_at(value, "$")
+
+def decode_EmptyRecord(input: Any) -> EmptyRecord:
+    return _decode_EmptyRecord_at(input, "$")
+
+class _EmptyInterfaceRecord(BaseModel):
+
+    pass
+def _encode_EmptyInterfaceRecord_at(value: EmptyInterfaceRecord, path: str) -> Any:
+    result = {}
+    return result
+
+def _decode_EmptyInterfaceRecord_at(input: Any, path: str) -> EmptyInterfaceRecord:
+    object = _object("decode", input, path)
+    result = {}
+    return _EmptyInterfaceRecord.model_construct(**result)
+
+def encode_EmptyInterfaceRecord(value: EmptyInterfaceRecord) -> Any:
+    return _encode_EmptyInterfaceRecord_at(value, "$")
+
+def decode_EmptyInterfaceRecord(input: Any) -> EmptyInterfaceRecord:
+    return _decode_EmptyInterfaceRecord_at(input, "$")
 
 
 def _encode_PersonContact_at(value: PersonContact, path: str) -> Any:

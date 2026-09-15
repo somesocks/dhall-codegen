@@ -3,6 +3,24 @@
 	"$id": "https://example.com/schemas/your-file.json",
 	"$ref": "#/definitions/Person",
 	"definitions": {
+		"EmptyRecord":
+			{
+				"type" : "object",
+				"properties" : {
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
+		"EmptyInterfaceRecord":
+			{
+				"type" : "object",
+				"properties" : {
+				},
+				"required" : [
+				],
+				"additionalProperties" : false
+			},
 		"PersonContact":
 			{
 				"type" : "object",

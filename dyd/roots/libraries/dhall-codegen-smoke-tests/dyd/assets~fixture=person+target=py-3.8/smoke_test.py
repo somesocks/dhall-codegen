@@ -1,6 +1,10 @@
 from datetime import date, time
 
-from out import Person, PersonContact
+from out import EmptyRecord, Person, PersonContact
+
+
+empty = EmptyRecord()
+assert empty.model_dump() == {}
 
 
 grace = Person(

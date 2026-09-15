@@ -702,18 +702,27 @@ let renderSchema
                                       ''
 
                 let fields =
-                      Text/concat
-                        (   List/mapWithIndex
-                              { mapKey : Text, mapValue : Fragment }
-                              Text
-                              renderRequired
-                              required
-                          # List/mapWithIndex
-                              { mapKey : Text, mapValue : Fragment }
-                              Text
-                              renderOptional
-                              optional
-                        )
+                        List/mapWithIndex
+                          { mapKey : Text, mapValue : Fragment }
+                          Text
+                          renderRequired
+                          required
+                      # List/mapWithIndex
+                          { mapKey : Text, mapValue : Fragment }
+                          Text
+                          renderOptional
+                          optional
+
+                let empty = Natural/isZero (List/length Text fields)
+
+                let fields = Text/concat fields
+
+                let discardObject =
+                      if    empty
+                      then  ''
+                            _ = object
+                            ''
+                      else  ""
 
                 in  if    encode
                     then  block
@@ -730,6 +739,7 @@ let renderSchema
                                   err, object := asObject("decode", ${value}, ${path})
                                   ''
                               ++  errCheck ctx
+                              ++  discardObject
                               ++  fields
                             )
 
@@ -953,18 +963,27 @@ let renderSchema
                                               ''
 
                         let fields =
-                              Text/concat
-                                (   List/mapWithIndex
-                                      { mapKey : Text, mapValue : Fragment }
-                                      Text
-                                      renderRequired
-                                      required
-                                  # List/mapWithIndex
-                                      { mapKey : Text, mapValue : Fragment }
-                                      Text
-                                      renderOptional
-                                      optional
-                                )
+                                List/mapWithIndex
+                                  { mapKey : Text, mapValue : Fragment }
+                                  Text
+                                  renderRequired
+                                  required
+                              # List/mapWithIndex
+                                  { mapKey : Text, mapValue : Fragment }
+                                  Text
+                                  renderOptional
+                                  optional
+
+                        let empty = Natural/isZero (List/length Text fields)
+
+                        let fields = Text/concat fields
+
+                        let discardObject =
+                              if    empty
+                              then  ''
+                                    _ = object
+                                    ''
+                              else  ""
 
                         in  if    encode
                             then  block
@@ -981,6 +1000,7 @@ let renderSchema
                                           err, object := asObject("decode", ${value}, ${path})
                                           ''
                                       ++  errCheck ctx
+                                      ++  discardObject
                                       ++  ''
                                           implementation := ${implementation}{}
                                           ''

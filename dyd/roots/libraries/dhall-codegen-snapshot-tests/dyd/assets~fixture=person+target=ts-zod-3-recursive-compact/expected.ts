@@ -2,9 +2,19 @@
 
 import { z } from 'zod';
 
+export type TEmptyRecord = { };
+
+export type TEmptyInterfaceRecord = { };
+
 export type TPersonContact = /** contact details */ { phone_number : /** E.164 telephone number */ string; email ?: /** contact email */ string; };
 
 export type TPerson = { appointment_time : /** ISO 8601 local time */ string; binary_data : /** RFC 4648 Base64 */ string; birth_date : /** ISO 8601 calendar date */ string; contact : /** contact details */ TPersonContact; created_at : /** RFC 3339 date-time */ string; date_of_birth : /** date of birth */ Date; destination_ip : /** IPv6 address */ string; friends : /** friends */ Array< TPerson >; id : /** RFC 4122 UUID */ string; name : /** full name */ string; retention_period : /** ISO 8601 duration */ string; source_ip : /** IPv4 address */ string; token : /** RFC 4648 Base64url */ string; };
+
+export const EmptyRecord : z.ZodType<TEmptyRecord> = z.lazy(() =>  z.object({ }));
+
+
+export const EmptyInterfaceRecord : z.ZodType<TEmptyInterfaceRecord> = z.lazy(() =>  z.object({ }));
+
 
 export const PersonContact : z.ZodType<TPersonContact> = z.lazy(() =>  z.object({ phone_number : z.string().regex(/^[+][1-9][0-9]{0,14}$/).describe("E.164 telephone number"), email : z.string().email().describe("contact email").optional(), }).describe("contact details"));
 

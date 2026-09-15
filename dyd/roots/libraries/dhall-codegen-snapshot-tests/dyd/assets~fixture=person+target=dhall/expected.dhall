@@ -1,6 +1,14 @@
 
 let Any : Type = ∀(R : Type) → (∀(A : Type) → A → R) → R
 
+let EmptyRecord =
+  {
+  }
+
+let EmptyInterfaceRecord =
+  {
+  }
+
 let PersonContact =
   {
     {- contact details -}
@@ -58,6 +66,8 @@ let Person =
   }
 
 in {
+  EmptyRecord,
+  EmptyInterfaceRecord,
   PersonContact,
   Person
 }

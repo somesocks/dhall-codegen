@@ -68,6 +68,11 @@ let renderRecord
                   (renderOptionalRecordField ctx2)
                   x.props.optional
 
+        let body =
+              if    Natural/isZero (List/length Text body)
+              then  [ renderPrefix ctx2 ++ "pass" ]
+              else  body
+
         let body = Text/concat body
 
         let footer = ""

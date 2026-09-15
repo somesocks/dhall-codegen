@@ -2,6 +2,12 @@ package models
 
 import "time"
 
+type EmptyRecord struct {
+}
+
+type EmptyInterfaceRecord interface {
+}
+
 type PersonContact struct {
 	PhoneNumber string `json:"phone_number"`
 	Email *string `json:"email,omitempty"`

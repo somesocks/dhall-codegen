@@ -1,3 +1,11 @@
+export type EmptyRecord =
+	{
+	};
+
+export type EmptyInterfaceRecord =
+	{
+	};
+
 export type PersonContact =
 	/** contact details */
 	{

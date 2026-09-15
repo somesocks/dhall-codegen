@@ -2,6 +2,14 @@
 
 import { z } from 'zod';
 
+export type TEmptyRecord =
+	{
+	};
+
+export type TEmptyInterfaceRecord =
+	{
+	};
+
 export type TPersonContact =
 	/** contact details */
 	{
@@ -57,6 +65,16 @@ export type TPerson =
 			/** RFC 4648 Base64url */
 			string;
 	};
+
+export const EmptyRecord : z.ZodType<TEmptyRecord> = z.lazy(() => 
+	z.object({
+	}));
+
+
+export const EmptyInterfaceRecord : z.ZodType<TEmptyInterfaceRecord> = z.lazy(() => 
+	z.object({
+	}));
+
 
 export const PersonContact : z.ZodType<TPersonContact> = z.lazy(() => 
 	z.object({

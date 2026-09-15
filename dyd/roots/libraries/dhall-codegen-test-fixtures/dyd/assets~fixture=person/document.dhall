@@ -7,6 +7,21 @@ let s = Grammar.Schema
 let PersonReference =
       s.reference.from s.reference.props::{ to = "Person" } s.reference.meta::{=}
 
+let EmptyRecord =
+      s.record.from
+        s.record.props::{
+        , required = [] : List { mapKey : Text, mapValue : s.type }
+        }
+        s.record.meta::{=}
+
+let EmptyInterfaceRecord =
+      s.record.from
+        s.record.props::{
+        , required = [] : List { mapKey : Text, mapValue : s.type }
+        , variant = s.record.variants.interface
+        }
+        s.record.meta::{=}
+
 let Person =
       s.record.from
         s.record.props::{
@@ -83,6 +98,15 @@ let Person =
 
 let Person = s.root.from Person s.root.meta::{ name = "Person" }
 
-let def = Document::{ headers = [] : List Text, schemas = [ Person ] }
+let EmptyRecord = s.root.from EmptyRecord s.root.meta::{ name = "EmptyRecord" }
+
+let EmptyInterfaceRecord =
+      s.root.from EmptyInterfaceRecord s.root.meta::{ name = "EmptyInterfaceRecord" }
+
+let def =
+      Document::{
+      , headers = [] : List Text
+      , schemas = [ EmptyRecord, EmptyInterfaceRecord, Person ]
+      }
 
 in  def

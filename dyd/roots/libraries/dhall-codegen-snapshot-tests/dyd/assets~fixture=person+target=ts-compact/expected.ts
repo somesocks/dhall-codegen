@@ -1,3 +1,7 @@
+export type EmptyRecord = { };
+
+export type EmptyInterfaceRecord = { };
+
 export type PersonContact = /** contact details */ { phone_number : /** E.164 telephone number */ string; email ?: /** contact email */ string; };
 
 export type Person = { appointment_time : /** ISO 8601 local time */ string; binary_data : /** RFC 4648 Base64 */ string; birth_date : /** ISO 8601 calendar date */ string; contact : /** contact details */ PersonContact; created_at : /** RFC 3339 date-time */ string; date_of_birth : /** date of birth */ Date; destination_ip : /** IPv6 address */ string; friends : /** friends */ Array< Person >; id : /** RFC 4122 UUID */ string; name : /** full name */ string; retention_period : /** ISO 8601 duration */ string; source_ip : /** IPv4 address */ string; token : /** RFC 4648 Base64url */ string; };

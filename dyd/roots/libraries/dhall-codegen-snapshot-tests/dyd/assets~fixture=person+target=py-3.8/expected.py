@@ -28,6 +28,12 @@ def _check_all_of(*adapters: TypeAdapter[Any]):
     return check
 
 
+class EmptyRecord(BaseModel):
+    pass
+
+class EmptyInterfaceRecord(Protocol):
+    pass
+
 class PersonContact(BaseModel):# contact details
     phone_number : str
     email : Optional[str] = None

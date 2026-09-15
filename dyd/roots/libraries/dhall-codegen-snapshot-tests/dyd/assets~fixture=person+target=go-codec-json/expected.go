@@ -171,6 +171,12 @@ func decodeDuration(value any, path string) (error, string) { return decodeText(
 
 
 
+type EmptyRecord struct {
+}
+
+type EmptyInterfaceRecord interface {
+}
+
 type PersonContact struct {
 	PhoneNumber string `json:"phone_number"`
 	Email *string `json:"email,omitempty"`
@@ -192,6 +198,75 @@ type Person struct {
 	Token string `json:"token"`
 }
 
+
+
+
+func EncodeEmptyRecord(value EmptyRecord) (err error, result any) {
+	return encodeEmptyRecordAt(value, "$")
+}
+
+func encodeEmptyRecordAt(value EmptyRecord, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeEmptyRecord(input any) (err error, result EmptyRecord) {
+	return decodeEmptyRecordAt(input, "$")
+}
+
+func decodeEmptyRecordAt(input any, path string) (err error, result EmptyRecord) {
+	var decoded struct {
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		_ = object
+	}
+	result = EmptyRecord(decoded)
+	return nil, result
+}
+
+type codecEmptyInterfaceRecordImpl struct {
+}
+
+
+
+func EncodeEmptyInterfaceRecord(value EmptyInterfaceRecord) (err error, result any) {
+	return encodeEmptyInterfaceRecordAt(value, "$")
+}
+
+func encodeEmptyInterfaceRecordAt(value EmptyInterfaceRecord, path string) (err error, result any) {
+	{
+		encodedObject := make(map[string]any)
+		result = encodedObject
+	}
+	return nil, result
+}
+
+func DecodeEmptyInterfaceRecord(input any) (err error, result EmptyInterfaceRecord) {
+	return decodeEmptyInterfaceRecordAt(input, "$")
+}
+
+func decodeEmptyInterfaceRecordAt(input any, path string) (err error, result EmptyInterfaceRecord) {
+	var decoded interface {
+	}
+	{
+		err, object := asObject("decode", input, path)
+		if err != nil {
+			return err, result
+		}
+		_ = object
+		implementation := codecEmptyInterfaceRecordImpl{}
+		decoded = implementation
+	}
+	result = EmptyInterfaceRecord(decoded)
+	return nil, result
+}
 
 
 
