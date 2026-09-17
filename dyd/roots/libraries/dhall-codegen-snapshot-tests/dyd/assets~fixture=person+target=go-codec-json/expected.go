@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"math/big"
 	"net"
 	"net/url"
 	"regexp"
@@ -79,8 +80,24 @@ func encodeInteger(value int, natural bool, path string) (error, any) {
 }
 
 func decodeInteger(value any, natural bool, path string) (error, int) {
-	err, text := numberText("decode", value, path)
-	if err != nil { return err, 0 }
+	var text string
+	switch number := value.(type) {
+	case json.Number:
+		if _, err := number.Float64(); err != nil { return codecError("decode", path, "expected number"), 0 }
+		rational, ok := new(big.Rat).SetString(string(number))
+		if !ok || !rational.IsInt() { return codecError("decode", path, "expected integer"), 0 }
+		text = rational.Num().String()
+	case int:
+		text = strconv.Itoa(number)
+	case float64:
+		if math.IsNaN(number) || math.IsInf(number, 0) { return codecError("decode", path, "expected finite number"), 0 }
+		if math.Trunc(number) != number { return codecError("decode", path, "expected integer"), 0 }
+		text = strconv.FormatFloat(number, 'f', 0, 64)
+	default:
+		err, decodedText := numberText("decode", value, path)
+		if err != nil { return err, 0 }
+		text = decodedText
+	}
 	result, parseErr := strconv.ParseInt(text, 10, 0)
 	if parseErr != nil || (natural && result < 0) { return codecError("decode", path, "expected integer"), 0 }
 	return nil, int(result)

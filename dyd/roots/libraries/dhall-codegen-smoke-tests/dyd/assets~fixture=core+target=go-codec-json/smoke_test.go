@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"strings"
 	"testing"
 )
 
@@ -23,6 +24,80 @@ func TestJSONNumberRoundTrip(t *testing.T) {
 	requireNoError(t, err)
 	if decoded != NumberTest2(42) {
 		t.Fatalf("unexpected decoded natural: %d", decoded)
+	}
+}
+
+func TestDecodeIntegerFromJSONAny(t *testing.T) {
+	var input any
+	if err := json.Unmarshal([]byte(`1000000`), &input); err != nil {
+		t.Fatal(err)
+	}
+
+	err, decoded := DecodeNumberTest3(input)
+	requireNoError(t, err)
+	if decoded != NumberTest3(1000000) {
+		t.Fatalf("unexpected decoded integer: %d", decoded)
+	}
+
+	err, decoded = DecodeNumberTest3(1000000)
+	requireNoError(t, err)
+	if decoded != NumberTest3(1000000) {
+		t.Fatalf("unexpected decoded Go integer: %d", decoded)
+	}
+
+	for _, jsonValue := range []string{`1.5`, `9223372036854775808`} {
+		if err := json.Unmarshal([]byte(jsonValue), &input); err != nil {
+			t.Fatal(err)
+		}
+		err, _ = DecodeNumberTest3(input)
+		if err == nil {
+			t.Fatalf("expected invalid integer %s to fail", jsonValue)
+		}
+	}
+}
+
+func TestDecodeNaturalFromJSONAny(t *testing.T) {
+	var input any
+	if err := json.Unmarshal([]byte(`1000000`), &input); err != nil {
+		t.Fatal(err)
+	}
+
+	err, decoded := DecodeNumberTest2(input)
+	requireNoError(t, err)
+	if decoded != NumberTest2(1000000) {
+		t.Fatalf("unexpected decoded natural: %d", decoded)
+	}
+
+	if err := json.Unmarshal([]byte(`-1`), &input); err != nil {
+		t.Fatal(err)
+	}
+	err, _ = DecodeNumberTest2(input)
+	if err == nil {
+		t.Fatal("expected negative natural to fail")
+	}
+}
+
+func TestDecodeIntegralJSONNumber(t *testing.T) {
+	for _, jsonValue := range []string{`1e6`, `1000000.0`} {
+		decoder := json.NewDecoder(strings.NewReader(jsonValue))
+		decoder.UseNumber()
+		var input any
+		requireNoError(t, decoder.Decode(&input))
+
+		err, decoded := DecodeNumberTest3(input)
+		requireNoError(t, err)
+		if decoded != NumberTest3(1000000) {
+			t.Fatalf("unexpected decoded JSON number %s: %d", jsonValue, decoded)
+		}
+	}
+
+	decoder := json.NewDecoder(strings.NewReader(`1.5`))
+	decoder.UseNumber()
+	var input any
+	requireNoError(t, decoder.Decode(&input))
+	err, _ := DecodeNumberTest3(input)
+	if err == nil {
+		t.Fatal("expected fractional JSON number to fail")
 	}
 }
 
